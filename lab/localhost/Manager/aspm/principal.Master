@@ -1,0 +1,49 @@
+﻿<%@ Master Language="C#"  AutoEventWireup="true" CodeBehind="principal.Master.cs" Inherits="lab.Manager.aspm.principal" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <meta lang="pt-br" />
+    <link href="~/Manager/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <link href="~/Manager/css/JQuery.Validate.css" rel="stylesheet" type="text/css" />
+    <link href="~/Manager/css/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
+    <link href="~/Manager/css/jquery.autocomplete.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/JQuery.Alerts.js" type="text/javascript"></script>
+    <script src="js/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="js/dataTables.tableTools.js" type="text/javascript"></script>
+    <script src="js/jquery.mask.js" type="text/javascript"></script>
+    <script src="js/jquery.autocomplete.js" type="text/javascript"></script>
+    <script src="js/jquery.cep-1.0.js" type="text/javascript"></script>
+    <script src="js/jquery.cep-1.0.min.js" type="text/javascript"></script>
+    <link rel="Stylesheet" href="~/Manager/css/principal.css" />
+    <link rel="icon" href="~/Manager/Imagem/icon.png" />
+    <script src="js/validacao.js" type="text/javascript"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="formcodo"  method="post" runat="server" >
+    <div >
+         <table>
+                <tr><td colspan="2">meu sitema de Luiz Henrique Santos Sousa Diniz</td></tr>
+                <tr><td style=" width:250px; height:500px"><h2>menu</h2>
+                <ul>
+                <li> <a   href="../Manager/categoria.aspx" >cadastro categoria</a></li>
+                <li><a  href="../Manager/clientes.aspx">cadastro clientes</a></li>
+                <li><a  href="../Manager/produto.aspx">cadastro produtos</a></li>
+                <li><a  href="../Manager/vendas.aspx">cadastro vendas</a></li>
+                </ul>
+                </td><td >
+                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1"  runat="server">
+                            </asp:ContentPlaceHolder>
+                         </td></tr>
+                <tr><td colspan="2">rodapé</td></tr>
+        </table>
+    </div>
+
+        </form>
+</body>
+</html>
