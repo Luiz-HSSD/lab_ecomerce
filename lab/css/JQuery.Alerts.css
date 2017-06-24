@@ -1,0 +1,109 @@
+﻿#popup_container {
+	min-width:300px;
+	width:350px;
+	height:160px; 
+	max-width:600px; 
+	border-width: 1px;
+	border-color: #BAD5EA;
+	border-style: solid;
+	margin:5PX;
+	font: 12px "Lucida Sans Unicode";
+	color: #3581BB;
+	text-align: left;
+	padding: 5px;
+	background: #F1F7FB;
+	z-index: 1; 
+	-webkit-border-top-left-radius: 8px;
+	-moz-border-radius-topleft: 8px;
+	-webkit-border-top-right-radius: 8px;
+	-moz-border-radius-topright: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	-moz-border-radius-bottomleft: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	-moz-border-radius-bottomright: 8px;
+	
+}
+#popup_container input 
+{
+	font: 12px "Lucida Sans Unicode";
+	color: #FFFFFF;
+	padding: 5px;
+	width: 150px;
+	text-align: center;
+	background: #3581BB;
+	-webkit-border-top-left-radius: 8px;
+	-moz-border-radius-topleft: 8px;
+	-webkit-border-top-right-radius: 8px;
+	-moz-border-radius-topright: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	-moz-border-radius-bottomleft: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	-moz-border-radius-bottomright: 8px;
+}
+#popup_title {
+	font-size: 14px;
+	text-align:left;
+	line-height: 1.75em;
+	color: #3581BB;
+	background-image: url('../../images/home/BarraSuperior.png');
+	border: solid 1px #FFF;
+	border-bottom: solid 1px #999;
+	cursor: default;
+	padding: 0px 0px 0px 5px;
+	margin: 0em;
+}
+
+#popup_content {
+	background: 16px 16px no-repeat url(/../../image/JqueryAlert/info.gif); padding:20px 0px 0px 0px; margin: 0em;
+}
+
+#popup_content.alert {
+	background-image: url(/../../image/JqueryAlert/important.png);
+}
+
+#popup_content.confirm {
+	background: 16px 16px no-repeat url(/../../image/JqueryAlert/help.gif); padding:20px 0px 0px 0px; margin: 0em;
+}
+
+#popup_content.information {
+	background-image: url(/../../image/JqueryAlert/info.gif);
+}
+
+#popup_content.prompt {
+	background-image: url(/../../image/JqueryAlert/help.gif);
+}
+
+#popup_message {
+	padding-left: 60px;
+	padding-right: 5px;
+}
+
+#popup_panel {
+	text-align: center;
+	margin: 1em 0em 0em 1em;
+}
+
+#popup_prompt {
+	margin: .5em 0em;
+}
+
+#popup_ok {
+	margin-top:15px;
+	width:80px;
+	height:30px;
+}
+
+#popup_cancel { 
+	margin-top:15px; 
+	width:80px;
+	height:30px;
+}
+
+#popup_overlay{
+    position: fixed !important;
+    z-index: 99998 !important;
+    top: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
+    bottom: 0px !important;
+}

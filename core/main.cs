@@ -22,6 +22,7 @@ namespace core
         public static Resultado res = new Resultado();
         public static void Main()
         {
+
             pro.Nome = "asdf";
             pro.Descricao="asdf";
             pro.Categoria.Id = 1;
@@ -32,7 +33,7 @@ namespace core
             pro.Formato.Dimensoes = "2cm2cm2cm4cm";
             pro.Preco = 100;
             pro.Qtd = 1000;
-            Fachada facade = new Fachada();
+            Fachada facade =  Fachada.UniqueInstance;
             //facade.salvar(pro);
             Console.ReadLine();
             Console.WriteLine("sucesso!");

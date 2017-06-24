@@ -1,0 +1,22 @@
+﻿.background
+{
+    width: 48px;
+    height: 23px;
+}
+
+.dash .digit 
+{
+	float: left;
+	text-align: center;
+	font-weight: bold; 
+}
+
+.separador
+{
+	float: left;
+	text-align: center;
+	font-weight: bold; 
+}
+
+
+

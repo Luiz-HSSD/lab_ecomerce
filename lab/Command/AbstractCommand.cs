@@ -7,7 +7,7 @@ namespace lab.Command
 {
     public abstract class AbstractCommand : ICommand.ICommand
     {
-        protected IFachada fachada = new Fachada();
+        protected IFachada fachada = Fachada.UniqueInstance;
 
         public abstract Resultado execute(EntidadeDominio entidade);
        

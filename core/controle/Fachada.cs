@@ -11,7 +11,7 @@ using core.negocio;
 
 namespace core.controle
 {
-    public class Fachada : IFachada
+    public sealed class Fachada : IFachada
     {
 
 
@@ -28,7 +28,7 @@ namespace core.controle
         private Dictionary<string, Dictionary<string, List<IStrategy>>> rns;
 
         private Resultado resultado;
-        public Fachada()
+        private Fachada()
         {
             daos = new Dictionary<string, IDAO>();
             /* Intânciando o Map de Regras de Negócio */
@@ -147,8 +147,12 @@ namespace core.controle
             rnsPedido.Add("CONSULTAR", rnsConsultarPedido);
             rns.Add(typeof(Pedido).Name, rnsPedido);
         }
+        private static readonly Fachada Instance = new Fachada();
 
-
+        public static Fachada UniqueInstance
+        {
+            get { return Instance; }
+        }
         public Resultado salvar(EntidadeDominio entidade)
         {
             resultado = new Resultado();
