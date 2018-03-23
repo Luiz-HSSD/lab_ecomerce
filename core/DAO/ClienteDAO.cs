@@ -23,8 +23,7 @@ namespace core.DAO
         {
             try
             {
-
-                    connection.Open();
+                
                     cliente = (Cliente)entidade;
                 if (cliente.Endereco.Id==0)
                 {
@@ -69,7 +68,6 @@ namespace core.DAO
 
         public override List<EntidadeDominio> consultar(EntidadeDominio entidade)
         {
-            connection.Open();
             end = new Endereco();
             cliente = (Cliente)entidade;
             string sql = "";
@@ -127,8 +125,7 @@ namespace core.DAO
 
         public override void salvar(EntidadeDominio entidade)
         {
-
-            connection.Open();
+            
             cliente = (Cliente)entidade;
             if (cliente.Endereco.Id == 0)
             {

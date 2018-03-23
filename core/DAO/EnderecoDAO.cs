@@ -25,7 +25,6 @@ namespace core.DAO
 
         public override List<EntidadeDominio> consultar(EntidadeDominio entidade)
         {
-            connection.Open();
             endereco = (Endereco)entidade;
             string sql = null;
 
@@ -78,7 +77,6 @@ namespace core.DAO
 
         public override void salvar(EntidadeDominio entidade)
         {
-            connection.Open();
             endereco = (Endereco)entidade;
             pst.Dispose();
             pst.CommandText = "insert into endereco(cep, bairro, complemento, logradouro ,numero ,uf , cidade ) values ( :cep , :bairro, :comp , :log , :num, :uf, :cidade )";

@@ -65,7 +65,7 @@ namespace lab.Manager
         private void Pesquisar()
         {
             int evade=0;
-            string GRID = "<TABLE class='display' id='GridViewcat'><THEAD>{0}</THEAD><TBODY>{1}</TBODY></TABLE>";
+            string GRID = "<TABLE class='display' onload=\"bora()\" id='GridViewcat'><THEAD>{0}</THEAD><TBODY>{1}</TBODY></TABLE>";
             string tituloColunas = "<tr><th></th><th>Código</th><th>Nome</th><th>Descrição</th></tr>";
             string linha = "<tr><td> <a href='categoria.aspx?cod={0}'>editar</a> ";
             linha += "<a href='categoria.aspx?del={0}'>apagar</a></td><td>{0}</td><td>{1}</td><td>{2}</td></tr>";

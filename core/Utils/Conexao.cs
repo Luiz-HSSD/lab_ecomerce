@@ -10,12 +10,23 @@ namespace core.Utils
     public class Conexao
     {
         static string conx = "Data Source=(DESCRIPTION =  (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = XE))); User Id=lesbd;Password=123;";
+        private static OracleConnection connection;
 
-        public static OracleConnection getConnection ()
+        public static OracleConnection Connection
         {
-            OracleConnection go = new OracleConnection(conx);
-            return go; 
+            get
+            {
+                if (connection == null)
+                {
+                    connection = new OracleConnection(conx);
+                    connection.Open();
+                }
+                return connection;
+            }
+            set { connection = value; }
         }
+
+        
 
     }
 }

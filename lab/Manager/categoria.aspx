@@ -1,6 +1,13 @@
 ﻿<%@ Page Title="CATEGORIA" Language="C#" MasterPageFile="~/Manager/aspm/principal.Master" AutoEventWireup="true" CodeBehind="categoria.aspx.cs" Inherits="lab.Manager.Categoria" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
+<script type="text/javascript">
+    function bora() {
+        $('#GridViewcat').DataTable();
+    };
+        function storeinput(value) {
+            document.getElementById("<%=hidValue.ClientID%>").value = value;
+        }
+</script>
     <style type="text/css">
         .auto-style1 {
             width: 297px;
@@ -30,7 +37,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2"><b>codigo</b></td>
+            <td colspan="2"><b>codigo</b><input type="hidden" id="hidValue" runat="server" /></td>
             <td colspan="3">
                        <asp:Label  ID="txtcod" runat="server"></asp:Label>
                 </td>

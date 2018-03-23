@@ -63,6 +63,7 @@
     <Compile Include="Categoria.cs" />
     <Compile Include="Formato_Produto.cs" />
     <Compile Include="Frete.cs" />
+    <Compile Include="Livro.cs" />
     <Compile Include="ocorencia.cs" />
     <Compile Include="Pedido.cs" />
     <Compile Include="Venda.cs" />

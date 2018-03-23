@@ -24,7 +24,6 @@ namespace core.DAO
 
         public override List<EntidadeDominio> consultar(EntidadeDominio entidade)
         {
-            connection.Open();
             cat = new Categoria();
             produto = (Produto)entidade;
             string sql = "";
@@ -98,7 +97,6 @@ namespace core.DAO
 
         public override void salvar(EntidadeDominio entidade)
         {
-            connection.Open();
             produto = (Produto)entidade;
 
             pst.CommandText = "insert into produto (des_pro, nome_pro, cod_barras, cat, preco, peso, image, ext, fab ) values ( :des , :nome, :cod, :cat, :preco, :peso, :dimensões,:imagem, :ext, :fab )";
@@ -148,7 +146,7 @@ namespace core.DAO
             
             try
             {
-                connection.Open();
+
                 produto = (Produto)entidade;
                 pst.Dispose();
                 pst.CommandText = "UPDATE produto SET des_pro= :des , nome_pro=:nome, cod_barras=:cod_b, cat=:cate , preco=:prec , peso=:pes , dimensoes=:dimensões,image=:imagem  , ext=:exte , fab=:fabr  WHERE id_pro=:cod";

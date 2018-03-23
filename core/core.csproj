@@ -76,19 +76,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Boleto.Net">
-      <HintPath>..\packages\Boleto.Net.2.1.0.387\lib\Boleto.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NReco.PdfGenerator">
-      <HintPath>..\packages\Boleto.Net.2.1.0.387\lib\NReco.PdfGenerator.dll</HintPath>
-    </Reference>
-    <Reference Include="Oracle.DataAccess, Version=4.112.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\oraclexe\app\oracle\product\11.2.0\server\odp.net\bin\4\Oracle.DataAccess.dll</HintPath>
+    <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=AMD64">
+      <HintPath>..\packages\Oracle.Data.Access.11.2.1.0_x64.1.0.0\lib\net20\Oracle.DataAccess.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -115,12 +109,12 @@
     <Compile Include="DAO\EnderecoDAO.cs" />
     <Compile Include="DAO\Formato_ProdutoDAO.cs" />
     <Compile Include="DAO\Item_vendaDAO.cs" />
+    <Compile Include="DAO\LivroDAO.cs" />
     <Compile Include="DAO\PedidoDAO.cs" />
     <Compile Include="DAO\ProdutoDAO.cs" />
     <Compile Include="DAO\VendaDao.cs" />
     <Compile Include="main.cs" />
     <Compile Include="negocio\Calcular_Frete.cs" />
-    <Compile Include="negocio\gerar_boleto.cs" />
     <Compile Include="negocio\parametro_excluir.cs" />
     <Compile Include="negocio\transfomar_formato.cs" />
     <Compile Include="negocio\ValidarCpf.cs" />
@@ -132,7 +126,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Utils\BoletoLuizin.cs" />
     <Compile Include="Utils\Conexao.cs" />
     <Compile Include="Utils\ConverterData.cs" />
     <Compile Include="Utils\Imagems.cs" />

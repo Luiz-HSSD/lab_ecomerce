@@ -23,9 +23,10 @@ namespace core.DAO
 
         public override void salvar(EntidadeDominio entidade)
         {
-            connection.Open();
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
             Categoria categoria = (Categoria)entidade;
-            pst.CommandText = "insert into categoria (des_cat, nome_cat ) values ( :des , :nome )";
+            pst.CommandText = "insert into categoria (des_cat, nome_cat, ative ) values ( :des , :nome,'A' )";
             parameters = new OracleParameter[]
                     {
                         new OracleParameter("des",categoria.Descricao),
@@ -46,7 +47,8 @@ namespace core.DAO
         {
             try
             {
-                connection.Open();
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
                 Categoria categoria = (Categoria)entidade;
                 pst.CommandText = "UPDATE categoria SET des_cat=:des, nome_cat=:nome WHERE id_cat=:co";
                 parameters = new OracleParameter[]
@@ -82,7 +84,8 @@ namespace core.DAO
         {
             try
             {
-                connection.Open();
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
                 pst.Dispose();
                 Categoria categoria = (Categoria)entidade;
                 string sql = null;
@@ -99,7 +102,7 @@ namespace core.DAO
 
                 if (categoria.Id == 0)
                 {
-                    sql = "SELECT * FROM categoria";
+                    sql = "SELECT * FROM categoria WHERE ative!='I'";
                 }
                 else
                 {

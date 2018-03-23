@@ -19,14 +19,15 @@ DROP TABLE papel;
 DROP TABLE item_venda;
 DROP TABLE vendas;
 DROP TABLE formato_produto;
-DROP TABLE produto;
+DROP TABLE livro;
+DROP TABLE cat_liv;
 DROP TABLE categoria;
 DROP TABLE clientes;
 DROP TABLE endereco;
 
 DROP SEQUENCE cat;
 DROP SEQUENCE cli;
-DROP SEQUENCE pro;
+DROP SEQUENCE liv;
 drop SEQUENCE ven;
 drop SEQUENCE ende;
 drop SEQUENCE usu;
@@ -35,7 +36,7 @@ drop SEQUENCE formato;
 
 CREATE SEQUENCE cat START WITH 1;
 CREATE SEQUENCE cli START WITH 1;
-CREATE SEQUENCE pro START WITH 1;
+CREATE SEQUENCE liv START WITH 1;
 CREATE SEQUENCE itm START WITH 1;
 CREATE SEQUENCE ven START WITH 1;
 CREATE SEQUENCE ende START WITH 1;
@@ -48,24 +49,47 @@ CREATE TABLE categoria
     id_cat      NUMBER(8,0)  PRIMARY KEY,   
     nome_cat VARCHAR(50),
     des_cat  VARCHAR(1000),
+    ative char,
     CONSTRAINT cat_nn_010 CHECK (id_cat IS NOT NULL)
     
   );
 
-CREATE TABLE produto
-  (
-    id_pro        NUMBER(10,0) PRIMARY KEY ,
+  
+CREATE TABLE livro
+(
+    id_liv        NUMBER(10,0) PRIMARY KEY ,
     id_cat        NUMBER(8,0) ,
-    preco      NUMBER(8,2),
-    cod_barras CHAR(13),
-    fab        VARCHAR(60),
-    nome_pro   VARCHAR(50),
-    des_pro    VARCHAR(1000),
+    ative         char,
+    g_preco       char,
+    n_pags        int,
+    isbn          CHAR(13),
+    edicao        VARCHAR(60),
+    cod_bar    VARCHAR(13),
+    edi        VARCHAR(60),
+    nome_liv   VARCHAR(50),
+    des_liv    VARCHAR(1000),
     image BLOB,
     ext VARCHAR2(15),
-    CONSTRAINT fk_cat FOREIGN KEY(id_cat) REFERENCES categoria(id_cat)  on delete cascade
-  );
+    CONSTRAINT fk_cat_liv FOREIGN KEY(id_cat) REFERENCES categoria(id_cat)  on delete cascade
+);
 
+CREATE TABLE cat_liv
+  (
+    id_cat      NUMBER(8,0),   
+    id_liv   NUMBER(10,0),
+    CONSTRAINT fk_cat_lig FOREIGN KEY(id_cat) REFERENCES categoria(id_cat)  on delete cascade,
+    CONSTRAINT fk_liv_lig FOREIGN KEY(id_liv) REFERENCES livro(id_liv)  on delete cascade,
+    constraint PK_D primary key (id_cat, id_liv)
+  ); 
+  
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('IOS, Andorid e Windows Phone','Smartphones','I',1);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Xbox ,Playstation e Nintendo','Consoles','I',2);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Video games e PC','Games','I',3);
+insert into categoria (des_cat, nome_cat,ative, id_cat ) values ('Asus, Msi e AsRock','Placa mãe','I',4);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Radeon e GTX','Placa de Video','I',5);
+insert into livro (id_liv) values (5);
+insert into cat_liv(id_liv,id_cat) values (5,1);
+select * from cat_liv join categoria using (id_cat) where id_liv=5;
 CREATE TABLE  formato_produto 
 (
    id_for        NUMBER(10,0) PRIMARY KEY ,
@@ -102,9 +126,7 @@ CREATE TABLE clientes
     id_end NUMBER(10),
     CONSTRAINT fk_end FOREIGN KEY (id_end) REFERENCES endereco(id_end)on delete cascade,
     CONSTRAINT clientes_nn_02 CHECK (id_cli IS NOT NULL)
-);
-
- 
+); 
   
 CREATE TABLE vendas
 (

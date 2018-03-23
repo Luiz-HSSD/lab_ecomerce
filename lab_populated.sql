@@ -48,6 +48,7 @@ CREATE TABLE categoria
     id_cat      NUMBER(8,0)  PRIMARY KEY,   
     nome_cat VARCHAR(50),
     des_cat  VARCHAR(1000),
+    ative char,
     CONSTRAINT cat_nn_010 CHECK (id_cat IS NOT NULL)
     
   );
@@ -255,11 +256,11 @@ END;
 /
 
 --populando a tabela categoria
-insert into categoria (des_cat, nome_cat, id_cat) values ('IOS, Andorid e Windows Phone','Smartphones',1);
-insert into categoria (des_cat, nome_cat, id_cat) values ('Xbox ,Playstation e Nintendo','Consoles',2);
-insert into categoria (des_cat, nome_cat, id_cat) values ('Video games e PC','Games',3);
-insert into categoria (des_cat, nome_cat, id_cat ) values ('Asus, Msi e AsRock','Placa mãe',4);
-insert into categoria (des_cat, nome_cat, id_cat) values ('Radeon e GTX','Placa de Video',5);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('IOS, Andorid e Windows Phone','Smartphones','I',1);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Xbox ,Playstation e Nintendo','Consoles','I',2);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Video games e PC','Games','I',3);
+insert into categoria (des_cat, nome_cat,ative, id_cat ) values ('Asus, Msi e AsRock','Placa mãe','I',4);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Radeon e GTX','Placa de Video','I',5);
 
 /*
 codigo formato

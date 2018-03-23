@@ -17,7 +17,7 @@ namespace core.DAO
     public abstract class AbstractDAO:IDAO
     {
         protected OracleDataReader vai;
-        protected OracleConnection connection=Conexao.getConnection();
+        protected OracleConnection connection=Conexao.Connection;
         protected string table;
         protected string id_table;
         protected bool ctrlTransaction = true;
@@ -33,9 +33,9 @@ namespace core.DAO
         protected AbstractDAO(string table, string id_table)
         {
             this.table = table;
-            this.id_table = id_table;
+            this.id_table = id_table;           
         }
-
+       
 
         //private DataSet vai;
 
@@ -49,10 +49,11 @@ namespace core.DAO
 
         public  void excluir(EntidadeDominio entidade)
         {
-            connection.Open();
             try
             {
-                pst.CommandText = "DELETE FROM "+table+" WHERE "+id_table+"="+entidade.Id.ToString();
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                pst.CommandText = "UPDATE "+table+ " SET ATIVE='I' WHERE "+id_table+"="+entidade.Id.ToString();
                 pst.Connection = connection;
                 pst.CommandType = CommandType.Text;
                 pst.ExecuteNonQuery();
@@ -75,7 +76,7 @@ namespace core.DAO
             {
 
                 if (connection == null )
-                    connection = Conexao.getConnection();
+                    connection = Conexao.Connection;
             }
             catch 
             {

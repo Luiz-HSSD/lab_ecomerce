@@ -70,26 +70,6 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.7\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.1.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.1.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.1.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AI.Web, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.1.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AI.WindowsServer, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.1.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
@@ -332,7 +312,7 @@
     <Content Include="Manager\js\jqueryFonte.js" />
     <Content Include="Manager\js\validacao.js" />
     <Content Include="Manager\js\Validation.js" />
-    <Content Include="Manager\produto.aspx" />
+    <Content Include="Manager\livros.aspx" />
     <Content Include="Manager\swf\copy_csv_xls.swf" />
     <Content Include="Manager\swf\copy_csv_xls_pdf.swf" />
     <Content Include="moredetails.aspx" />
@@ -582,12 +562,12 @@
     <Compile Include="Manager\pedidos.aspx.designer.cs">
       <DependentUpon>pedidos.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Manager\produto.aspx.cs">
-      <DependentUpon>produto.aspx</DependentUpon>
+    <Compile Include="Manager\livros.aspx.cs">
+      <DependentUpon>livros.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Manager\produto.aspx.designer.cs">
-      <DependentUpon>produto.aspx</DependentUpon>
+    <Compile Include="Manager\livros.aspx.designer.cs">
+      <DependentUpon>livros.aspx</DependentUpon>
     </Compile>
     <Compile Include="meus pedidos.aspx.cs">
       <DependentUpon>meus pedidos.aspx</DependentUpon>

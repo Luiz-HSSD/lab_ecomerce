@@ -1,5 +1,10 @@
-﻿<%@ Page Title="PRODUTOS" Language="C#" MasterPageFile="~/Manager/aspm/principal.Master" AutoEventWireup="true" CodeBehind="produto.aspx.cs" Inherits="lab.Manager.produto" %>
+﻿<%@ Page Title="LIVROS" Language="C#" MasterPageFile="~/Manager/aspm/principal.Master" AutoEventWireup="true" CodeBehind="livros.aspx.cs" Inherits="lab.Manager.livros" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript">
+        function bora()  {
+            $('#GridViewliv').DataTable();
+        };
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     
@@ -10,8 +15,8 @@
     <tr><td colspan="2">nome resumido:</td> <td colspan="3"><asp:TextBox MaxLength="50" TextMode="SingleLine" ID="nome" runat="server"></asp:TextBox></td></tr>
     <tr><td colspan="2">descrição:</td> <td colspan="3"><asp:TextBox MaxLength="1000" TextMode="MultiLine" ID="descricao" runat="server"></asp:TextBox></td></tr>
     <tr><td colspan="2">categoria:</td> <td colspan="3">
-        <asp:DropDownList ID="DropDownListcat" runat="server" DataTextField="nome_cat" DataValueField="cod">
-        </asp:DropDownList>
+        <asp:ListBox ID="ListBoxcat" runat="server" DataTextField="nome_cat" DataValueField="cod">
+        </asp:ListBox>
         </td></tr>
     <tr><td colspan="2"><b>codigo de barras: </b></td> <td colspan="3"><asp:TextBox MaxLength="13" ID="codigo_de_barra" runat="server"></asp:TextBox></td></tr>
     <tr><td colspan="2">fabricante:</td> <td colspan="3"><asp:TextBox MaxLength="60"  TextMode="SingleLine" ID="fabricante" runat="server"></asp:TextBox></td></tr>
