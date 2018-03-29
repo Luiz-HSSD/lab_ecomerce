@@ -10,16 +10,19 @@
     
 
     <table border="1">
-    <tr><td colspan="5"><h1>cadastro produtos</h1></td></tr>
+    <tr><td colspan="5"><h1>cadastro Livros</h1></td></tr>
     <tr><td colspan="2"><b>codigo</b></td> <td colspan="3"><asp:Label  ID="codigo" runat="server"></asp:Label></td></tr>
-    <tr><td colspan="2">nome resumido:</td> <td colspan="3"><asp:TextBox MaxLength="50" TextMode="SingleLine" ID="nome" runat="server"></asp:TextBox></td></tr>
+    <tr><td colspan="2">sinopse:</td> <td colspan="3"><asp:TextBox MaxLength="50" TextMode="SingleLine" ID="nome" runat="server"></asp:TextBox></td></tr>
     <tr><td colspan="2">descrição:</td> <td colspan="3"><asp:TextBox MaxLength="1000" TextMode="MultiLine" ID="descricao" runat="server"></asp:TextBox></td></tr>
     <tr><td colspan="2">categoria:</td> <td colspan="3">
-        <asp:ListBox ID="ListBoxcat" runat="server" DataTextField="nome_cat" DataValueField="cod">
+        <asp:ListBox ID="ListBoxcat" SelectionMode="Multiple" runat="server" DataTextField="nome_cat" DataValueField="cod">
         </asp:ListBox>
         </td></tr>
     <tr><td colspan="2"><b>codigo de barras: </b></td> <td colspan="3"><asp:TextBox MaxLength="13" ID="codigo_de_barra" runat="server"></asp:TextBox></td></tr>
-    <tr><td colspan="2">fabricante:</td> <td colspan="3"><asp:TextBox MaxLength="60"  TextMode="SingleLine" ID="fabricante" runat="server"></asp:TextBox></td></tr>
+    <tr><td colspan="2"><b>ISBN: </b></td> <td colspan="3"><asp:TextBox MaxLength="13" ID="ISBN" runat="server"></asp:TextBox></td></tr>
+    <tr><td colspan="2">editora:</td> <td colspan="3"><asp:TextBox MaxLength="60"  TextMode="SingleLine" ID="Editora" runat="server"></asp:TextBox></td></tr>
+    <tr><td colspan="2">paginas:</td> <td colspan="3"><asp:TextBox MaxLength="60"  TextMode="Number" ID="Num_pags" runat="server"></asp:TextBox></td></tr>
+    <tr><td colspan="2">edição:</td> <td colspan="3"><asp:TextBox MaxLength="60"  TextMode="SingleLine" ID="Edicao" runat="server"></asp:TextBox></td></tr>
     <tr><td colspan="2"><b aria-dropeffect="none">preço: </b></td> <td colspan="3"><asp:TextBox MaxLength="8" ID="preco" runat="server"></asp:TextBox></td></tr>
     <tr><td colspan="2"><b aria-dropeffect="none">peso: </b></td> <td colspan="3"><asp:TextBox MaxLength="8" ID="peso" runat="server"></asp:TextBox></td></tr>
 <tr><td colspan="2"><b aria-dropeffect="none">dimensoes: </b></td> <td colspan="3"><asp:TextBox MaxLength="100" ID="dimensoes" runat="server"></asp:TextBox></td></tr>     
@@ -45,6 +48,7 @@
     </asp:Repeater>
 
         </td></tr>
+        <tr><td colspan="2"><b aria-dropeffect="none">motivo: </b></td> <td colspan="3"><asp:TextBox MaxLength="100" ID="Motivo" runat="server"></asp:TextBox></td></tr>
     </table>
 
     <table>

@@ -60,6 +60,13 @@ namespace dominio
 
         public Formato_Produto():base(0,Convert.ToDateTime("01/01/1995 03:30"))
         {
+            Dimensoes = "";
+            Peso = "";
+            Comprimento = 0;
+            Diametro = 0;
+            largura = 0;
+            altura = 0;
+            codFormato = 0;
         }
 
         

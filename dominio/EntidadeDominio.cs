@@ -10,13 +10,22 @@ namespace dominio
     {
         private int id;
         private DateTime dataHora;
+        private char ative;
+        
+
+
 
         public EntidadeDominio(int id, DateTime DataHora)
         {
+            Ative = 'A';
             Id = 0;
             DataHora = Convert.ToDateTime("01/01/1995 03:30");
         }
-
+        public char Ative
+        {
+            get { return ative; }
+            set { ative = value; }
+        }
         public int Id
         {
             get { return id; }

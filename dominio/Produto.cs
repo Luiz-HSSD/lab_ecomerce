@@ -19,8 +19,17 @@ namespace dominio
         private byte[] img;
         private double preco;
         private Formato_Produto formato;
+        private Motivo razao;
+        
+        public Motivo Razao
+        {
+            get { return razao; }
+            set { razao = value; }
+        }
+
         public Produto():base(0,Convert.ToDateTime("01/01/1995 03:30"))
         {
+            Razao = new Motivo();
             Qtd = 0;
             Nome="";
             Descricao="";

@@ -60,10 +60,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Autor.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Formato_Produto.cs" />
     <Compile Include="Frete.cs" />
     <Compile Include="Livro.cs" />
+    <Compile Include="Motivo.cs" />
     <Compile Include="ocorencia.cs" />
     <Compile Include="Pedido.cs" />
     <Compile Include="Venda.cs" />

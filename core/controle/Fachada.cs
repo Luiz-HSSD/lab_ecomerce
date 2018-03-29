@@ -51,25 +51,27 @@ namespace core.controle
 
 
 
-            ProdutoDAO proDAO = new ProdutoDAO();
-            daos.Add(typeof(Produto).Name, proDAO);
-            Valida_cod_barras val_cod = new Valida_cod_barras();
-            transfomar_formato trans_for = new transfomar_formato();
+            LivroDAO proDAO = new LivroDAO();
+            daos.Add(typeof(Livro).Name, proDAO);
+            Ativacao_livro at = new Ativacao_livro();
+            //transfomar_formato trans_for = new transfomar_formato();
             List<IStrategy> rnsSalvarProduto = new List<IStrategy>();
-            rnsSalvarProduto.Add(val_cod);
-            rnsSalvarProduto.Add(trans_for);
+            rnsSalvarProduto.Add(at);
+            //rnsSalvarProduto.Add(val_cod);
+            //rnsSalvarProduto.Add(trans_for);
             List<IStrategy> rnsAlterarProduto = new List<IStrategy>();
-            rnsAlterarProduto.Add(val_cod);
-            rnsAlterarProduto.Add(trans_for);
+            //rnsAlterarProduto.Add(val_cod);
+            //rnsAlterarProduto.Add(trans_for);
             List<IStrategy> rnsExcluirProduto = new List<IStrategy>();
             rnsExcluirProduto.Add(para_ex);
             List<IStrategy> rnsConsultarProduto = new List<IStrategy>();
+            //rnsConsultarProduto.Add(at);
             Dictionary<string, List<IStrategy>> rnsProduto = new Dictionary<string, List<IStrategy>>();
             rnsProduto.Add("SALVAR", rnsSalvarProduto);
             rnsProduto.Add("ALTERAR", rnsAlterarProduto);
             rnsProduto.Add("EXCLUIR", rnsExcluirProduto);
             rnsProduto.Add("CONSULTAR", rnsConsultarProduto);
-            rns.Add(typeof(Produto).Name, rnsProduto);
+            rns.Add(typeof(Livro).Name, rnsProduto);
 
             EnderecoDAO endDAO = new EnderecoDAO();
             daos.Add(typeof(Endereco).Name, proDAO);
@@ -161,7 +163,7 @@ namespace core.controle
             string msg = executarRegras(entidade, "SALVAR");
 
 
-            if (msg == null)
+            if (string.IsNullOrEmpty(msg))
             {
                 IDAO dao = daos[nmClasse];
 
@@ -187,7 +189,7 @@ namespace core.controle
             string nmClasse = entidade.GetType().Name;
             string msg = executarRegras(entidade, "ALTERAR");
 
-            if (msg == null)
+            if (string.IsNullOrEmpty(msg))
             {
                 IDAO dao = daos[nmClasse];
                 dao.alterar(entidade);
@@ -214,7 +216,7 @@ namespace core.controle
             string msg = executarRegras(entidade, "EXCLUIR");
 
 
-            if (msg == null)
+            if (string.IsNullOrEmpty(msg))
             {
                 IDAO dao = daos[nmClasse];
                 dao.excluir(entidade);
@@ -238,7 +240,7 @@ namespace core.controle
             string msg = executarRegras(entidade, "CONSULTAR");
 
 
-            if (msg == null)
+            if (string.IsNullOrEmpty( msg))
             {
                 IDAO dao = daos[nmClasse];
                 try

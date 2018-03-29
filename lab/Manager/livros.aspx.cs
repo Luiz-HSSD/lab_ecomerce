@@ -13,7 +13,7 @@ namespace lab.Manager
 
     public partial class livros : viewgenerico
     {
-        private string fromRootToPhotos = @"C://inetpub/wwwroot/photos/";
+        private string fromRootToPhotos = System.Web.HttpContext.Current.Server.MapPath( "~/photos/");
         private string fromPhotosToExtension;
         private dominio.Livro pro=new dominio.Livro();
         private dominio.Categoria categoria = new dominio.Categoria();
@@ -26,6 +26,7 @@ namespace lab.Manager
                     if (!Directory.Exists(fromRootToPhotos))
                         Directory.CreateDirectory(fromRootToPhotos);
                     categoria.Id=0;
+                    categoria.Nome = null;
                     res = commands["CONSULTAR"].execute(categoria);
                     ListBoxcat.DataSource = ResultadoToDataTable.cat_to_datatable(res);
                     ListBoxcat.DataBind();
@@ -34,6 +35,7 @@ namespace lab.Manager
                     {
 
                         pro.Id=Convert.ToInt32(Request.QueryString["cod"]);
+                        pro.Nome = null;
                         res = commands["CONSULTAR"].execute(pro);
                         pro = (dominio.Livro)res.Entidades.ElementAt(0);
                         codigo.Text = pro.Id.ToString();
@@ -43,9 +45,35 @@ namespace lab.Manager
                         descricao.Text = pro.Descricao.ToString();
                         ListBoxcat.SelectedValue = pro.Categoria.Id.ToString();
                         codigo_de_barra.Text = pro.Codigo_barras;
-                        fabricante.Text = pro.Fabricante;
+                        ISBN.Text = pro.ISBN;
+                        Editora.Text = pro.Editora;
+                        Num_pags.Text = pro.N_pags.ToString();
+                        Edicao.Text = pro.Edicao;
                         preco.Text = pro.Preco.ToString();
-                        Imagems.SaveByteArrayAsImage(fromRootToPhotos + "from_bd" + DateTime.Now.Ticks.ToString(), pro.Img, pro.Extension);
+                        try
+                        {
+                            string vai="";
+                            switch (pro.Extension)
+                            {
+                                case "image/jpeg":
+                                     vai= ".jpg";
+                                    break;
+                                case "image/png":
+                                    vai = ".png";
+                                    break;
+                                case "image/bmp":
+                                    vai = ".bmp";
+                                    break;
+                            }
+                            File.WriteAllBytes(fromRootToPhotos + "from_bd" + DateTime.Now.Ticks.ToString()+vai, pro.Img);
+                            //Imagems.SaveByteArrayAsImage(fromRootToPhotos + "from_bd" + DateTime.Now.Ticks.ToString(), pro.Img, vai);
+
+                        }
+                        catch
+                        {
+
+                        }
+
 
                 }
                         
@@ -57,8 +85,9 @@ namespace lab.Manager
                         if (!string.IsNullOrEmpty(Request.QueryString["del"]))
                         {
                             pro.Id=Convert.ToInt32(Request.QueryString["del"]);
+                            //Session["livro"] = pro;
                             commands["EXCLUIR"].execute(pro);
-                            Response.Redirect("produto.aspx", false);
+                            //Response.Redirect("Motivo.aspx?del="+pro.Id, false);
                         }
 
                     }
@@ -81,15 +110,15 @@ namespace lab.Manager
         {
             int evade;
             string GRID = "<TABLE class='display' onload=\"bora()\" id='GridViewliv'><THEAD>{0}</THEAD><TBODY>{1}</TBODY></TABLE>";
-            string tituloColunas = "<tr><th></th><th>Código</th><th>Nome Resumido</th><th>Descrição</th><th>Categoria</th><th>Código de Barras</th><th>Fabricante</th><th>Preço</th><th>imagem</th>";
-            string linha = "<tr><td> <a href='produto.aspx?cod={0}'>editar</a> ";
-            linha += "<a href='produto.aspx?del={0}'>apagar</a></td><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td><img src=\"{7}\" style=\"width: 100px; height: 100px;\" /><br /></td></tr>";
+            string tituloColunas = "<tr><th></th><th>Código</th><th>Nome Resumido</th><th>Descrição</th><th>Categoria</th><th>Código de Barras</th><th>Editora</th><th>paginas</th><th>Edicao</th><th>Preço</th><th>categorias</th><th>imagem</th>";
+            string linha = "<tr><td> <a href='livros.aspx?cod={0}'>editar</a> ";
+            linha += "<a href='livros.aspx?del={0}'>apagar</a></td><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td><td><img src=\"{10}\" style=\"width: 100px; height: 100px;\" /><br /></td></tr>";
 
             ImageConverter ic = new ImageConverter();
             pro.Id=0;
             categoria.Id=0;
             pro.Categoria=categoria;
-            pro.Nome = "";
+            pro.Nome = null;
             res = commands["CONSULTAR"].execute(pro);
             try
             {
@@ -104,16 +133,34 @@ namespace lab.Manager
             for (int i = 0; i < evade; i++)
             {
                 pro= (dominio.Livro)res.Entidades.ElementAt(i);
-                string limitsofdead = @"data:" + pro.Extension + ";charset=utf-8;base64, " + (Convert.ToBase64String(pro.Img));
-
+                string limitsofdead,generos;
+                generos = "";
+                try
+                {
+                     limitsofdead = @"data:" + pro.Extension + ";charset=utf-8;base64, " + (Convert.ToBase64String(pro.Img));
+                }
+                catch
+                {
+                    limitsofdead = @"data:" + pro.Extension + ";charset=utf-8;base64, ";
+                }
+                for(int j = 0; j < pro.Generos.Count; j++)
+                {
+                    generos+=pro.Generos.ElementAt(j).Nome;
+                    if (j < pro.Generos.Count - 1)
+                        generos += ", ";
+                }
+                    
                  conteudo.AppendFormat(linha,
                         pro.Id.ToString(),
                         pro.Nome.ToString(),
                         pro.Descricao.ToString(),
                         pro.Categoria.Nome.ToString(),
                         pro.Codigo_barras.ToString(),
-                        pro.Fabricante.ToString(),
+                        pro.Editora.ToString(),
+                        pro.N_pags.ToString(),
+                        pro.Edicao.ToString(),
                         pro.Preco.ToString(),
+                        generos,
                         limitsofdead
                        );
 
@@ -139,9 +186,25 @@ namespace lab.Manager
                 }
             }
             pro.Categoria=categoria ;
-            pro.Preco=Convert.ToDouble( preco.Text);
+            try
+            {
+                pro.Preco = double.Parse(preco.Text);
+            }
+            catch
+            {
+
+            }
             pro.Codigo_barras=codigo_de_barra.Text;
-            pro.Fabricante=fabricante.Text ;
+            pro.ISBN = ISBN.Text;
+            pro.Editora=Editora.Text;
+            try { 
+            pro.N_pags=int.Parse(Num_pags.Text);
+        }
+            catch
+            {
+
+            }
+            pro.Edicao = Edicao.Text;
             pro.Nome=nome.Text ;
             pro.Descricao=descricao.Text ;
             pro.Formato.Dimensoes = dimensoes.Text;
@@ -181,12 +244,20 @@ namespace lab.Manager
                     break;
             }
             pro.Img=(Imagems.ReadFile(fileToBD));
-            res=commands["SALVAR"].execute(pro);
+            /*if (commands["CONSULTAR"].execute(pro).Entidades.Count>0)
+            {
+                Session["livro"] = pro;
+                Response.Redirect("Motivo.aspx?cad=0", false);
+            }
+            else*/
+            res =commands["SALVAR"].execute(pro);
             codigo.Text = "";
             nome.Text = "";
             descricao.Text = "";
             codigo_de_barra.Text = "";
-            fabricante.Text = "";
+            Editora.Text = "";
+            Num_pags.Text = "";
+            Edicao.Text = "";
             preco.Text = "";
             msg.Text = res.Msg;
             Pesquisar();
@@ -208,9 +279,24 @@ namespace lab.Manager
                 }
             }
             pro.Categoria = categoria;
+            try { 
             pro.Preco = Convert.ToDouble(preco.Text);
+        }
+            catch
+            {
+
+            }
             pro.Codigo_barras = codigo_de_barra.Text;
-            pro.Fabricante = fabricante.Text;
+            pro.ISBN = ISBN.Text;
+            pro.Editora = Editora.Text;
+            try { 
+            pro.N_pags = Convert.ToInt32(Num_pags.Text);
+        }
+            catch
+            {
+
+            }
+            pro.Edicao = Edicao.Text;
             pro.Nome = nome.Text;
             pro.Descricao = descricao.Text;
             pro.Formato.Peso = peso.Text;
@@ -250,12 +336,15 @@ namespace lab.Manager
                     break;
             }
             pro.Img = (Imagems.ReadFile(fileToBD));
-            res = commands["SALVAR"].execute(pro);
+            res = commands["ALTERAR"].execute(pro);
             codigo.Text = "";
             nome.Text = "";
             descricao.Text = "";
             codigo_de_barra.Text = "";
-            fabricante.Text = "";
+            
+            Editora.Text = "";
+            Num_pags.Text = "";
+            Edicao.Text = "";
             preco.Text = "";
             msg.Text = res.Msg;
             Pesquisar();
@@ -268,9 +357,11 @@ namespace lab.Manager
             nome.Text = "";
             descricao.Text = "";
             codigo_de_barra.Text = "";
-            fabricante.Text = "";
+            Editora.Text = "";
+            Num_pags.Text = "";
+            Edicao.Text = "";
             preco.Text = "";
-            Response.Redirect("produto.aspx");
+            Response.Redirect("livros.aspx");
         }
 
         protected void subir_Click(object sender, EventArgs e)

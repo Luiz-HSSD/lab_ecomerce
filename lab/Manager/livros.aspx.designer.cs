@@ -58,13 +58,40 @@ namespace lab.Manager {
         protected global::System.Web.UI.WebControls.TextBox codigo_de_barra;
         
         /// <summary>
-        /// fabricante control.
+        /// ISBN control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fabricante;
+        protected global::System.Web.UI.WebControls.TextBox ISBN;
+        
+        /// <summary>
+        /// Editora control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Editora;
+        
+        /// <summary>
+        /// Num_pags control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Num_pags;
+        
+        /// <summary>
+        /// Edicao control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Edicao;
         
         /// <summary>
         /// preco control.
@@ -137,6 +164,15 @@ namespace lab.Manager {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptrUserPhotos;
+        
+        /// <summary>
+        /// Motivo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Motivo;
         
         /// <summary>
         /// novo_pro control.

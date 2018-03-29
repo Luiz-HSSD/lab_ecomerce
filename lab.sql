@@ -1,13 +1,13 @@
 drop TRIGGER set_cat;
-drop TRIGGER set_pro;
+drop TRIGGER set_liv;
 drop TRIGGER set_ven;
 drop TRIGGER set_cli;
 drop TRIGGER set_end;
 drop TRIGGER set_usu;
 drop TRIGGER set_item;
 drop TRIGGER set_for;
-
-
+DELETE FROM cat_liv WHERE id_liv=4;
+insert into livro ( ative, dim, g_preco, n_pags, isbn, edicao, cod_bar, edi, nome_liv, des_liv, ext) values ( 'A' , 'adfasf', 'A', 2, 'dfasadsf' , 'asdfd','adsfdaas', 'adsfads' , 'adsfsdf' , 'asdf','asdf' ) returning id_liv into 0;
 
 DROP TABLE pedido;
 DROP TABLE ocorencia;
@@ -19,12 +19,12 @@ DROP TABLE papel;
 DROP TABLE item_venda;
 DROP TABLE vendas;
 DROP TABLE formato_produto;
-DROP TABLE livro;
 DROP TABLE cat_liv;
-DROP TABLE categoria;
+DROP TABLE livro;
 DROP TABLE clientes;
 DROP TABLE endereco;
-
+DROP TABLE categoria;
+-- SELECT * FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'CATEGORIA';
 DROP SEQUENCE cat;
 DROP SEQUENCE cli;
 DROP SEQUENCE liv;
@@ -58,7 +58,7 @@ CREATE TABLE categoria
 CREATE TABLE livro
 (
     id_liv        NUMBER(10,0) PRIMARY KEY ,
-    id_cat        NUMBER(8,0) ,
+    dim           varchar(20),
     ative         char,
     g_preco       char,
     n_pags        int,
@@ -69,8 +69,7 @@ CREATE TABLE livro
     nome_liv   VARCHAR(50),
     des_liv    VARCHAR(1000),
     image BLOB,
-    ext VARCHAR2(15),
-    CONSTRAINT fk_cat_liv FOREIGN KEY(id_cat) REFERENCES categoria(id_cat)  on delete cascade
+    ext VARCHAR2(15)
 );
 
 CREATE TABLE cat_liv
@@ -85,11 +84,13 @@ CREATE TABLE cat_liv
 insert into categoria (des_cat, nome_cat,ative, id_cat) values ('IOS, Andorid e Windows Phone','Smartphones','I',1);
 insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Xbox ,Playstation e Nintendo','Consoles','I',2);
 insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Video games e PC','Games','I',3);
-insert into categoria (des_cat, nome_cat,ative, id_cat ) values ('Asus, Msi e AsRock','Placa mãe','I',4);
-insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Radeon e GTX','Placa de Video','I',5);
-insert into livro (id_liv) values (5);
-insert into cat_liv(id_liv,id_cat) values (5,1);
+insert into categoria (des_cat, nome_cat,ative, id_cat ) values ('Asus, Msi e AsRock','Placa mãe','A',4);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Radeon e GTX','Placa de Video','A',5);
+insert into livro (ative, id_liv,n_pags,g_preco) values ('A',5,80,'E');
 select * from cat_liv join categoria using (id_cat) where id_liv=5;
+SELECT * FROM livro WHERE ative!='I' AND id_liv=5;
+insert into cat_liv(id_liv,id_cat) values (5,1);
+select * from cat_liv join categoria using (id_cat) join LIVRO using (id_liv) where id_liv=5;
 CREATE TABLE  formato_produto 
 (
    id_for        NUMBER(10,0) PRIMARY KEY ,
@@ -142,12 +143,12 @@ CREATE TABLE vendas
 CREATE TABLE item_venda
 (
     id_item     NUMBER(8,0) PRIMARY KEY,
-    id_pro NUMBER(10,0),
+    id_liv NUMBER(10,0),
     qtd     NUMBER(8,0),
     preco NUMBER(10,2),
     id_ven     NUMBER(8,0),
     CONSTRAINT fk_ven FOREIGN KEY (id_ven) REFERENCES vendas(id_ven),
-    CONSTRAINT fk_pro FOREIGN KEY(id_pro) REFERENCES produto(id_pro)    
+   CONSTRAINT fk_pro FOREIGN KEY(id_liv) REFERENCES livro(id_liv)    
 ); 
 
 create table papel
@@ -232,14 +233,14 @@ BEGIN
   FROM   dual;
 END set_ven;
 /
-CREATE OR REPLACE TRIGGER set_pro 
-BEFORE INSERT ON produto
+CREATE OR REPLACE TRIGGER set_liv 
+BEFORE INSERT ON livro
 FOR EACH ROW
 BEGIN
-  SELECT pro.NEXTVAL
-  INTO   :new.id_pro
+  SELECT liv.NEXTVAL
+  INTO   :new.id_liv
   FROM   dual;
-END set_pro;
+END set_liv;
 /
 CREATE OR REPLACE TRIGGER set_end 
 BEFORE INSERT ON endereco
@@ -277,3 +278,4 @@ BEGIN
   FROM   dual;
 END;
 /
+--insert into livro ( ative, dim, g_preco, n_pags, isbn, edicao, cod_bar, edi, nome_liv, des_liv, image, ext) values ('A','vai','C',111,'asdf','asdf');

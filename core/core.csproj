@@ -114,6 +114,7 @@
     <Compile Include="DAO\ProdutoDAO.cs" />
     <Compile Include="DAO\VendaDao.cs" />
     <Compile Include="main.cs" />
+    <Compile Include="negocio\Ativacao_livro.cs" />
     <Compile Include="negocio\Calcular_Frete.cs" />
     <Compile Include="negocio\parametro_excluir.cs" />
     <Compile Include="negocio\transfomar_formato.cs" />
@@ -128,6 +129,7 @@
     </Compile>
     <Compile Include="Utils\Conexao.cs" />
     <Compile Include="Utils\ConverterData.cs" />
+    <Compile Include="Utils\getmotivos.cs" />
     <Compile Include="Utils\Imagems.cs" />
     <Compile Include="Utils\ResultadoToDataTable.cs" />
     <Compile Include="Web References\br.com.correios.ws\Reference.cs">

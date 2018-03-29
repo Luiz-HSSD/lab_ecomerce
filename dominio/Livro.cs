@@ -52,5 +52,14 @@ namespace dominio
             set { generos = value; }
         }
 
+        public Livro()
+        {
+            N_pags = 10;
+            G_PRECO = 'A';
+            Edicao = "";
+            Editora = "";
+            ISBN = "";
+            Generos = new List<Categoria>();
+        }
     }
 }

@@ -24,26 +24,33 @@ namespace core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Livro categoria = (Livro)entidade;
-            pst.CommandText = "insert into livro (ative,des_liv, g_preco,nome, n_pags, isbn, edi, nome_liv , des_liv,image , ext, isbn, dim ) values ( :des,'A' , :g_preco, :nome, :isbnn, :eri, 'A' )";
+            pst.CommandText = "insert into livro ( ative, dim, g_preco, n_pags, isbn, edicao, cod_bar, edi, nome_liv, des_liv, image, ext) values ( 'A' , :eri, :g_preco, :n_pags , :isbnn, :ed, :cod_bar,:edit, :nome , :des , :img, :ext ) returning id_liv into :cod";
             parameters = new OracleParameter[]
-                        {
-                        new OracleParameter("des",categoria.Descricao),
-                        new OracleParameter("g_preco",categoria.G_PRECO),
-                        new OracleParameter("nome",categoria.Nome),
-                        new OracleParameter("ed",categoria.Edicao),
-                        new OracleParameter("edit",categoria.Editora),
-                        new OracleParameter("des",categoria.Descricao),
-                        new OracleParameter("isbnn",categoria.ISBN),
-                        new OracleParameter("eri",categoria.Formato.Dimensoes)
-                        };
+                {
+                new OracleParameter("eri",categoria.Formato.Dimensoes),
+                new OracleParameter("g_preco",categoria.G_PRECO),
+                new OracleParameter("n_pags",categoria.N_pags),
+                new OracleParameter("isbnn",categoria.ISBN),
+                new OracleParameter("ed",categoria.Edicao),
+                new OracleParameter("cod_bar",categoria.Codigo_barras),
+                new OracleParameter("edit",categoria.Editora),
+                new OracleParameter("nome",categoria.Nome),
+                new OracleParameter("des",categoria.Descricao),
+                new OracleParameter("img",categoria.Img),
+                new OracleParameter("ext",categoria.Extension)
+                };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
+            OracleParameter Out = new OracleParameter("cod", categoria.Id);
+            Out.Direction = ParameterDirection.ReturnValue;
+            pst.Parameters.Add(Out);
             pst.Connection = connection;
             pst.CommandType = CommandType.Text;
             pst.ExecuteNonQuery();
             pst.CommandText = "commit work";
             pst.ExecuteNonQuery();
             connection.Close();
+            categoria.Id = Convert.ToInt32(Out.Value);
             foreach(Categoria cat in categoria.Generos)
             {
                 if (connection.State == ConnectionState.Closed)
@@ -74,31 +81,37 @@ namespace core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 Livro categoria = (Livro)entidade;
-                pst.CommandText = "UPDATE categoria SET des_cat=:des, nome_cat=:nome, dim=:eri WHERE id_cat=:co";
+                pst.CommandText = "UPDATE livro SET  ative=:ati , dim=:eri , g_preco=:g_preco , n_pags=:n_pags , isbn=:isbnn , edicao=:ed, cod_bar=:cod_bar , edi=:edit , nome_liv=:nome , des_liv=:des , image=:img , ext=:ext  WHERE id_liv=:cod";
                 parameters = new OracleParameter[]
-                        {
-                        new OracleParameter("des",categoria.Descricao),
-                        new OracleParameter("g_preco",categoria.G_PRECO),
-                        new OracleParameter("nome",categoria.Nome),
-                        new OracleParameter("ed",categoria.Edicao),
-                        new OracleParameter("edit",categoria.Editora),
-                        new OracleParameter("des",categoria.Descricao),
-                        new OracleParameter("nome",categoria.Nome),
-                        new OracleParameter("eri",categoria.Formato.Dimensoes)
-                        };
+                    {
+                    new OracleParameter("ati",categoria.Ative),
+                    new OracleParameter("eri",categoria.Formato.Dimensoes),
+                    new OracleParameter("g_preco",categoria.G_PRECO),
+                    new OracleParameter("n_pags",categoria.N_pags),
+                    new OracleParameter("isbnn",categoria.ISBN),
+                    new OracleParameter("ed",categoria.Edicao),
+                    new OracleParameter("cod_bar",categoria.Codigo_barras),
+                    new OracleParameter("edit",categoria.Editora),
+                    new OracleParameter("nome",categoria.Nome),
+                    new OracleParameter("des",categoria.Descricao),
+                    new OracleParameter("img",categoria.Img),
+                    new OracleParameter("ext",categoria.Extension),
+                    new OracleParameter("cod",categoria.Id),
+                    };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
                 pst.CommandType = CommandType.Text;
                 vai = pst.ExecuteReader();
                 vai.Read();
-                pst.CommandText = "DELETE FROM cat_liv WHERE id_liv=:des";
+                pst.ExecuteNonQuery();
+                pst.CommandText = "DELETE FROM cat_liv WHERE id_liv=:cod ";
+                pst.Parameters.Clear();
                 parameters = new OracleParameter[]
                     {
-                        new OracleParameter("des",categoria.Id),
+                        new OracleParameter("cod",categoria.Id)
                     };
-                vai = pst.ExecuteReader();
-                vai.Read();
+                pst.Parameters.AddRange(parameters);
                 pst.ExecuteNonQuery();
                 pst.CommandText = "commit work";
                 vai = pst.ExecuteReader();
@@ -147,28 +160,31 @@ namespace core.DAO
                 Livro categoria = (Livro)entidade;
                 string sql = null;
 
-                if (categoria.Nome == null)
-                {
-                    categoria.Nome = "";
-                }
-
+                parameters = new OracleParameter[] { new OracleParameter("co", categoria.Id.ToString()) };
                 if (categoria.Descricao == null)
                 {
                     categoria.Descricao = "";
                 }
 
-                if (categoria.Id == 0)
+                if (!string.IsNullOrEmpty(categoria.Nome))
+                {
+                    sql = "SELECT * FROM livro WHERE nome_liv=:co";
+                    parameters = new OracleParameter[] { new OracleParameter("co", categoria.Nome) };
+                }
+                else if (categoria.Id == 0)
                 {
                     sql = "SELECT * FROM livro WHERE ative!='I'";
+                    
                 }
+
                 else
                 {
-                    sql = "SELECT * FROM categoria WHERE id_cat= :co";
+                    sql = "SELECT * FROM livro WHERE ative!='I' AND id_liv= :co";
+                    parameters = new OracleParameter[] { new OracleParameter("co", categoria.Id.ToString()) };
                 }
 
 
                 pst.CommandText = sql;
-                parameters = new OracleParameter[] { new OracleParameter("co", categoria.Id.ToString()) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -189,7 +205,10 @@ namespace core.DAO
                     p.Editora = (vai["edi"].ToString());
                     p.Codigo_barras = (vai["cod_bar"].ToString());
                     p.N_pags = Convert.ToInt32(vai["n_pags"]);
-                    p.G_PRECO = Convert.ToChar(vai["g_preco"]);
+                    if(vai["image"].GetType().Name != "DBNull")
+                    p.Img = (byte[])(vai["image"]);
+                    p.G_PRECO = Convert.ToChar(vai["g_preco"].ToString());
+                    p.Extension = vai["ext"].ToString();
                     pst2.CommandText = "select * from cat_liv join categoria using (id_cat) where id_liv=:co";
                     parameters2 = new OracleParameter[] { new OracleParameter("co", p.Id.ToString()) };
                     pst2.Parameters.Clear();
@@ -202,9 +221,9 @@ namespace core.DAO
                     {
 
                         d = new Categoria();
-                        d.Id = Convert.ToInt32(vai["id_cat"]);
-                        d.Nome = (vai["nome_cat"].ToString());
-                        d.Descricao = (vai["des_cat"].ToString());
+                        d.Id = Convert.ToInt32(vai2["id_cat"]);
+                        d.Nome = (vai2["nome_cat"].ToString());
+                        d.Descricao = (vai2["des_cat"].ToString());
                         cats.Add(d);
                     }
                     p.Generos = cats;
