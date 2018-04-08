@@ -308,5 +308,10 @@ namespace lab.Manager
 
             }
         }
+
+        protected void add_endereco_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

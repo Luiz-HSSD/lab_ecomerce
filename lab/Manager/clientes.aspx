@@ -59,6 +59,11 @@
                 <td><b>complemento:</b></td>
                 <td>                    
                     <asp:TextBox TextMode="SingleLine" ID="complemento" runat="server"></asp:TextBox></td>
+                <td><b>Tipo de endereço:</b></td
+                <td>
+                    <asp:DropDownList ID="DropDownList_tipo_end" runat="server" DataTextField="uf" DataValueField="id">
+                    </asp:DropDownList></td>
+                <td>
             </tr>
             <tr>
                 <td><b>cidade:</b></td>
@@ -68,8 +73,58 @@
                 <td>
                     <asp:DropDownList ID="DropDownListcliuf" runat="server" DataTextField="uf" DataValueField="id">
                     </asp:DropDownList></td>
+                <td>
+                <asp:Button runat="server" Text="novo endereco" id="add_endereco" OnClick="add_endereco_Click" />
+            </td>
+                
+            </tr>
+            </table>
+                <div id="enderecos" runat="server" style="padding:30px; width: 998px; height: 1px;">
+                <table class="auto-style19">
+                            <tr>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                </table>
+                </div>
+       <table> 
+            <tr>
+                <td><b>nome do titular</b></td>
+                <td>
+                    <asp:TextBox TextMode="SingleLine" ID="nome_titular" runat="server"></asp:TextBox></td>
+                <td><b>numero cartão</b></td>
+                <td>
+                <asp:TextBox TextMode="SingleLine" ID="num_car" runat="server"></asp:TextBox>
+
+                </td>
+            </tr>
+            <tr>
+                <td><b>validade</b></td>
+                <td>
+                    <asp:TextBox TextMode="SingleLine" ID="validade" runat="server"></asp:TextBox></td>
+                <td><b>ccv</b></td>
+                <td>
+                <asp:TextBox TextMode="SingleLine" ID="ccv" runat="server"></asp:TextBox>
+
+                </td>
             </tr>
         </table>
+                <div id="Cartoes" runat="server" style="padding:30px; width: 998px; height: 1px;">
+                <table class="auto-style19">
+                            <tr>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                </table>
+                </div>
 
         <table>
             <tr>
@@ -100,11 +155,10 @@
       </table>
        <div id="divTable" runat="server" style="padding:30px; width: 998px; height: 1px;">
    
-        <!-- <asp:GridView runat="server" CssClass="display" ID="GridViewcli" EnableModelValidation="True" Width="204px" >-->
-        <asp:GridView runat="server" CssClass="display" ID="GridViewcli" EnableModelValidation="True" >
+         <asp:GridView runat="server" CssClass="display" ID="GridViewcli" EnableModelValidation="True" >
   <HeaderStyle Font-Bold="true" />
                     </asp:GridView ><br/>
-            </div>
+            </div>-->
   
 
 </asp:Content>

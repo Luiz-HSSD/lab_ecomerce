@@ -16,12 +16,26 @@ namespace dominio
         private char sexo;
         private string email;
         private DateTime dt_nas;
-        private Endereco endereco;
+        private List<Endereco> enderecos;
+        private List<Cartao_Credito> cartoes;
+        private string senha;
 
-        public Endereco Endereco
+        public string Senha
         {
-            get { return endereco; }
-            set { endereco = value; }
+            get { return senha; }
+            set { senha = value; }
+        }
+
+        public List<Cartao_Credito> Cartoes
+        {
+            get { return cartoes; }
+            set { cartoes = value; }
+        }
+
+        public List<Endereco> Enderecos
+        {
+            get { return enderecos; }
+            set { enderecos = value; }
         }
 
         public DateTime Dt_Nas
@@ -68,7 +82,8 @@ namespace dominio
             Sexo = 'M';
             Email = "";
             Dt_Nas = Convert.ToDateTime("01/01/1995 03:30");
-            Endereco = new Endereco();
+            Enderecos = new List<Endereco>();
+            senha = "";
         }
 
 

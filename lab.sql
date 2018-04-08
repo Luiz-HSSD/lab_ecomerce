@@ -1,3 +1,4 @@
+drop TRIGGER set_car;
 drop TRIGGER set_cat;
 drop TRIGGER set_liv;
 drop TRIGGER set_ven;
@@ -6,8 +7,6 @@ drop TRIGGER set_end;
 drop TRIGGER set_usu;
 drop TRIGGER set_item;
 drop TRIGGER set_for;
-DELETE FROM cat_liv WHERE id_liv=4;
-insert into livro ( ative, dim, g_preco, n_pags, isbn, edicao, cod_bar, edi, nome_liv, des_liv, ext) values ( 'A' , 'adfasf', 'A', 2, 'dfasadsf' , 'asdfd','adsfdaas', 'adsfads' , 'adsfsdf' , 'asdf','asdf' ) returning id_liv into 0;
 
 DROP TABLE pedido;
 DROP TABLE ocorencia;
@@ -21,10 +20,15 @@ DROP TABLE vendas;
 DROP TABLE formato_produto;
 DROP TABLE cat_liv;
 DROP TABLE livro;
+DROP TABLE end_cli;
+DROP TABLE car_cli;
+DROP TABLE cartao_credito;
+DROP TABLE bandeira;
 DROP TABLE clientes;
 DROP TABLE endereco;
 DROP TABLE categoria;
 -- SELECT * FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'CATEGORIA';
+DROP SEQUENCE car;
 DROP SEQUENCE cat;
 DROP SEQUENCE cli;
 DROP SEQUENCE liv;
@@ -34,6 +38,7 @@ drop SEQUENCE usu;
 drop SEQUENCE itm;
 drop SEQUENCE formato;
 
+CREATE SEQUENCE car START WITH 1;
 CREATE SEQUENCE cat START WITH 1;
 CREATE SEQUENCE cli START WITH 1;
 CREATE SEQUENCE liv START WITH 1;
@@ -45,14 +50,14 @@ CREATE SEQUENCE formato START WITH 1;
 
 
 CREATE TABLE categoria
-  (
-    id_cat      NUMBER(8,0)  PRIMARY KEY,   
-    nome_cat VARCHAR(50),
-    des_cat  VARCHAR(1000),
-    ative char,
-    CONSTRAINT cat_nn_010 CHECK (id_cat IS NOT NULL)
-    
-  );
+(
+id_cat      NUMBER(8,0)  PRIMARY KEY,   
+nome_cat VARCHAR(50),
+des_cat  VARCHAR(1000),
+ative char,
+CONSTRAINT cat_nn_010 CHECK (id_cat IS NOT NULL)
+
+);
 
   
 CREATE TABLE livro
@@ -103,7 +108,7 @@ CREATE TABLE  formato_produto
    diametro      decimal
 );
 CREATE TABLE endereco
-(
+(   
     id_end NUMBER(10) primary key,
     numero VARCHAR2(4),
     logradouro VARCHAR2(200),
@@ -113,20 +118,53 @@ CREATE TABLE endereco
     cep      CHAR(8),
     uf       CHAR(2) 
 );
+CREATE TABLE bandeira
+(
+    id_band      NUMBER(3) PRIMARY KEY,
+    nome_band VARCHAR(50)
+);
+
+CREATE TABLE cartao_credito
+(
+
+    id_car      NUMBER(10,0) PRIMARY KEY,
+    numero CHAR(16),
+    ccv NUMBER(4) ,    
+    nome_car VARCHAR(50),
+    validade       VARCHAR(9),
+    id_band NUMBER(3),
+    CONSTRAINT fk_bandeira FOREIGN KEY (id_band) REFERENCES bandeira(id_band)
+);
 
 CREATE TABLE clientes
 (
     id_cli      NUMBER(8,0) PRIMARY KEY,
     id_user NUMBER(10) ,    
     nome_cli VARCHAR(50),
+    senha Varchar(30),
     sexo     CHAR(1),
     cpf      CHAR(11),
     rg       VARCHAR(9),
     dt_nas   DATE,
-    email    VARCHAR(80),
-    id_end NUMBER(10),
-    CONSTRAINT fk_end FOREIGN KEY (id_end) REFERENCES endereco(id_end)on delete cascade,
-    CONSTRAINT clientes_nn_02 CHECK (id_cli IS NOT NULL)
+    email    VARCHAR(80)
+);
+
+CREATE TABLE car_cli
+(
+    id_cli      NUMBER(8,0),   
+    id_car   NUMBER(10,0),
+    CONSTRAINT fk_car_cli FOREIGN KEY(id_cli) REFERENCES clientes(id_cli)  on delete cascade,
+    CONSTRAINT fk_cli_car FOREIGN KEY(id_car) REFERENCES cartao_credito(id_car)  on delete cascade,
+    constraint PK_CC primary key (id_cli, id_car)
+); 
+
+CREATE TABLE end_cli
+(
+    id_cli      NUMBER(8,0),   
+    id_end   NUMBER(10,0),
+    CONSTRAINT fk_cli_end FOREIGN KEY(id_cli) REFERENCES clientes(id_cli)  on delete cascade,
+    CONSTRAINT fk_end_cli FOREIGN KEY(id_end) REFERENCES endereco(id_end)  on delete cascade,
+    constraint PK_EC primary key (id_cli, id_end)
 ); 
   
 CREATE TABLE vendas
@@ -205,6 +243,16 @@ id_ven NUMBER(8,0),
 CONSTRAINT cod_ocu FOREIGN KEY(id_oco) REFERENCES ocorencia(id_oco),
 CONSTRAINT id_venda FOREIGN KEY(id_ven) REFERENCES vendas(id_ven)
 );
+
+CREATE OR REPLACE TRIGGER set_car 
+BEFORE INSERT ON cartao_credito 
+FOR EACH ROW
+BEGIN
+  SELECT car.NEXTVAL
+  INTO   :new.id_car
+  FROM   dual;
+END set_cat;
+/
 
 CREATE OR REPLACE TRIGGER set_cat 
 BEFORE INSERT ON categoria 
