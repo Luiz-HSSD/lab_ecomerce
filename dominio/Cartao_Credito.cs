@@ -14,12 +14,8 @@ namespace dominio
         private int ccv;
         private string validade;
         private Bandeira_Cartao bandeira;
+        private char preferencial;
 
-        public Bandeira_Cartao Bandeira
-        {
-            get { return bandeira; }
-            set { bandeira = value; }
-        }
 
 
         public Cartao_Credito() : base(0, Convert.ToDateTime("01/01/1995 03:30"))
@@ -27,11 +23,25 @@ namespace dominio
             Numero = "0";
             Nome_Titular = "";
             Endereco_Cartao = new Endereco();
+            bandeira = new Bandeira_Cartao();
             CCV = 0;
             Validade = "";
+            preferencial = 'N';
 
         }
 
+
+        public char Preferencial
+        {
+            get { return preferencial; }
+            set { preferencial = value; }
+        }
+
+        public Bandeira_Cartao Bandeira
+        {
+            get { return bandeira; }
+            set { bandeira = value; }
+        }
         public string Validade
         {
             get { return validade; }

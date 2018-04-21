@@ -202,6 +202,33 @@ namespace lab.Manager {
         protected global::System.Web.UI.WebControls.TextBox ccv;
         
         /// <summary>
+        /// CHK_preferencial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CHK_preferencial;
+        
+        /// <summary>
+        /// novo_cartao control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button novo_cartao;
+        
+        /// <summary>
+        /// erro_cartao control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label erro_cartao;
+        
+        /// <summary>
         /// Cartoes control.
         /// </summary>
         /// <remarks>

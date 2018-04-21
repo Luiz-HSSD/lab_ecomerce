@@ -12,9 +12,9 @@
     <table border="1">
     <tr><td colspan="5"><h1>cadastro Livros</h1></td></tr>
     <tr><td colspan="2"><b>codigo</b></td> <td colspan="3"><asp:Label  ID="codigo" runat="server"></asp:Label></td></tr>
-    <tr><td colspan="2">sinopse:</td> <td colspan="3"><asp:TextBox MaxLength="50" TextMode="SingleLine" ID="nome" runat="server"></asp:TextBox></td></tr>
-    <tr><td colspan="2">descrição:</td> <td colspan="3"><asp:TextBox MaxLength="1000" TextMode="MultiLine" ID="descricao" runat="server"></asp:TextBox></td></tr>
-    <tr><td colspan="2">categoria:</td> <td colspan="3">
+    <tr><td colspan="2">titulo:</td> <td colspan="3"><asp:TextBox MaxLength="50" TextMode="SingleLine" ID="nome" runat="server"></asp:TextBox></td></tr>
+    <tr><td colspan="2">sinopse:</td> <td colspan="3"><asp:TextBox MaxLength="1000" TextMode="MultiLine" ID="descricao" runat="server"></asp:TextBox></td></tr>
+    <tr><td colspan="2">generos:</td> <td colspan="3">
         <asp:ListBox ID="ListBoxcat" SelectionMode="Multiple" runat="server" DataTextField="nome_cat" DataValueField="cod">
         </asp:ListBox>
         </td></tr>

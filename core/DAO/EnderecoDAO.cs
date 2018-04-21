@@ -25,6 +25,8 @@ namespace core.DAO
 
         public override List<EntidadeDominio> consultar(EntidadeDominio entidade)
         {
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
             endereco = (Endereco)entidade;
             string sql = null;
 
@@ -77,9 +79,11 @@ namespace core.DAO
 
         public override void salvar(EntidadeDominio entidade)
         {
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
             endereco = (Endereco)entidade;
             pst.Dispose();
-            pst.CommandText = "insert into endereco(cep, bairro, complemento, logradouro ,numero ,uf , cidade ) values ( :cep , :bairro, :comp , :log , :num, :uf, :cidade )";
+            pst.CommandText = "insert into endereco(cep, bairro, complemento, logradouro ,numero ,uf , cidade ) values ( :cep , :bairro, :comp , :log , :num, :uf, :cidade )  returning id_end into :cod";
             OracleParameter[] parameters = new OracleParameter[]
                     {
                             new OracleParameter("cep", endereco.Cep),
@@ -94,9 +98,13 @@ namespace core.DAO
 
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
+            OracleParameter Out = new OracleParameter("cod", endereco.Id);
+            Out.Direction = ParameterDirection.ReturnValue;
+            pst.Parameters.Add(Out);
             pst.Connection = connection;
             pst.CommandType = CommandType.Text;
             pst.ExecuteNonQuery();
+            endereco.Id = Convert.ToInt32(Out.Value);
             pst.CommandText = "commit work";
             pst.ExecuteNonQuery();
             connection.Close();

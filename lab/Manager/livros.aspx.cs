@@ -43,7 +43,17 @@ namespace lab.Manager
                         peso.Text = pro.Formato.Peso.ToString();
                         dimensoes.Text = pro.Formato.Dimensoes;
                         descricao.Text = pro.Descricao.ToString();
-                        ListBoxcat.SelectedValue = pro.Categoria.Id.ToString();
+                        ///ListBoxcat.SelectedValue = pro.Categoria.Id.ToString();
+                        for(int i = 0; i < pro.Generos.Count; i++)
+                        {
+                            for (int j = 0; j < ListBoxcat.Items.Count; j++)
+                            {
+                                if (pro.Generos[i].Id.ToString() == ListBoxcat.Items[j].Value)
+                                {
+                                    ListBoxcat.Items[j].Selected = true;
+                                }
+                            }
+                        }
                         codigo_de_barra.Text = pro.Codigo_barras;
                         ISBN.Text = pro.ISBN;
                         Editora.Text = pro.Editora;
@@ -197,9 +207,10 @@ namespace lab.Manager
             pro.Codigo_barras=codigo_de_barra.Text;
             pro.ISBN = ISBN.Text;
             pro.Editora=Editora.Text;
-            try { 
-            pro.N_pags=int.Parse(Num_pags.Text);
-        }
+            try
+            { 
+                pro.N_pags=int.Parse(Num_pags.Text);
+            }
             catch
             {
 

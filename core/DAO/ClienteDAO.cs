@@ -14,18 +14,18 @@ namespace core.DAO
         private Cliente cliente;
         private Endereco end;
         private EnderecoDAO enddao=new EnderecoDAO(); 
-        public ClienteDAO() : base( "cliente", "id_cli")
+        public ClienteDAO() : base( "clientes", "id_cli")
         {
 
         }
-
+        #region salvar
         public override void salvar(EntidadeDominio entidade)
         {
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             cliente = (Cliente)entidade;
  
-            pst.CommandText = "insert into produto (nome_cli, senha, sexo ,cpf ,rg ,dt_nas ,email) values ( :senha ,:nome_cli ,:sexo , :cpf, :rg, :dt_nas, :email ) returning id_liv into :cod";
+            pst.CommandText = "insert into clientes (senha, nome_cli, sexo ,cpf ,rg ,dt_nas ,email,ative) values ( :senha ,:nome_cli ,:sexo , :cpf, :rg, :dt_nas, :email,'A' ) returning id_cli into :cod";
             parameters = new OracleParameter[]
             {
                 new OracleParameter("senha",cliente.Senha),
@@ -52,10 +52,11 @@ namespace core.DAO
             {
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                pst.CommandText = "insert into end_cli (id_end, id_cli ) values ( :des,:bora )";
+                pst.CommandText = "insert into end_cli (id_end,tipo_end, id_cli ) values ( :des,:vai,:bora )";
                 parameters = new OracleParameter[]
                         {
                         new OracleParameter("des",cat.Id),
+                        new OracleParameter("vai",cat.Tipo),
                         new OracleParameter("bora",cliente.Id)
                         };
                 pst.Parameters.Clear();
@@ -72,12 +73,13 @@ namespace core.DAO
             {
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                pst.CommandText = "insert into car_cli (id_car, id_cli ) values ( :des,:bora )";
+                pst.CommandText = "insert into car_cli (id_car, id_cli,pref ) values ( :des,:bora,:vai )";
                 parameters = new OracleParameter[]
-                        {
+                {
                         new OracleParameter("des",cat.Id),
-                        new OracleParameter("bora",cliente.Id)
-                        };
+                        new OracleParameter("bora",cliente.Id),
+                        new OracleParameter("vai",cat.Preferencial)
+                };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -90,7 +92,8 @@ namespace core.DAO
             }
             return;
         }
-
+        #endregion
+        #region alterar
         public override void alterar(EntidadeDominio entidade)
         {
             try
@@ -141,12 +144,13 @@ namespace core.DAO
                 {
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
-                    pst.CommandText = "insert into end_cli (id_end, id_cli ) values ( :des,:bora )";
+                    pst.CommandText = "insert into end_cli (id_end,tipo_end, id_cli ) values ( :des,:vai,:bora )";
                     parameters = new OracleParameter[]
-                            {
-                        new OracleParameter("des",cat.Id),
-                        new OracleParameter("bora",cliente.Id)
-                            };
+                    {
+                    new OracleParameter("des",cat.Id),
+                    new OracleParameter("vai",cat.Tipo),
+                    new OracleParameter("bora",cliente.Id)
+                    };
                     pst.Parameters.Clear();
                     pst.Parameters.AddRange(parameters);
                     pst.Connection = connection;
@@ -174,11 +178,12 @@ namespace core.DAO
                 {
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
-                    pst.CommandText = "insert into car_cli (id_car, id_cli ) values ( :des,:bora )";
+                    pst.CommandText = "insert into car_cli (id_car, id_cli,pref ) values ( :des,:bora,:vai )";
                     parameters = new OracleParameter[]
                             {
-                            new OracleParameter("des",cat.Id),
-                            new OracleParameter("bora",cliente.Id)
+                                new OracleParameter("des",cat.Id),
+                                new OracleParameter("bora",cliente.Id),
+                                new OracleParameter("vai",cat.Preferencial)
                             };
                     pst.Parameters.Clear();
                     pst.Parameters.AddRange(parameters);
@@ -199,11 +204,14 @@ namespace core.DAO
             }
 
         }
+        #endregion
         protected OracleParameter[] parameters2;
         protected OracleDataReader vai2;
         private OracleCommand pst2 = new OracleCommand();
         public override List<EntidadeDominio> consultar(EntidadeDominio entidade)
         {
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
             end = new Endereco();
             cliente = (Cliente)entidade;
             string sql = "";
@@ -220,12 +228,12 @@ namespace core.DAO
 
             if (cliente.Id == 0)
             {
-                sql = "SELECT * FROM clientes left join end_cli using(id_cli) left join endereco using(id_end)";
+                sql = "SELECT * FROM clientes WHERE ative='A'";
             }
             else
 
             {
-                sql = "SELECT * FROM clientes left join end_cli using(id_cli) left join endereco using(id_end) WHERE id_cli=:cod";
+                sql = "SELECT * FROM clientes WHERE id_cli=:cod and ative='A'";
                 parameters = new OracleParameter[] { new OracleParameter("cod", cliente.Id.ToString()) };
             }
             pst.Parameters.Clear();
@@ -269,7 +277,7 @@ namespace core.DAO
                     cats.Add(d);
                 }
                 p.Enderecos = cats;
-                pst2.CommandText = "select * from car_cli join cartao_credito using (id_car) where id_cli=:co";
+                pst2.CommandText = "select * from car_cli join cartao_credito using (id_car) left join bandeira using(id_band) where id_cli=:co";
                 parameters2 = new OracleParameter[] { new OracleParameter("co", p.Id.ToString()) };
                 pst2.Parameters.Clear();
                 pst2.Parameters.AddRange(parameters2);
@@ -285,6 +293,7 @@ namespace core.DAO
                     q.Numero = vai2["numero"].ToString();
                     q.Nome_Titular = vai2["nome_car"].ToString();
                     q.Validade = vai2["validade"].ToString();
+                    q.Preferencial = Convert.ToChar(vai2["pref"]);
                     q.CCV = Convert.ToInt32(vai2["ccv"]);
                     q.Bandeira.Id = Convert.ToInt32(vai2["id_band"]);
                     q.Bandeira.Nome = vai2["nome_band"].ToString();

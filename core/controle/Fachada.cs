@@ -74,7 +74,7 @@ namespace core.controle
             rns.Add(typeof(Livro).Name, rnsProduto);
 
             EnderecoDAO endDAO = new EnderecoDAO();
-            daos.Add(typeof(Endereco).Name, proDAO);
+            daos.Add(typeof(Endereco).Name, endDAO);
             List<IStrategy> rnsSalvarendereco = new List<IStrategy>();
             List<IStrategy> rnsAlterarendereco = new List<IStrategy>();
             List<IStrategy> rnsExcluirendereco = new List<IStrategy>();
@@ -87,6 +87,25 @@ namespace core.controle
             rnsendereco.Add("CONSULTAR", rnsConsultarendereco);
             rns.Add(typeof(Endereco).Name, rnsendereco);
 
+            Cartao_CreditoDAO carDAO = new Cartao_CreditoDAO();
+            GerarBandeira gb = new GerarBandeira();
+            Validar_Cartao vc = new Validar_Cartao();
+            daos.Add(typeof(Cartao_Credito).Name, carDAO);
+            List<IStrategy> rnsSalvarCartao_Credito = new List<IStrategy>();
+            rnsSalvarCartao_Credito.Add(gb);
+            rnsSalvarCartao_Credito.Add(vc);
+            List<IStrategy> rnsAlterarCartao_Credito = new List<IStrategy>();
+            rnsAlterarCartao_Credito.Add(gb);
+            rnsAlterarCartao_Credito.Add(vc);
+            List<IStrategy> rnsExcluirCartao_Credito = new List<IStrategy>();
+            rnsExcluirendereco.Add(para_ex);
+            List<IStrategy> rnsConsultarCartao_Credito = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsCartao_Credito = new Dictionary<string, List<IStrategy>>();
+            rnsCartao_Credito.Add("SALVAR", rnsSalvarCartao_Credito);
+            rnsCartao_Credito.Add("ALTERAR", rnsAlterarCartao_Credito);
+            rnsCartao_Credito.Add("EXCLUIR", rnsExcluirCartao_Credito);
+            rnsCartao_Credito.Add("CONSULTAR", rnsConsultarCartao_Credito);
+            rns.Add(typeof(Cartao_Credito).Name, rnsCartao_Credito);
 
             ClienteDAO cliDAO = new ClienteDAO();
             daos.Add(typeof(Cliente).Name, cliDAO);

@@ -17,6 +17,14 @@ namespace dominio
         private string uf;
         private string cidade;
         private string cep;
+        private int tipo;
+
+        public int Tipo
+        {
+            get { return tipo; }
+            set { tipo = value; }
+        }
+
 
         public string Cep
         {
@@ -71,6 +79,7 @@ namespace dominio
             Bairro = "";
             Cidade = "";
             UF = "";
+            tipo = 0;
         }
 
         

@@ -104,6 +104,7 @@
     <Compile Include="core\IFachada.cs" />
     <Compile Include="core\IStrategy.cs" />
     <Compile Include="DAO\AbstractDAO.cs" />
+    <Compile Include="DAO\Cartao_CreditoDAO.cs" />
     <Compile Include="DAO\CategoriaDAO.cs" />
     <Compile Include="DAO\ClienteDAO.cs" />
     <Compile Include="DAO\EnderecoDAO.cs" />
@@ -116,9 +117,11 @@
     <Compile Include="main.cs" />
     <Compile Include="negocio\Ativacao_livro.cs" />
     <Compile Include="negocio\Calcular_Frete.cs" />
+    <Compile Include="negocio\GerarBandeira.cs" />
     <Compile Include="negocio\parametro_excluir.cs" />
     <Compile Include="negocio\transfomar_formato.cs" />
     <Compile Include="negocio\ValidarCpf.cs" />
+    <Compile Include="negocio\Validar_Cartao.cs" />
     <Compile Include="negocio\Valida_cod_barras.cs" />
     <Compile Include="negocio\WS_cep_xml.cs" />
     <Compile Include="negocio\WS_cep_json.cs" />

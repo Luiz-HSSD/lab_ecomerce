@@ -83,6 +83,7 @@ namespace dominio
             Email = "";
             Dt_Nas = Convert.ToDateTime("01/01/1995 03:30");
             Enderecos = new List<Endereco>();
+            Cartoes = new List<Cartao_Credito>();
             senha = "";
         }
 

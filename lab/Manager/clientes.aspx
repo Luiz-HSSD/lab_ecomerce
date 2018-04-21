@@ -1,5 +1,10 @@
 ﻿<%@ Page Title="CLIENTES" Language="C#" MasterPageFile="~/Manager/aspm/principal.Master" AutoEventWireup="true" CodeBehind="clientes.aspx.cs" Inherits="lab.Manager.clientes" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style type="text/css">
+        .auto-style1 {
+            width: 4px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
   
@@ -59,13 +64,13 @@
                 <td><b>complemento:</b></td>
                 <td>                    
                     <asp:TextBox TextMode="SingleLine" ID="complemento" runat="server"></asp:TextBox></td>
-                <td><b>Tipo de endereço:</b></td
+                <td><b>Tipo de endereço:</b></td>
                 <td>
-                    <asp:DropDownList ID="DropDownList_tipo_end" runat="server" DataTextField="uf" DataValueField="id">
-                    </asp:DropDownList></td>
-                <td>
-            </tr>
-            <tr>
+                    <asp:DropDownList ID="DropDownList_tipo_end" runat="server" DataTextField="tipo" DataValueField="id">
+                    </asp:DropDownList>
+
+                </td>
+                <tr>
                 <td><b>cidade:</b></td>
                 <td>
                     <asp:TextBox TextMode="SingleLine" ID="cidade" runat="server"></asp:TextBox></td>
@@ -73,21 +78,24 @@
                 <td>
                     <asp:DropDownList ID="DropDownListcliuf" runat="server" DataTextField="uf" DataValueField="id">
                     </asp:DropDownList></td>
-                <td>
-                <asp:Button runat="server" Text="novo endereco" id="add_endereco" OnClick="add_endereco_Click" />
-            </td>
+                
                 
             </tr>
+            <tr>
+                <td>
+                <asp:Button runat="server" Text="novo endereco" id="add_endereco" OnClick="add_endereco_Click" />
+                </td>
+            </tr>
             </table>
-                <div id="enderecos" runat="server" style="padding:30px; width: 998px; height: 1px;">
+                <div id="enderecos" runat="server" style="padding:30px; width: auto; height: auto;">
                 <table class="auto-style19">
                             <tr>
                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</td>
-                                <td>&nbsp;</td>
+                                <td class="auto-style1">&nbsp;</td>
                             </tr>
                             <tr>
                                 <td>&nbsp;</td>
-                                <td>&nbsp;</td>
+                                <td class="auto-style1">&nbsp;</td>
                             </tr>
                 </table>
                 </div>
@@ -98,7 +106,7 @@
                     <asp:TextBox TextMode="SingleLine" ID="nome_titular" runat="server"></asp:TextBox></td>
                 <td><b>numero cartão</b></td>
                 <td>
-                <asp:TextBox TextMode="SingleLine" ID="num_car" runat="server"></asp:TextBox>
+                <asp:TextBox TextMode="SingleLine" ID="num_car" MaxLength="16" runat="server"></asp:TextBox>
 
                 </td>
             </tr>
@@ -110,6 +118,16 @@
                 <td>
                 <asp:TextBox TextMode="SingleLine" ID="ccv" runat="server"></asp:TextBox>
 
+                    <asp:CheckBox ID="CHK_preferencial" runat="server" />
+
+                </td>
+            </tr>
+              <tr>
+                <td>
+                <asp:Button runat="server" Text="novo cartão" id="novo_cartao" OnClick="novo_cartao_Click"  />
+                </td>
+                <td>
+                <asp:Label runat="server"  id="erro_cartao"   />
                 </td>
             </tr>
         </table>
@@ -124,8 +142,11 @@
                                 <td>&nbsp;</td>
                             </tr>
                 </table>
+                    <br />
+                    <br />
                 </div>
-
+    <br />
+        <div>
         <table>
             <tr>
             
@@ -142,6 +163,7 @@
 
             </tr>
         </table>
+            </div>
         <br />
              <table class="auto-style19">
           <tr>
@@ -155,10 +177,10 @@
       </table>
        <div id="divTable" runat="server" style="padding:30px; width: 998px; height: 1px;">
    
-         <asp:GridView runat="server" CssClass="display" ID="GridViewcli" EnableModelValidation="True" >
+
+            </div>
+           <asp:GridView runat="server" CssClass="display" ID="GridViewcli" EnableModelValidation="True" >
   <HeaderStyle Font-Bold="true" />
                     </asp:GridView ><br/>
-            </div>-->
-  
 
 </asp:Content>

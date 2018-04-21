@@ -44,7 +44,7 @@ namespace core.negocio
                 return null;
                 
             }
-            catch
+            catch(Exception e)
             {
                 return "cpf não está no formato certo";
             }

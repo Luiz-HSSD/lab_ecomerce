@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="CATEGORIA" Language="C#" MasterPageFile="~/Manager/aspm/principal.Master" AutoEventWireup="true" CodeBehind="categoria.aspx.cs" Inherits="lab.Manager.Categoria" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-<script type="text/javascript">
+    <script type="text/javascript">
     function bora() {
         $('#GridViewcat').DataTable();
     };
@@ -21,19 +21,13 @@
         .auto-style4 {
             width: 71px;
         }
-        .auto-style5 {
-            width: 30px;
-        }
-        .auto-style6 {
-            width: 68px;
-        }
-    </style>
+        </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">     
     <table border="1" class="auto-style1">
         <tr>
             <td colspan="5">
-                <h1>cadastro categoria</h1>
+                <h1>cadastro generos</h1>
             </td>
         </tr>
         <tr>

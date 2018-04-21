@@ -8,6 +8,7 @@ drop TRIGGER set_usu;
 drop TRIGGER set_item;
 drop TRIGGER set_for;
 
+DROP TABLE ranking;
 DROP TABLE pedido;
 DROP TABLE ocorencia;
 drop table papel_func;
@@ -27,6 +28,7 @@ DROP TABLE bandeira;
 DROP TABLE clientes;
 DROP TABLE endereco;
 DROP TABLE categoria;
+
 -- SELECT * FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'CATEGORIA';
 DROP SEQUENCE car;
 DROP SEQUENCE cat;
@@ -56,7 +58,6 @@ nome_cat VARCHAR(50),
 des_cat  VARCHAR(1000),
 ative char,
 CONSTRAINT cat_nn_010 CHECK (id_cat IS NOT NULL)
-
 );
 
   
@@ -107,6 +108,7 @@ CREATE TABLE  formato_produto
    largura       decimal,
    diametro      decimal
 );
+
 CREATE TABLE endereco
 (   
     id_end NUMBER(10) primary key,
@@ -120,25 +122,25 @@ CREATE TABLE endereco
 );
 CREATE TABLE bandeira
 (
-    id_band      NUMBER(3) PRIMARY KEY,
+    id_band      NUMBER(9) PRIMARY KEY,
     nome_band VARCHAR(50)
 );
 
 CREATE TABLE cartao_credito
 (
-
     id_car      NUMBER(10,0) PRIMARY KEY,
     numero CHAR(16),
-    ccv NUMBER(4) ,    
+    ccv NUMBER(9) ,    
     nome_car VARCHAR(50),
-    validade       VARCHAR(9),
-    id_band NUMBER(3),
+    validade  VARCHAR(9),
+    id_band NUMBER(9),
     CONSTRAINT fk_bandeira FOREIGN KEY (id_band) REFERENCES bandeira(id_band)
 );
 
 CREATE TABLE clientes
 (
     id_cli      NUMBER(8,0) PRIMARY KEY,
+    ative     CHAR(1),
     id_user NUMBER(10) ,    
     nome_cli VARCHAR(50),
     senha Varchar(30),
@@ -153,6 +155,7 @@ CREATE TABLE car_cli
 (
     id_cli      NUMBER(8,0),   
     id_car   NUMBER(10,0),
+    pref  CHAR(1),
     CONSTRAINT fk_car_cli FOREIGN KEY(id_cli) REFERENCES clientes(id_cli)  on delete cascade,
     CONSTRAINT fk_cli_car FOREIGN KEY(id_car) REFERENCES cartao_credito(id_car)  on delete cascade,
     constraint PK_CC primary key (id_cli, id_car)
@@ -162,11 +165,19 @@ CREATE TABLE end_cli
 (
     id_cli      NUMBER(8,0),   
     id_end   NUMBER(10,0),
+    tipo_end number(1),
     CONSTRAINT fk_cli_end FOREIGN KEY(id_cli) REFERENCES clientes(id_cli)  on delete cascade,
     CONSTRAINT fk_end_cli FOREIGN KEY(id_end) REFERENCES endereco(id_end)  on delete cascade,
     constraint PK_EC primary key (id_cli, id_end)
 ); 
-  
+CREATE TABLE ranking
+(   
+    id_cli NUMBER(8,0),
+    g_preco char,
+    mont NUMBER(16,0),
+    CONSTRAINT fk_ran_cli FOREIGN KEY(id_cli) REFERENCES clientes(id_cli)  on delete cascade,
+    constraint PK_RAN primary key (id_cli,g_preco, mont)
+);  
 CREATE TABLE vendas
 (
     id_ven     NUMBER(8,0) PRIMARY KEY,
@@ -326,4 +337,8 @@ BEGIN
   FROM   dual;
 END;
 /
+
+insert into bandeira(id_band,nome_band) values(1,'Mastercard');
+insert into bandeira(id_band,nome_band) values(2,'Visa');
+insert into bandeira(id_band,nome_band) values(3,'American Express');
 --insert into livro ( ative, dim, g_preco, n_pags, isbn, edicao, cod_bar, edi, nome_liv, des_liv, image, ext) values ('A','vai','C',111,'asdf','asdf');
