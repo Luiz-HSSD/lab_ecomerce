@@ -123,39 +123,38 @@ namespace lab.Manager
 
                     DropDownList_tipo_end.DataSource = tipo_end;
                     DropDownList_tipo_end.DataBind();
-                   
+                    if (Session["car_cache"] == null)
+                        Session["car_cache"] = new List<Cartao_Credito>();
+                    if (Session["end_cache"] == null)
+                        Session["end_cache"] = new List<Endereco>();
                     Pesquisar();
                         if (!string.IsNullOrEmpty(Request.QueryString["cod"]))
                         {
-
-                            categoria.Id = Convert.ToInt32(Request.QueryString["cod"]);
-                            res = commands["CONSULTAR"].execute(categoria);
-                            categoria = (Cliente)res.Entidades.ElementAt(0);
-                        cache_car = categoria.Cartoes;
-                        PesquisarCartao_Credito();
-                        cache_end = categoria.Enderecos;
-                        PesquisarEnderecos();
-                        codigo.Text = categoria.Id.ToString();
-                        categoria.Id = Convert.ToInt32(codigo.Text);
-                        nome.Text  = categoria.Nome;
-                        cpf.Text =categoria.Cpf;
-                        rg.Text=categoria.Rg;
-                        data.Text = categoria.Dt_Nas.ToString("yyyy-MM-dd");
-                        email.Text = categoria.Email;
-                        
-                            for (int j = 0; j < DropDownListcli.Items.Count; j++)
-                            {
-                                if (categoria.Sexo.ToString() == DropDownListcli.Items[j].Value)
+                                categoria.Id = Convert.ToInt32(Request.QueryString["cod"]);
+                                res = commands["CONSULTAR"].execute(categoria);
+                                categoria = (Cliente)res.Entidades.ElementAt(0);
+                                Session["cli"] = categoria;
+                                cache_car = categoria.Cartoes;
+                                Session["car_cache"] = cache_car;
+                                PesquisarCartao_Credito();
+                                cache_end = categoria.Enderecos;
+                                Session["end_cache"] = cache_end;
+                                PesquisarEnderecos();
+                                codigo.Text = categoria.Id.ToString();
+                                senha.Text = categoria.Senha;
+                                nome.Text  = categoria.Nome;
+                                cpf.Text =categoria.Cpf;
+                                rg.Text=categoria.Rg;
+                                data.Text = categoria.Dt_Nas.ToString("yyyy-MM-dd");
+                                email.Text = categoria.Email;
+                                for (int j = 0; j < DropDownListcli.Items.Count; j++)
                                 {
-                                    DropDownListcli.Items[j].Selected = true;
-                                }
-                            }
-                        
-                        categoria.Sexo = Convert.ToChar(DropDownListcli.SelectedValue);
+                                    if (categoria.Sexo.ToString() == DropDownListcli.Items[j].Value)
+                                    {
+                                        DropDownListcli.Items[j].Selected = true;
+                                    }
+                                }    
                             
-                            
-
-                        
                     }
 
                     
@@ -173,6 +172,7 @@ namespace lab.Manager
                             }
                             else if (!string.IsNullOrEmpty(Request.QueryString["del_end"]))
                             {
+
                                     cache_end =(List<Endereco>) Session["end_cache"];
                                     int a= Convert.ToInt32(Request.QueryString["del_end"]);
                                     for (int i = 0; i < cache_end.Count; i++)
@@ -181,10 +181,29 @@ namespace lab.Manager
                                             {
                                                 cache_end.RemoveAt(i);
                                                 Session["end_cache"] = cache_end;
-                                            }
-                                            
-                                    }
+                                                PesquisarEnderecos();
+                                                categoria.Enderecos = cache_end;
+                                                Session["cli"] = categoria;
+                                                cache_car = categoria.Cartoes;
+                                                Session["car_cache"] = cache_car;
+                                                PesquisarCartao_Credito();
+                                                codigo.Text = categoria.Id.ToString();
+                                                senha.Text = categoria.Senha;
+                                                nome.Text = categoria.Nome;
+                                                cpf.Text = categoria.Cpf;
+                                                rg.Text = categoria.Rg;
+                                                data.Text = categoria.Dt_Nas.ToString("yyyy-MM-dd");
+                                                email.Text = categoria.Email;
+                                                for (int j = 0; j < DropDownListcli.Items.Count; j++)
+                                                {
+                                                    if (categoria.Sexo.ToString() == DropDownListcli.Items[j].Value)
+                                                    {
+                                                        DropDownListcli.Items[j].Selected = true;
+                                                    }
+                                                }
+                                    }                    
                             }
+                        }
                         else if (!string.IsNullOrEmpty(Request.QueryString["del_car"]))
                         {
                             cache_car = (List<Cartao_Credito>)Session["car_cache"];
@@ -369,6 +388,7 @@ namespace lab.Manager
             if(!string.IsNullOrEmpty( codigo.Text))
             categoria.Id = Convert.ToInt32(codigo.Text);
             categoria.Nome = nome.Text;
+            categoria.Senha = senha.Text; 
             categoria.Sexo = Convert.ToChar(DropDownListcli.SelectedValue);
             categoria.Cpf = cpf.Text;
             categoria.Rg = rg.Text;
@@ -386,15 +406,7 @@ namespace lab.Manager
         {
 
             getcliente();
-            /*
-            categoria.Endereco.Numero = numero.Text;
-            categoria.Endereco.Logradouro = logradouro.Text;
-            categoria.Endereco.Bairro = bairro.Text;
-            categoria.Endereco.Cidade = cidade.Text;
-            categoria.Endereco.Cep = cep.Text;
-            categoria.Endereco.UF = DropDownListcliuf.SelectedItem.Text;
-            categoria.Endereco.Complemento = complemento.Text;
-            */
+            categoria.Id = 0;
             res=commands["SALVAR"].execute(categoria);
             codigo.Text = "";
             nome.Text = "";
@@ -516,17 +528,25 @@ namespace lab.Manager
             cache_end.Add(end);
             Session["end_cache"]=cache_end;
             PesquisarEnderecos();
-            codigo.Text = "";
-            nome.Text = "";
-            cpf.Text = "";
-            rg.Text = "";
-            data.Text = "";
-            logradouro.Text = "";
-            email.Text = "";
-            bairro.Text = "";
-            cidade.Text = "";
-            cep.Text = "";
-            complemento.Text = "";
+            categoria = (Cliente)Session["cli"];
+            Session["cli"] = categoria;
+            cache_car = categoria.Cartoes;
+            Session["car_cache"] = cache_car;
+            PesquisarCartao_Credito();
+            codigo.Text = categoria.Id.ToString();
+            senha.Text = categoria.Senha;
+            nome.Text = categoria.Nome;
+            cpf.Text = categoria.Cpf;
+            rg.Text = categoria.Rg;
+            data.Text = categoria.Dt_Nas.ToString("yyyy-MM-dd");
+            email.Text = categoria.Email;
+            for (int j = 0; j < DropDownListcli.Items.Count; j++)
+            {
+                if (categoria.Sexo.ToString() == DropDownListcli.Items[j].Value)
+                {
+                    DropDownListcli.Items[j].Selected = true;
+                }
+            }
 
         }
 
@@ -559,18 +579,11 @@ namespace lab.Manager
             cache_car.Add(end);
             Session["car_cache"] = cache_car;
             PesquisarCartao_Credito();
-            codigo.Text = "";
-            nome.Text = "";
-            cpf.Text = "";
-            rg.Text = "";
-            data.Text = "";
-            logradouro.Text = "";
-            email.Text = "";
-            bairro.Text = "";
-            cidade.Text = "";
-            cep.Text = "";
-            complemento.Text = "";
+        }
 
+        protected void mudar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("mudar_senha.aspx");
         }
     }
 }

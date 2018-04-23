@@ -104,7 +104,7 @@ namespace core.DAO
                 cliente = (Cliente)entidade;
                 
                     pst.Dispose();
-                    pst.CommandText = "UPDATE clientes SET  senha=:senha, nome_cli= :nome_cli,   sexo=:sexo,  cpf=:cpf, rg=:rg , dt_nas=:dt_nas , email=:email , dimensoes=:dimensões,image=:imagem  , ext=:exte , fab=:fabr, id_end=:end_id  WHERE id_cli=:id_cli";
+                    pst.CommandText = "UPDATE clientes SET  senha=:senha, nome_cli= :nome_cli,   sexo=:sexo,  cpf=:cpf, rg=:rg , dt_nas=:dt_nas , email=:email  WHERE id_cli=:cod";
                     parameters = new OracleParameter[]
                     {
                         new OracleParameter("senha",cliente.Senha),
@@ -126,7 +126,6 @@ namespace core.DAO
                     vai = pst.ExecuteReader();
                     vai.Read();
                     pst.ExecuteNonQuery();
-                    connection.Close();
                 pst.CommandText = "DELETE FROM end_cli WHERE id_cli=:cod ";
                 pst.Parameters.Clear();
                 parameters = new OracleParameter[]
@@ -139,7 +138,6 @@ namespace core.DAO
                 vai = pst.ExecuteReader();
                 vai.Read();
                 pst.ExecuteNonQuery();
-                connection.Close();
                 foreach (Endereco cat in cliente.Enderecos)
                 {
                     if (connection.State == ConnectionState.Closed)
@@ -158,8 +156,7 @@ namespace core.DAO
                     pst.ExecuteNonQuery();
                     pst.CommandText = "commit work";
                     pst.ExecuteNonQuery();
-                    connection.Close();
-
+                    
                 }
                 pst.CommandText = "DELETE FROM car_cli WHERE id_cli=:cod ";
                 pst.Parameters.Clear();
@@ -173,7 +170,6 @@ namespace core.DAO
                 vai = pst.ExecuteReader();
                 vai.Read();
                 pst.ExecuteNonQuery();
-                connection.Close();
                 foreach (Cartao_Credito cat in cliente.Cartoes)
                 {
                     if (connection.State == ConnectionState.Closed)
@@ -192,9 +188,10 @@ namespace core.DAO
                     pst.ExecuteNonQuery();
                     pst.CommandText = "commit work";
                     pst.ExecuteNonQuery();
-                    connection.Close();
-
+                    
                 }
+                connection.Close();
+
                 return;
             }
             catch (Exception e)
@@ -255,6 +252,7 @@ namespace core.DAO
                 p.Rg = vai["RG"].ToString();
                 p.Dt_Nas=Convert.ToDateTime( vai["DT_NAS"]);
                 p.Email = vai["EMAIL"].ToString();
+                p.Senha= vai["SENHA"].ToString();
                 pst2.CommandText = "select * from end_cli join endereco using (id_end) where id_cli=:co";
                 parameters2 = new OracleParameter[] { new OracleParameter("co", p.Id.ToString()) };
                 pst2.Parameters.Clear();

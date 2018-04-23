@@ -22,7 +22,14 @@ namespace core
         public static Resultado res = new Resultado();
         public static void Main()
         {
-
+            Criptografar_senha cs = new Criptografar_senha();
+            Cliente cli = new Cliente();
+            cli.Senha = "Ae454545";
+            cs.processar(cli);
+            //cs.processar(cli);
+            Console.WriteLine(cli.Senha);
+            Console.ReadLine();
+            /*
             pro.Nome = "asdf";
             pro.Descricao="asdf";
             pro.Categoria.Id = 1;
@@ -70,11 +77,11 @@ namespace core
                 Console.WriteLine(cat.Nome);
                 Console.WriteLine(cat.Descricao);
             }
-    */
+
 
                         Console.WriteLine("sucesso!");
                         Console.ReadLine();
-            
+    */
         }
     }
 }

@@ -39,7 +39,7 @@ namespace core.negocio
                 List<EntidadeDominio> cliente = daao.consultar(entidade);
                 for (i = 0; i < cliente.Count; i++)
                 {
-                    if (((Cliente)cliente.ElementAt(i)).Cpf == cpf) return "esse cpf já existe no banco";
+                    if (((Cliente)cliente.ElementAt(i)).Cpf == cpf && ((Cliente)cliente.ElementAt(i)).Id!=cli.Id) return "esse cpf já existe no banco";
                 }
                 return null;
                 

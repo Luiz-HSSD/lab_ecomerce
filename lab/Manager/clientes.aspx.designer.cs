@@ -31,6 +31,24 @@ namespace lab.Manager {
         protected global::System.Web.UI.WebControls.TextBox nome;
         
         /// <summary>
+        /// senha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox senha;
+        
+        /// <summary>
+        /// mudar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button mudar;
+        
+        /// <summary>
         /// DropDownListcli control.
         /// </summary>
         /// <remarks>

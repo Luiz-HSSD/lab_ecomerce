@@ -267,6 +267,7 @@
     <Content Include="js\validacao.js" />
     <Content Include="js\Validation.js" />
     <Content Include="Manager\aspm\principal.Master" />
+    <Content Include="Manager\mudar_senha.aspx" />
     <Content Include="Manager\clientes.aspx" />
     <Content Include="Manager\pedidos.aspx" />
     <Content Include="meus pedidos.aspx" />
@@ -550,6 +551,13 @@
     </Compile>
     <Compile Include="Manager\categoria.aspx.designer.cs">
       <DependentUpon>categoria.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manager\mudar_senha.aspx.cs">
+      <DependentUpon>mudar_senha.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manager\mudar_senha.aspx.designer.cs">
+      <DependentUpon>mudar_senha.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manager\clientes.aspx.cs">
       <DependentUpon>clientes.aspx</DependentUpon>
