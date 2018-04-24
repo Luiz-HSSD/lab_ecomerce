@@ -119,8 +119,7 @@ namespace lab.Manager
                     // Populate the table with sample values.
                     tipo_end.Rows.Add(CreateRow(1, "Cobrança", tipo_end));
                     tipo_end.Rows.Add(CreateRow(2, "Entrega", tipo_end));
-                    tipo_end.Rows.Add(CreateRow(3, "Complementar", tipo_end));
-
+                    
                     DropDownList_tipo_end.DataSource = tipo_end;
                     DropDownList_tipo_end.DataBind();
                     if (Session["car_cache"] == null)
@@ -235,7 +234,7 @@ namespace lab.Manager
             enderecos.InnerHtml = "";
             int evade = 0;
             string GRID = "<TABLE class='display' id='GridViewcli'><THEAD>{0}</THEAD><TBODY>{1}</TBODY></TABLE>";
-            string tituloColunas = "<tr>  <th></th><th>Código</th><th>numero</th><th>logradouro</th><th>Bairro</th><th>Cidade</th><th>CEP</th><th>UF</th><th>complemento</th></tr>";
+            string tituloColunas = "<tr>  <th></th><th>Código</th><th>numero</th><th>logradouro</th><th>Bairro</th><th>Cidade</th><th>CEP</th><th>UF</th><th>complemento</th><th>Tipo</th></tr>";
             string linha = "<tr><td> ";
             linha += "<a href='clientes.aspx?del_end={0}'>apagar</a></td><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td></tr>";
 
@@ -253,6 +252,11 @@ namespace lab.Manager
             for (int i = 0; i < evade; i++)
             {
                 end_bus = cache_end.ElementAt(i);
+                string asdf="";
+                if (end_bus.Tipo == 0)
+                    asdf = "Cobrança";
+                else if (end_bus.Tipo == 1)
+                    asdf = "Entrega";
                 conteudo.AppendFormat(linha,
                         end_bus.Id.ToString(),
                         end_bus.Numero.ToString(),
@@ -261,7 +265,8 @@ namespace lab.Manager
                         end_bus.Cidade,
                         end_bus.Cep,
                         end_bus.UF,
-                        end_bus.Complemento
+                        end_bus.Complemento,
+                        asdf
                         );
 
             }
@@ -278,7 +283,7 @@ namespace lab.Manager
             Cartoes.InnerHtml = "";
             int evade = 0;
             string GRID = "<TABLE class='display' id='GridViewcli'><THEAD>{0}</THEAD><TBODY>{1}</TBODY></TABLE>";
-            string tituloColunas = "<tr>  <th></th><th>Código</th><th>numero</th><th>nome titular</th><th>Validade</th><th>CCV</th><th>preferencial</th><th>Bandeira</th>";
+            string tituloColunas = "<tr> <th></th><th>Código</th><th>numero</th><th>nome titular</th><th>Validade</th><th>CCV</th><th>preferencial</th><th>Bandeira</th>";
             string linha = "<tr><td>";
             linha += "<a href='clientes.aspx?del={0}'>apagar</a></td><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td colspan=4><img src=\"{6}\" style=\"width: 100px; height: 100px;\" /></td></tr>";
 
@@ -347,7 +352,7 @@ namespace lab.Manager
         {
             int evade = 0;
             string GRID = "<TABLE class='display' id='GridViewcli'><THEAD>{0}</THEAD><TBODY>{1}</TBODY></TABLE>";
-            string tituloColunas = "<tr>  <th></th><th>Código</th><th  colspan='5'>Nome</th><th>Sexo</th><th>CPF</th><th>RG</th><th>Nascimento</th><th>EMAIL</th>";
+            string tituloColunas = "<tr><th></th><th>Código</th><th  colspan='5'>Nome</th><th>Sexo</th><th>CPF</th><th>RG</th><th>Nascimento</th><th>EMAIL</th>";
             string linha = "<tr><td> <a href='clientes.aspx?cod={0}'>editar</a> ";
             linha += "<a href='clientes.aspx?del={0}'>apagar</a></td><td>{0}</td><td colspan='5'>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>";
 
@@ -407,6 +412,7 @@ namespace lab.Manager
 
             getcliente();
             categoria.Id = 0;
+            categoria.OPeracao = 'C';
             res=commands["SALVAR"].execute(categoria);
             codigo.Text = "";
             nome.Text = "";
@@ -426,15 +432,7 @@ namespace lab.Manager
         protected void alterar_cli_Click(object sender, EventArgs e)
         {
             getcliente();
-            /*
-            categoria.Endereco.Numero = numero.Text;
-            categoria.Endereco.Logradouro = logradouro.Text ;
-            categoria.Endereco.Bairro = bairro.Text;
-            categoria.Endereco.Cidade =  cidade.Text ;
-            categoria.Endereco.Cep = cep.Text ;
-            categoria.Endereco.UF =DropDownListcliuf.SelectedItem.Text;
-            categoria.Endereco.Complemento = complemento.Text;
-            */
+            categoria.OPeracao = 'A';
             commands["ALTERAR"].execute(categoria);
             codigo.Text = "";
             nome.Text = "";
@@ -470,6 +468,7 @@ namespace lab.Manager
         {
             if (codigo.Text == "") return;
             categoria.Id =Convert.ToInt32(codigo.Text);
+            categoria.OPeracao = 'E';
             commands["EXCLUIR"].execute(categoria);
             codigo.Text = "";
             nome.Text = "";
@@ -528,6 +527,7 @@ namespace lab.Manager
             cache_end.Add(end);
             Session["end_cache"]=cache_end;
             PesquisarEnderecos();
+            if(Session["cli"]!=null)
             categoria = (Cliente)Session["cli"];
             Session["cli"] = categoria;
             cache_car = categoria.Cartoes;

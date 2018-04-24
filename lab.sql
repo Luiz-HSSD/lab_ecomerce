@@ -225,7 +225,7 @@ create table usuarios
 (
 id_user number(10) PRIMARY KEY, 
 login varchar2(100) unique,
-password_user varchar2(20)
+password_user varchar2(80)
 );
 
 

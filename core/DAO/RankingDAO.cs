@@ -1,32 +1,26 @@
-﻿using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using dominio;
-using core.Utils;
+using Oracle.DataAccess.Client;
 using System.Data;
 
 namespace core.DAO
 {
-    public class CategoriaDAO : AbstractDAO
+    public class RankingDAO : AbstractDAO
     {
-        
-        public  CategoriaDAO() : base( "categoria", "id_cat")
+        public RankingDAO() : base("ranking", "id_cli")
         {
-
         }
-        
-
 
         public override void salvar(EntidadeDominio entidade)
         {
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Categoria categoria = (Categoria)entidade;
-            pst.CommandText = "insert into categoria (des_cat, nome_cat, ative ) values ( :des , :nome,'A' )";
+            pst.CommandText = "insert into ranking (des_cat, nome_cat, ative ) values ( :des , :nome,'A' )";
             parameters = new OracleParameter[]
                     {
                         new OracleParameter("des",categoria.Descricao),
@@ -50,7 +44,7 @@ namespace core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 Categoria categoria = (Categoria)entidade;
-                pst.CommandText = "UPDATE categoria SET des_cat=:des, nome_cat=:nome WHERE id_cat=:co";
+                pst.CommandText = "UPDATE ranking SET des_cat=:des, nome_cat=:nome WHERE id_cat=:co";
                 parameters = new OracleParameter[]
                     {
                         new OracleParameter("des",categoria.Descricao),
@@ -89,21 +83,21 @@ namespace core.DAO
 
                 if (categoria.Nome == null)
                 {
-                    categoria.Nome="";
+                    categoria.Nome = "";
                 }
 
                 if (categoria.Descricao == null)
                 {
-                    categoria.Descricao="";
+                    categoria.Descricao = "";
                 }
 
                 if (categoria.Id == 0)
                 {
-                    sql = "SELECT * FROM categoria WHERE ative!='I'";
+                    sql = "SELECT * FROM ranking WHERE ative!='I'";
                 }
                 else
                 {
-                    sql = "SELECT * FROM categoria WHERE id_cat= :co";
+                    sql = "SELECT * FROM ranking WHERE id_cli= :co";
                 }
 
 
@@ -121,21 +115,19 @@ namespace core.DAO
                 {
                     p = new Categoria();
                     p.Id = Convert.ToInt32(vai["id_cat"]);
-                    p.Nome=(vai["nome_cat"].ToString());
-                    p.Descricao=(vai["des_cat"].ToString());
+                    p.Nome = (vai["nome_cat"].ToString());
+                    p.Descricao = (vai["des_cat"].ToString());
                     categorias.Add(p);
                 }
                 connection.Close();
                 return categorias;
             }
-            catch(OracleException ora)
+            catch (OracleException ora)
             {
                 throw ora;
             }
-            
+
 
         }
-
-
     }
 }

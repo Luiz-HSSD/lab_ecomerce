@@ -27,13 +27,22 @@ namespace core.controle
          */
         private Dictionary<string, Dictionary<string, List<IStrategy>>> rns;
 
+
+        private Gerar_log _gerar_log;
+
+        public Gerar_log gerar_log
+        {
+            get { return _gerar_log; }
+            set { _gerar_log = value; }
+        }
+
         private Resultado resultado;
         private Fachada()
         {
             daos = new Dictionary<string, IDAO>();
             /* Intânciando o Map de Regras de Negócio */
             rns = new Dictionary<string, Dictionary<string, List<IStrategy>>>();
-
+            _gerar_log = new Gerar_log();
             parametro_excluir para_ex = new parametro_excluir();
             CategoriaDAO catDAO = new CategoriaDAO();
             daos.Add(typeof(Categoria).Name, catDAO);
@@ -75,7 +84,8 @@ namespace core.controle
 
             EnderecoDAO endDAO = new EnderecoDAO();
             daos.Add(typeof(Endereco).Name, endDAO);
-            List<IStrategy> rnsSalvarendereco = new List<IStrategy>();
+            Validar_endereco val_end = new Validar_endereco();
+            List<IStrategy> rnsSalvarendereco = new List<IStrategy>() { val_end};
             List<IStrategy> rnsAlterarendereco = new List<IStrategy>();
             List<IStrategy> rnsExcluirendereco = new List<IStrategy>();
             rnsExcluirendereco.Add(para_ex);
@@ -112,8 +122,9 @@ namespace core.controle
             ValidarCpf val_cpf = new ValidarCpf();
             Validar_senha val_senha = new Validar_senha();
             Criptografar_senha cri_senha = new Criptografar_senha();
-            List<IStrategy> rnsSalvarCliente = new List<IStrategy>() {val_cpf,val_senha,cri_senha };
-            List<IStrategy> rnsAlterarCliente = new List<IStrategy>() { val_cpf, val_senha,cri_senha };
+            Validar_end_cli val_end_cli = new Validar_end_cli();
+            List<IStrategy> rnsSalvarCliente = new List<IStrategy>() {val_cpf,val_senha,cri_senha,val_end_cli };
+            List<IStrategy> rnsAlterarCliente = new List<IStrategy>() { val_cpf, val_senha,cri_senha,val_end_cli };
             List<IStrategy> rnsExcluirCliente = new List<IStrategy>() {para_ex,cri_senha };
             List<IStrategy> rnsConsultarCliente = new List<IStrategy>() { cri_senha};
             Dictionary<string, List<IStrategy>> rnsCliente = new Dictionary<string, List<IStrategy>>();
@@ -184,7 +195,7 @@ namespace core.controle
             if (string.IsNullOrEmpty(msg))
             {
                 IDAO dao = daos[nmClasse];
-
+                gerar_log.processar(entidade);
                 dao.salvar(entidade);
                 List<EntidadeDominio> entidades = new List<EntidadeDominio>();
                 entidades.Add(entidade);
@@ -210,6 +221,7 @@ namespace core.controle
             if (string.IsNullOrEmpty(msg))
             {
                 IDAO dao = daos[nmClasse];
+                gerar_log.processar(entidade);
                 dao.alterar(entidade);
                 List<EntidadeDominio> entidades = new List<EntidadeDominio>();
                 entidades.Add(entidade);
@@ -236,6 +248,7 @@ namespace core.controle
 
             if (string.IsNullOrEmpty(msg))
             {
+                gerar_log.processar(entidade);
                 IDAO dao = daos[nmClasse];
                 dao.excluir(entidade);
                 List<EntidadeDominio> entidades = new List<EntidadeDominio>();
