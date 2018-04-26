@@ -24,21 +24,38 @@ namespace core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             cliente = (Cliente)entidade;
- 
-            pst.CommandText = "insert into clientes (senha, nome_cli, sexo ,cpf ,rg ,dt_nas ,email,ative) values ( :senha ,:nome_cli ,:sexo , :cpf, :rg, :dt_nas, :email,'A' ) returning id_cli into :cod";
+            pst.CommandText = "insert into usuarios (password_user ,login) values ( :senha ,:login ) returning id_user into :cod";
             parameters = new OracleParameter[]
             {
-                new OracleParameter("senha",cliente.Senha),
+                new OracleParameter("senha",cliente.usuario.Password),
+                new OracleParameter("email",cliente.usuario.Login)
+            };
+            pst.Parameters.Clear();
+            pst.Parameters.AddRange(parameters);
+            OracleParameter Out = new OracleParameter("cod", cliente.usuario.Id);
+            Out.Direction = ParameterDirection.ReturnValue;
+            pst.Parameters.Add(Out);
+            pst.Connection = connection;
+            pst.CommandType = CommandType.Text;
+            pst.ExecuteNonQuery();
+            pst.CommandText = "commit work";
+            pst.ExecuteNonQuery();
+            cliente.usuario.Id = Convert.ToInt32(Out.Value);
+            pst.CommandText = "insert into clientes ( nome_cli, sexo ,cpf ,rg ,dt_nas,id_user ,ative) values ( :nome_cli ,:sexo , :cpf, :rg, :dt_nas, :usuario ,'A' ) returning id_cli into :cod";
+            parameters = new OracleParameter[]
+            {
+                //new OracleParameter("senha",cliente.Senha),
                 new OracleParameter("nome_cli",cliente.Nome),
                 new OracleParameter("sexo",cliente.Sexo),
                 new OracleParameter("cpf",cliente.Cpf),
                 new OracleParameter("rg",cliente.Rg),
                 new OracleParameter("dt_nas",cliente.Dt_Nas),
-                new OracleParameter("email",cliente.Email)
+                //new OracleParameter("email",cliente.Email),
+                new OracleParameter("usuario",cliente.usuario.Id)
             };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
-            OracleParameter Out = new OracleParameter("cod", cliente.Id);
+            Out = new OracleParameter("cod", cliente.Id);
             Out.Direction = ParameterDirection.ReturnValue;
             pst.Parameters.Add(Out);
             pst.Connection = connection;
@@ -102,25 +119,42 @@ namespace core.DAO
                     connection.Open();
 
                 cliente = (Cliente)entidade;
-                
-                    pst.Dispose();
-                    pst.CommandText = "UPDATE clientes SET  senha=:senha, nome_cli= :nome_cli,   sexo=:sexo,  cpf=:cpf, rg=:rg , dt_nas=:dt_nas , email=:email  WHERE id_cli=:cod";
+                pst.Dispose();
+                pst.CommandText = "UPDATE usuarios SET  password_user=:senha, login=:email  WHERE id_user=:cod";
+                parameters = new OracleParameter[]
+                {
+                        new OracleParameter("senha",cliente.usuario.Password),
+                        new OracleParameter("email",cliente.usuario.Login),
+                        new OracleParameter("cod",cliente.usuario.Id),
+                };
+                pst.Parameters.Clear();
+                pst.Parameters.AddRange(parameters);
+                pst.Connection = connection;
+                pst.CommandType = CommandType.Text;
+                OracleDataReader vai = pst.ExecuteReader();
+                vai.Read();
+                pst.CommandText = "commit work";
+                vai = pst.ExecuteReader();
+                vai.Read();
+                pst.ExecuteNonQuery();
+                pst.Dispose();
+                    pst.CommandText = "UPDATE clientes SET   nome_cli= :nome_cli,   sexo=:sexo,  cpf=:cpf, rg=:rg , dt_nas=:dt_nas   WHERE id_cli=:cod";
                     parameters = new OracleParameter[]
                     {
-                        new OracleParameter("senha",cliente.Senha),
+                        //new OracleParameter("senha",cliente.Senha),
                         new OracleParameter("nome_cli",cliente.Nome),
                         new OracleParameter("sexo",cliente.Sexo),
                         new OracleParameter("cpf",cliente.Cpf),
                         new OracleParameter("rg",cliente.Rg),
                         new OracleParameter("dt_nas",cliente.Dt_Nas),
-                        new OracleParameter("email",cliente.Email),
+                        //new OracleParameter("email",cliente.Email),
                         new OracleParameter("cod",cliente.Id),
                     };
                     pst.Parameters.Clear();
                     pst.Parameters.AddRange(parameters);
                     pst.Connection = connection;
                     pst.CommandType = CommandType.Text;
-                    OracleDataReader vai = pst.ExecuteReader();
+                    vai = pst.ExecuteReader();
                     vai.Read();
                     pst.CommandText = "commit work";
                     vai = pst.ExecuteReader();
@@ -225,12 +259,12 @@ namespace core.DAO
 
             if (cliente.Id == 0)
             {
-                sql = "SELECT * FROM clientes WHERE ative='A'";
+                sql = "SELECT * FROM clientes join usuarios using(id_user) WHERE ative='A'";
             }
             else
 
             {
-                sql = "SELECT * FROM clientes WHERE id_cli=:cod and ative='A'";
+                sql = "SELECT * FROM clientes join usuarios using(id_user) WHERE id_cli=:cod and ative='A'";
                 parameters = new OracleParameter[] { new OracleParameter("cod", cliente.Id.ToString()) };
             }
             pst.Parameters.Clear();
@@ -251,8 +285,8 @@ namespace core.DAO
                 p.Cpf = vai["CPF"].ToString();
                 p.Rg = vai["RG"].ToString();
                 p.Dt_Nas=Convert.ToDateTime( vai["DT_NAS"]);
-                p.Email = vai["EMAIL"].ToString();
-                p.Senha= vai["SENHA"].ToString();
+                p.usuario.Login = vai["login"].ToString();
+                p.usuario.Password = vai["password_user"].ToString();
                 pst2.CommandText = "select * from end_cli join endereco using (id_end) where id_cli=:co";
                 parameters2 = new OracleParameter[] { new OracleParameter("co", p.Id.ToString()) };
                 pst2.Parameters.Clear();
@@ -272,6 +306,7 @@ namespace core.DAO
                     d.Cidade = vai2["cidade"].ToString();
                     d.UF = vai2["uf"].ToString();
                     d.Cep = vai2["cep"].ToString();
+                    d.Tipo = Convert.ToInt32(vai2["tipo_end"]);
                     cats.Add(d);
                 }
                 p.Enderecos = cats;

@@ -20,14 +20,15 @@ namespace core
         public static Cliente cat = new Cliente();
         public static Endereco end = new Endereco();
         public static Resultado res = new Resultado();
+        /*
         public static void Main()
         {
             Criptografar_senha cs = new Criptografar_senha();
             Cliente cli = new Cliente();
-            cli.Senha = "Ae454545";
+            cli.usuario.Password = "Ae454545";
             cs.processar(cli);
             //cs.processar(cli);
-            Console.WriteLine(cli.Senha);
+            Console.WriteLine(cli.usuario.Password);
             Console.ReadLine();
             /*
             pro.Nome = "asdf";
@@ -81,7 +82,8 @@ namespace core
 
                         Console.WriteLine("sucesso!");
                         Console.ReadLine();
-    */
+   
         }
+         */
     }
 }

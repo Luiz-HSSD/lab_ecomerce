@@ -150,9 +150,11 @@ namespace core.controle
 
             VendaDao venDAO = new VendaDao();
             Calcular_Frete CalFrete = new Calcular_Frete();
+            Manter_ranking manRan = new Manter_ranking();
             daos.Add(typeof(Venda).Name, venDAO);
             List<IStrategy> rnsSalvarVenda = new List<IStrategy>();
             rnsSalvarVenda.Add(CalFrete);
+            rnsSalvarVenda.Add(manRan);
             List<IStrategy> rnsAlterarVenda = new List<IStrategy>();
             List<IStrategy> rnsExcluirVenda = new List<IStrategy>();
             rnsExcluirVenda.Add(para_ex);

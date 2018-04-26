@@ -14,17 +14,18 @@ namespace dominio
         private string rg;
         private string cpf;
         private char sexo;
-        private string email;
         private DateTime dt_nas;
         private List<Endereco> enderecos;
         private List<Cartao_Credito> cartoes;
-        private string senha;
+        private Usuarios _usuario;
 
-        public string Senha
+        public Usuarios usuario
         {
-            get { return senha; }
-            set { senha = value; }
+            get { return _usuario; }
+            set { _usuario = value; }
         }
+
+        
 
         public List<Cartao_Credito> Cartoes
         {
@@ -44,11 +45,7 @@ namespace dominio
             set { dt_nas = value; }
         }
 
-        public string Email
-        {
-            get { return email; }
-            set { email = value; }
-        }
+        
 
         public char Sexo
         {
@@ -80,11 +77,11 @@ namespace dominio
             Rg = "";
             Cpf = "";
             Sexo = 'M';
-            Email = "";
+            _usuario = new Usuarios();
             Dt_Nas = Convert.ToDateTime("01/01/1995 03:30");
             Enderecos = new List<Endereco>();
             Cartoes = new List<Cartao_Credito>();
-            senha = "";
+            
         }
 
 

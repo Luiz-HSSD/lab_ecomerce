@@ -71,6 +71,7 @@
     <Compile Include="ocorencia.cs" />
     <Compile Include="Pedido.cs" />
     <Compile Include="Ranking.cs" />
+    <Compile Include="Usuarios.cs" />
     <Compile Include="Venda.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="Endereco.cs" />

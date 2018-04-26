@@ -16,11 +16,11 @@ namespace core.negocio
             try
             {
                 Cliente cli = (Cliente)entidade;
-                string texto = cli.Senha;
+                string texto = cli.usuario.Password;
                 string key = "vgfrecopkl´wdxçddkjith3hu4jrko"; 
                 Criptografia crip = new Criptografia(CryptProvider.Rijndael);
                 crip.Key = key;
-                cli.Senha = crip.Encrypt(texto);
+                cli.usuario.Password = crip.Encrypt(texto);
                 return null;
             }
             catch

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{40A3DFD6-7211-476A-B329-7BBC6FEE64DD}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>core</RootNamespace>
     <AssemblyName>core</AssemblyName>
@@ -57,7 +57,8 @@
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>core.main</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -85,6 +86,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
@@ -92,6 +94,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -121,6 +124,7 @@
     <Compile Include="negocio\Gerar_log.cs" />
     <Compile Include="negocio\Criptografar_senha.cs" />
     <Compile Include="negocio\GerarBandeira.cs" />
+    <Compile Include="negocio\Manter_ranking.cs" />
     <Compile Include="negocio\parametro_excluir.cs" />
     <Compile Include="negocio\transfomar_formato.cs" />
     <Compile Include="negocio\ValidarCpf.cs" />

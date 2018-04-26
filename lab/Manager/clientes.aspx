@@ -21,14 +21,21 @@
                 <td><b>nome:</b></td>
                 <td>
                     <asp:TextBox TextMode="SingleLine" ID="nome" runat="server"></asp:TextBox></td>
-                <td><b>senha:</b></td>
-                <td>
-                    <asp:TextBox TextMode="Password" ID="senha" runat="server"></asp:TextBox></td>
-                <td>
-                    <asp:Button ID="mudar" Text="mudar_senha" runat="server" OnClick="mudar_Click"></asp:Button></td>
+                
+                
             </tr>
-            
-             <tr>
+            <tr>
+                <td><b>senha:</b></td>
+                    <td>
+                    <asp:TextBox TextMode="Password" ID="senha" runat="server"></asp:TextBox></td>
+                                <td><b>Confirmar senha:</b></td>
+                    <td>
+                    <asp:TextBox TextMode="Password" ID="Confirmar_senha" runat="server"></asp:TextBox></td>
+                <td>
+
+                    <asp:Button ID="mudar" Text="mudar_senha" runat="server" OnClick="mudar_Click"></asp:Button></td>
+            </tr> 
+            <tr>
                 <td><b>sexo:</b></td>
                 <td>
                             <asp:DropDownList ID="DropDownListcli" runat="server" DataTextField="sexoid" DataValueField="bd">

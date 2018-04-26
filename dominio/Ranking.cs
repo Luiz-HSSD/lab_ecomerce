@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dominio
 {
-    class Ranking:EntidadeDominio
+    public class Ranking:EntidadeDominio
     {
         private double _Montante;
 

@@ -21,7 +21,7 @@ namespace lab.Manager
             if (senha.Text == confirmar.Text)
             {
                 Cliente a = (Cliente)Session["cli"];
-                a.Senha = senha.Text;
+                a.usuario.Password = senha.Text;
                 res= commands["ALTERAR"].execute(a);
                 Label1.Text = res.Msg;
                 Session["cli"] = a;

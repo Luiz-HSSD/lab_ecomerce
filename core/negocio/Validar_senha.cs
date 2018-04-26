@@ -12,7 +12,7 @@ namespace core.negocio
     {
         public string processar(EntidadeDominio entidade)
         {
-            string cli = ((Cliente)entidade).Senha;
+            string cli = ((Cliente)entidade).usuario.Password;
             if (cli.Length < 8)
             {
                 return "senha muito pequena";

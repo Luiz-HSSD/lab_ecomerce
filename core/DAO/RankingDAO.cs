@@ -43,12 +43,12 @@ namespace core.DAO
             {
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                Categoria categoria = (Categoria)entidade;
-                pst.CommandText = "UPDATE ranking SET des_cat=:des, nome_cat=:nome WHERE id_cat=:co";
+                Ranking categoria = (Ranking)entidade;
+                pst.CommandText = "UPDATE ranking SET mont+=:des WHERE g_preco=:nome and id_cli=:co";
                 parameters = new OracleParameter[]
                     {
-                        new OracleParameter("des",categoria.Descricao),
-                        new OracleParameter("nome",categoria.Nome),
+                        new OracleParameter("des",categoria.Montante),
+                        new OracleParameter("nome",categoria.g_preco),
                         new OracleParameter("co",categoria.Id)
 
                     };

@@ -632,6 +632,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="images\" />
+    <Folder Include="logs\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -16,11 +16,11 @@ namespace core.negocio
             int i = 0, j = 0;
             foreach(Endereco end in cli.Enderecos)
             {
-                if (end.Tipo == 0)
+                if (end.Tipo == 1)
                 {
                     i++;
                 }
-                else if (end.Tipo == 1)
+                else if (end.Tipo == 2)
                 {
                     j++;
                 }

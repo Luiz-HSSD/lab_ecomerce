@@ -40,6 +40,15 @@ namespace lab.Manager {
         protected global::System.Web.UI.WebControls.TextBox senha;
         
         /// <summary>
+        /// Confirmar_senha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Confirmar_senha;
+        
+        /// <summary>
         /// mudar control.
         /// </summary>
         /// <remarks>

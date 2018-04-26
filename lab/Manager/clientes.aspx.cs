@@ -140,12 +140,12 @@ namespace lab.Manager
                                 Session["end_cache"] = cache_end;
                                 PesquisarEnderecos();
                                 codigo.Text = categoria.Id.ToString();
-                                senha.Text = categoria.Senha;
+                                senha.Text = categoria.usuario.Password;
                                 nome.Text  = categoria.Nome;
                                 cpf.Text =categoria.Cpf;
                                 rg.Text=categoria.Rg;
                                 data.Text = categoria.Dt_Nas.ToString("yyyy-MM-dd");
-                                email.Text = categoria.Email;
+                                email.Text = categoria.usuario.Login;
                                 for (int j = 0; j < DropDownListcli.Items.Count; j++)
                                 {
                                     if (categoria.Sexo.ToString() == DropDownListcli.Items[j].Value)
@@ -187,12 +187,12 @@ namespace lab.Manager
                                                 Session["car_cache"] = cache_car;
                                                 PesquisarCartao_Credito();
                                                 codigo.Text = categoria.Id.ToString();
-                                                senha.Text = categoria.Senha;
+                                                senha.Text = categoria.usuario.Password;
                                                 nome.Text = categoria.Nome;
                                                 cpf.Text = categoria.Cpf;
                                                 rg.Text = categoria.Rg;
                                                 data.Text = categoria.Dt_Nas.ToString("yyyy-MM-dd");
-                                                email.Text = categoria.Email;
+                                                email.Text = categoria.usuario.Login;
                                                 for (int j = 0; j < DropDownListcli.Items.Count; j++)
                                                 {
                                                     if (categoria.Sexo.ToString() == DropDownListcli.Items[j].Value)
@@ -236,7 +236,7 @@ namespace lab.Manager
             string GRID = "<TABLE class='display' id='GridViewcli'><THEAD>{0}</THEAD><TBODY>{1}</TBODY></TABLE>";
             string tituloColunas = "<tr>  <th></th><th>Código</th><th>numero</th><th>logradouro</th><th>Bairro</th><th>Cidade</th><th>CEP</th><th>UF</th><th>complemento</th><th>Tipo</th></tr>";
             string linha = "<tr><td> ";
-            linha += "<a href='clientes.aspx?del_end={0}'>apagar</a></td><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td></tr>";
+            linha += "<a href='clientes.aspx?del_end={0}'>apagar</a></td><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>";
 
             
             
@@ -253,9 +253,9 @@ namespace lab.Manager
             {
                 end_bus = cache_end.ElementAt(i);
                 string asdf="";
-                if (end_bus.Tipo == 0)
+                if (end_bus.Tipo == 1)
                     asdf = "Cobrança";
-                else if (end_bus.Tipo == 1)
+                else if (end_bus.Tipo == 2)
                     asdf = "Entrega";
                 conteudo.AppendFormat(linha,
                         end_bus.Id.ToString(),
@@ -378,7 +378,7 @@ namespace lab.Manager
                         categoria.Cpf,
                         categoria.Rg,
                         categoria.Dt_Nas.ToString(),
-                        categoria.Email
+                        categoria.usuario.Login
                         );
 
             }
@@ -390,19 +390,24 @@ namespace lab.Manager
     
         private void getcliente()
         {
-            if(!string.IsNullOrEmpty( codigo.Text))
-            categoria.Id = Convert.ToInt32(codigo.Text);
-            categoria.Nome = nome.Text;
-            categoria.Senha = senha.Text; 
-            categoria.Sexo = Convert.ToChar(DropDownListcli.SelectedValue);
-            categoria.Cpf = cpf.Text;
-            categoria.Rg = rg.Text;
-            categoria.Dt_Nas = Convert.ToDateTime(data.Text);
-            categoria.Email = email.Text;
-            cache_end =(List<Endereco>) Session["end_cache"];
-            categoria.Enderecos = cache_end;
-            cache_car = (List<Cartao_Credito>)Session["car_cache"];
-            categoria.Cartoes = cache_car;
+            if (senha.Text==Confirmar_senha.Text)
+            {
+                if (!string.IsNullOrEmpty(codigo.Text))
+                    categoria.Id = Convert.ToInt32(codigo.Text);
+                categoria.Nome = nome.Text;
+                if (senha.Text == Confirmar_senha.Text && !string.IsNullOrEmpty(senha.Text))
+                categoria.usuario.Password = senha.Text;
+                categoria.Sexo = Convert.ToChar(DropDownListcli.SelectedValue);
+                categoria.Cpf = cpf.Text;
+                categoria.Rg = rg.Text;
+                categoria.Dt_Nas = Convert.ToDateTime(data.Text);
+                categoria.usuario.Login = email.Text;
+                cache_end = (List<Endereco>)Session["end_cache"];
+                categoria.Enderecos = cache_end;
+                cache_car = (List<Cartao_Credito>)Session["car_cache"];
+                categoria.Cartoes = cache_car;
+            }
+
         }
 
 
@@ -414,6 +419,9 @@ namespace lab.Manager
             categoria.Id = 0;
             categoria.OPeracao = 'C';
             res=commands["SALVAR"].execute(categoria);
+            Session["cli"] =categoria;
+            Session["end_cache"] =categoria.Enderecos;
+            Session["car_cache"] =categoria.Cartoes;
             codigo.Text = "";
             nome.Text = "";
             cpf.Text = "";
@@ -534,12 +542,12 @@ namespace lab.Manager
             Session["car_cache"] = cache_car;
             PesquisarCartao_Credito();
             codigo.Text = categoria.Id.ToString();
-            senha.Text = categoria.Senha;
+            senha.Text = categoria.usuario.Password;
             nome.Text = categoria.Nome;
             cpf.Text = categoria.Cpf;
             rg.Text = categoria.Rg;
             data.Text = categoria.Dt_Nas.ToString("yyyy-MM-dd");
-            email.Text = categoria.Email;
+            email.Text = categoria.usuario.Login;
             for (int j = 0; j < DropDownListcli.Items.Count; j++)
             {
                 if (categoria.Sexo.ToString() == DropDownListcli.Items[j].Value)

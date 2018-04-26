@@ -8,13 +8,15 @@ using core.DAO;
 using System.Text;
 using dominio;
 using System.IO;
+using System.Threading;
 
 namespace core.negocio
 {
     public class Gerar_log : IStrategy
     {
-
+        static string path= System.Web.HttpContext.Current.Server.MapPath(@"~/logs/log_cliente.txt");
         StringBuilder sb = new StringBuilder();
+        private FileStream fs;
         public string processar(EntidadeDominio entidade)
         {
             switch (entidade.GetType().Name)
@@ -39,19 +41,20 @@ namespace core.negocio
             sb.Clear();
             sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8}\n",
                 cli.OPeracao.ToString(),
-                DateTime.UtcNow.ToString(),
+                DateTime.Now.ToString(),
                 cli.Id.ToString(),
                 cli.Nome,
                 cli.Sexo.ToString(),
                 cli.Cpf,
                 cli.Rg,
                 cli.Dt_Nas.ToString(),
-                cli.Email);
+                cli.usuario.Login);
             foreach(Endereco end in cli.Enderecos)
             {
                 sb.AppendFormat("{0},{1},{2},{3},{4}\n",
                     cli.OPeracao.ToString(),
-                    DateTime.UtcNow.ToString(),
+                    cli.usuario.Id.ToString(),
+                    DateTime.Now.ToString(),
                     cli.Id.ToString(),
                     end.Id.ToString(),
                     end.Tipo.ToString()
@@ -61,16 +64,22 @@ namespace core.negocio
             {
                 sb.AppendFormat("{0},{1},{2},{3},{4}\n",
                     cli.OPeracao.ToString(),
-                    DateTime.UtcNow.ToString(),
+                    cli.usuario.Id.ToString(),
+                    DateTime.Now.ToString(),
                     cli.Id.ToString(),
                     end.Id.ToString(),
                     end.Preferencial
                     );
             }
-            if (File.Exists(@".\log_cliente.txt"))
-                File.Create(@".\log_cliente.txt");
-            File.AppendAllText(@".\log_cliente.txt", sb.ToString());
-            
+            if (!File.Exists(path))
+            {
+                fs = File.Create(path);
+                Thread.Sleep(100);
+                fs.Close();
+            }
+
+            string a = File.ReadAllText(path);
+            File.WriteAllText(path, a + sb.ToString());
 
         }
         public void l_Cartao_Credito(EntidadeDominio entidade)
@@ -79,7 +88,7 @@ namespace core.negocio
             sb.Clear();
             sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7}\n",
                 cli.OPeracao.ToString(),
-                DateTime.UtcNow.ToString(),
+                DateTime.Now.ToString(),
                 cli.Id.ToString(),
                 cli.Nome_Titular,
                 cli.Numero,
@@ -87,11 +96,15 @@ namespace core.negocio
                 cli.CCV,
                 cli.Bandeira.Id
             );
-            if (File.Exists(@".\log_cliente.txt"))
-                File.Create(@".\log_cliente.txt");
-            File.AppendAllText(@".\log_cliente.txt", sb.ToString());
-
-
+            if (!File.Exists(path))
+            {
+                fs = File.Create(path);
+                Thread.Sleep(100);
+                fs.Close();
+            }
+            string a = File.ReadAllText(path);
+            File.WriteAllText(path, a + sb.ToString());
+            
         }
         public void l_Endereco(EntidadeDominio entidade)
         {
@@ -99,7 +112,7 @@ namespace core.negocio
             sb.Clear();
             sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}\n",
                 cli.OPeracao.ToString(),
-                DateTime.UtcNow.ToString(),
+                DateTime.Now.ToString(),
                 cli.Id.ToString(),
                 cli.Complemento,
                 cli.Numero,
@@ -109,11 +122,15 @@ namespace core.negocio
                 cli.UF,
                 cli.Cep
             );
-            if (File.Exists(@".\log_cliente.txt"))
-                File.Create(@".\log_cliente.txt");
-            File.AppendAllText(@".\log_cliente.txt", sb.ToString());
-
-
+            if (!File.Exists(path))
+            {
+                fs = File.Create(path);
+                Thread.Sleep(100);
+                fs.Close();
+            }
+            string a= File.ReadAllText(path);
+            File.WriteAllText(path, a+sb.ToString());
+            
         }
     }
 }

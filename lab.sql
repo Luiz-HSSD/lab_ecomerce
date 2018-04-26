@@ -11,11 +11,6 @@ drop TRIGGER set_for;
 DROP TABLE ranking;
 DROP TABLE pedido;
 DROP TABLE ocorencia;
-drop table papel_func;
-drop table funcionalidade;
-drop table perfil;
-DROP TABLE usuarios;
-DROP TABLE papel; 
 DROP TABLE item_venda;
 DROP TABLE vendas;
 DROP TABLE formato_produto;
@@ -28,7 +23,11 @@ DROP TABLE bandeira;
 DROP TABLE clientes;
 DROP TABLE endereco;
 DROP TABLE categoria;
-
+drop table papel_func;
+drop table funcionalidade;
+drop table perfil;
+DROP TABLE usuarios;
+DROP TABLE papel; 
 -- SELECT * FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'CATEGORIA';
 DROP SEQUENCE car;
 DROP SEQUENCE cat;
@@ -50,6 +49,42 @@ CREATE SEQUENCE ende START WITH 1;
 CREATE SEQUENCE usu START WITH 1;
 CREATE SEQUENCE formato START WITH 1;
 
+create table papel
+(
+id_papel int PRIMARY key,
+descricao varchar2(30)
+);
+
+create table funcionalidade
+(
+id_func int PRIMARY key,
+descricao varchar2(30)
+);
+
+create table papel_func
+(
+id_func int ,
+id_papel int,
+CONSTRAINT funcionalidade FOREIGN KEY(id_func) REFERENCES funcionalidade(id_func)on delete cascade,
+CONSTRAINT fk_papel FOREIGN KEY(id_papel) REFERENCES papel(id_papel)on delete cascade,
+CONSTRAINT pk_papel_func PRIMARY KEY(id_papel,id_func)
+);
+
+create table usuarios
+(
+id_user number(10) PRIMARY KEY, 
+login varchar2(100) unique,
+password_user varchar2(80)
+);
+
+
+create table perfil(
+id_perfil NUMBER(13) PRIMARY KEY,
+id_papel int,
+id_user numeric(10),
+CONSTRAINT usuario FOREIGN KEY(id_user) REFERENCES usuarios(id_user),
+CONSTRAINT papel FOREIGN KEY(id_papel) REFERENCES papel(id_papel)
+);
 
 CREATE TABLE categoria
 (
@@ -143,12 +178,13 @@ CREATE TABLE clientes
     ative     CHAR(1),
     id_user NUMBER(10) ,    
     nome_cli VARCHAR(50),
-    senha Varchar(30),
+--    senha Varchar(30),
     sexo     CHAR(1),
     cpf      CHAR(11),
     rg       VARCHAR(9),
     dt_nas   DATE,
-    email    VARCHAR(80)
+--    email    VARCHAR(80)
+    CONSTRAINT fk_usu_cli FOREIGN KEY(id_user) REFERENCES usuarios(id_user)  on delete cascade
 );
 
 CREATE TABLE car_cli
@@ -200,42 +236,6 @@ CREATE TABLE item_venda
    CONSTRAINT fk_pro FOREIGN KEY(id_liv) REFERENCES livro(id_liv)    
 ); 
 
-create table papel
-(
-id_papel int PRIMARY key,
-descricao varchar2(30)
-);
-
-create table funcionalidade
-(
-id_func int PRIMARY key,
-descricao varchar2(30)
-);
-
-create table papel_func
-(
-id_func int ,
-id_papel int,
-CONSTRAINT funcionalidade FOREIGN KEY(id_func) REFERENCES funcionalidade(id_func)on delete cascade,
-CONSTRAINT fk_papel FOREIGN KEY(id_papel) REFERENCES papel(id_papel)on delete cascade,
-CONSTRAINT pk_papel_func PRIMARY KEY(id_papel,id_func)
-);
-
-create table usuarios
-(
-id_user number(10) PRIMARY KEY, 
-login varchar2(100) unique,
-password_user varchar2(80)
-);
-
-
-create table perfil(
-id_perfil NUMBER(13) PRIMARY KEY,
-id_papel int,
-id_user numeric(10),
-CONSTRAINT usuario FOREIGN KEY(id_user) REFERENCES usuarios(id_user),
-CONSTRAINT papel FOREIGN KEY(id_papel) REFERENCES papel(id_papel)
-);
 
 CREATE TABLE ocorencia
 (
