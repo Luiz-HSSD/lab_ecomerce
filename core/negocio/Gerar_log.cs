@@ -39,8 +39,9 @@ namespace core.negocio
         {
             Cliente cli = (Cliente)entidade;
             sb.Clear();
-            sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8}\n",
+            sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}\n",
                 cli.OPeracao.ToString(),
+                cli.usuario.Id.ToString(),
                 DateTime.Now.ToString(),
                 cli.Id.ToString(),
                 cli.Nome,
