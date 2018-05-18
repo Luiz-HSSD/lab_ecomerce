@@ -28,5 +28,24 @@ namespace core.Utils
             }
             return data;
         }
+    
+        public static DataTable g_pre_to_datatable(Resultado input)
+        {
+            DataTable data = new DataTable();
+            data.Columns.Add(new DataColumn("Id", typeof(int)));
+            data.Columns.Add(new DataColumn("Nome", typeof(string)));
+
+            int a = input.Entidades.Count;
+            for (int i = 0; i < a; i++)
+            {
+
+                Grupo_Precificacao cat = (Grupo_Precificacao)input.Entidades.ElementAt(i);
+                DataRow dr = data.NewRow();
+                dr[0] = cat.Id;
+                dr[1] = cat.Nome;
+                data.Rows.Add(dr);
+            }
+            return data;
+        }
     }
 }

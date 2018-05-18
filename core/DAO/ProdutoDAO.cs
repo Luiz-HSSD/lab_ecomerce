@@ -5,187 +5,315 @@ using System.Text;
 using System.Threading.Tasks;
 using dominio;
 using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
-using core.Utils;
 using System.Data;
 
 namespace core.DAO
 {
-    public class ProdutoDAO : AbstractDAO
+    class ProdutoDAO : AbstractDAO
     {
-        private Produto produto=new Produto();
-        private Categoria cat= new Categoria();
-        public ProdutoDAO() : base("produto", "id_pro")
+
+        public ProdutoDAO() : base("livro", "id_liv")
         {
+
+        }
+
+        public List<EntidadeDominio> consultar_formato(EntidadeDominio entidade)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                pst.Dispose();
+                Formato_Produto categoria = (Formato_Produto)entidade;
+                string sql = null;
+
+                if (categoria.Peso == null)
+                {
+                    categoria.Peso = "";
+                }
+
+                if (categoria.Dimensoes == null)
+                {
+                    categoria.Dimensoes = "";
+                }
+
+                if (categoria.Id == 0)
+                {
+                    sql = "SELECT * FROM formato_produto ";
+                }
+                else
+                {
+                    sql = "SELECT * FROM formato_produto WHERE id_for= :co";
+                }
+
+
+                pst.CommandText = sql;
+                parameters = new OracleParameter[] { new OracleParameter("co", categoria.Id.ToString()) };
+                pst.Parameters.Clear();
+                pst.Parameters.AddRange(parameters);
+                pst.Connection = connection;
+                pst.CommandType = CommandType.Text;
+                //pst.ExecuteNonQuery();
+                vai = pst.ExecuteReader();
+                List<EntidadeDominio> categorias = new List<EntidadeDominio>();
+                Formato_Produto p;
+                while (vai.Read())
+                {
+                    p = new Formato_Produto();
+                    p.Id = Convert.ToInt32(vai["id_for"]);
+                    p.CodFormato = Convert.ToInt32(vai["cod_formato"]);
+                    p.Peso = (vai["peso"].ToString());
+                    p.Comprimento = Convert.ToDecimal(vai["comprimento"].ToString());
+                    p.Altura = Convert.ToDecimal(vai["altura"].ToString());
+                    p.Diametro = Convert.ToDecimal(vai["diametro"].ToString());
+                    p.Dimensoes = (vai["dimensoes"].ToString());
+                    categorias.Add(p);
+                }
+                connection.Close();
+                return categorias;
+            }
+            catch (OracleException ora)
+            {
+                throw ora;
+            }
+
 
         }
 
 
 
-        public override List<EntidadeDominio> consultar(EntidadeDominio entidade)
-        {
-            cat = new Categoria();
-            produto = (Produto)entidade;
-            string sql = "";
-           
-            if (produto.Nome == null)
-            {
-                produto.Nome="";
-            }
-
-            if (produto.Descricao == null)
-            {
-                produto.Descricao="";
-            }
-
-            if (produto.Id == 0 && produto.Categoria.Id == 0 && produto.Nome=="")
-            {
-                sql = "SELECT * FROM produto";
-            }
-            else if(produto.Categoria.Id!=0)
-            {
-                sql = "SELECT * FROM produto WHERE cat=:cat" ;
-                parameters=new OracleParameter[] { new OracleParameter("cat", produto.Categoria.Id.ToString()) };
-            }
-            else if (produto.Nome != "")
-            {
-                sql = "SELECT * FROM produto WHERE nome_pro=:nome";
-                parameters = new OracleParameter[] { new OracleParameter("nome", produto.Nome.ToString()) };
-            }
-            else
-
-            {
-                sql = "SELECT * FROM produtoview WHERE id_pro=:cod";
-                parameters = new OracleParameter[] { new OracleParameter("cod", produto.Id.ToString()) };
-            }
-            pst.Parameters.Clear();
-            pst.CommandText = sql;
-            if( parameters !=null)  pst.Parameters.AddRange(parameters);
-            pst.Connection = connection;
-            vai = pst.ExecuteReader();
-            List<EntidadeDominio> produtos = new List<EntidadeDominio>();
-            Produto p;
-            while (vai.Read())
-            {
-                p = new Produto();
-                p.Id=Convert.ToInt32(vai["id_pro"]);
-                cat.Id=Convert.ToInt32(vai["CAT"]);
-                cat.Nome= vai["NOME_CAT"].ToString();
-                cat.Descricao= vai["DES_CAT"].ToString();
-                p.Categoria=cat;
-                if (vai["PRECO"].ToString() != "")
-                    p.Preco = Convert.ToDouble(vai["PRECO"]);
-                else p.Preco = 0;
-                p.Codigo_barras= vai["COD_BARRAS"].ToString();
-                if (vai["PESO"].ToString() != "")
-                    p.Formato.Peso = Convert.ToString(vai["PESO"]);
-                else p.Formato.Peso = Convert.ToString(0);
-                p.Formato.Dimensoes= vai["DIMENSOES"].ToString();
-                p.Fabricante= vai["FAB"].ToString();
-                p.Nome= vai["NOME_PRO"].ToString();
-                p.Descricao= vai["DES_PRO"].ToString();
-                if (vai["IMAGE"].ToString() != "")
-                    p.Img=(byte[])vai["IMAGE"];
-                p.Extension= vai["EXT"].ToString();
-                produtos.Add(p);
-            }
-
-            connection.Close();
-            return produtos;
-
-        }
-
+        #region escrita
         public override void salvar(EntidadeDominio entidade)
         {
-            produto = (Produto)entidade;
-
-            pst.CommandText = "insert into produto (des_pro, nome_pro, cod_barras, cat, preco, peso, image, ext, fab ) values ( :des , :nome, :cod, :cat, :preco, :peso, :dimensões,:imagem, :ext, :fab )";
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
+            Livro categoria = (Livro)entidade;
+            pst.CommandText = "insert into livro ( ative, dim, id_g_pre, n_pags, isbn, edicao, cod_bar, edi, nome_liv, des_liv, image, ext) values ( 'A' , :eri, :g_preco, :n_pags , :isbnn, :ed, :cod_bar,:edit, :nome , :des , :img, :ext ) returning id_liv into :cod";
             parameters = new OracleParameter[]
-            {
-                new OracleParameter("des",produto.Descricao),
-                new OracleParameter("nome",produto.Nome),
-                new OracleParameter("cod",produto.Codigo_barras),
-                new OracleParameter("cat",produto.Categoria.Id),
-                new OracleParameter("preco",produto.Preco),
-                new OracleParameter("peso",produto.Formato.Peso),
-                new OracleParameter("imagem",produto.Img),
-                new OracleParameter("ext",produto.Extension),
-                new OracleParameter("fab",produto.Fabricante)
-            };
+                {
+                new OracleParameter("eri",categoria.Formato.Dimensoes),
+                new OracleParameter("g_preco",categoria.G_PRECO.Id),
+                new OracleParameter("n_pags",categoria.N_pags),
+                new OracleParameter("isbnn",categoria.ISBN),
+                new OracleParameter("ed",categoria.Edicao),
+                new OracleParameter("cod_bar",categoria.Codigo_barras),
+                new OracleParameter("edit",categoria.Editora),
+                new OracleParameter("nome",categoria.Nome),
+                new OracleParameter("des",categoria.Descricao),
+                new OracleParameter("img",categoria.Img),
+                new OracleParameter("ext",categoria.Extension)
+                };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
-            pst.Connection = connection;
-            pst.CommandType = CommandType.Text;
-            pst.ExecuteNonQuery();
-            pst.CommandText = "insert into formato_produto (des_pro, nome_pro, cod_barras, cat, preco, peso, image, ext, fab ) values ( :des , :nome, :cod, :cat, :preco, :peso, :dimensões,:imagem, :ext, :fab )";
-            parameters = new OracleParameter[]
-            {
-                new OracleParameter("des",produto.Formato.Altura),
-                new OracleParameter("nome",produto.Formato.Comprimento),
-                new OracleParameter("cat",produto.Formato.Diametro),
-                new OracleParameter("preco",produto.Formato.Largura),
-                new OracleParameter("peso",produto.Formato.Peso),
-                new OracleParameter("cod",produto.Formato.CodFormato),
-                new OracleParameter("imagem",produto.Formato.Dimensoes),
-                new OracleParameter("ext",produto.Formato.Id),
-                new OracleParameter("fab",produto.Fabricante)
-            };
-            pst.Parameters.Clear();
-            pst.Parameters.AddRange(parameters);
+            OracleParameter Out = new OracleParameter("cod", categoria.Id);
+            Out.Direction = ParameterDirection.ReturnValue;
+            pst.Parameters.Add(Out);
             pst.Connection = connection;
             pst.CommandType = CommandType.Text;
             pst.ExecuteNonQuery();
             pst.CommandText = "commit work";
             pst.ExecuteNonQuery();
             connection.Close();
+            categoria.Id = Convert.ToInt32(Out.Value);
+            foreach (Categoria cat in categoria.Generos)
+            {
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                pst.CommandText = "insert into cat_liv (id_cat, id_liv ) values ( :des,:bora )";
+                parameters = new OracleParameter[]
+                        {
+                        new OracleParameter("des",cat.Id),
+                        new OracleParameter("bora",categoria.Id)
+                        };
+                pst.Parameters.Clear();
+                pst.Parameters.AddRange(parameters);
+                pst.Connection = connection;
+                pst.CommandType = CommandType.Text;
+                pst.ExecuteNonQuery();
+                pst.CommandText = "commit work";
+                pst.ExecuteNonQuery();
+                connection.Close();
+
+            }
             return;
         }
 
         public override void alterar(EntidadeDominio entidade)
         {
-            
             try
             {
-
-                produto = (Produto)entidade;
-                pst.Dispose();
-                pst.CommandText = "UPDATE produto SET des_pro= :des , nome_pro=:nome, cod_barras=:cod_b, cat=:cate , preco=:prec , peso=:pes , dimensoes=:dimensões,image=:imagem  , ext=:exte , fab=:fabr  WHERE id_pro=:cod";
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                Livro categoria = (Livro)entidade;
+                pst.CommandText = "UPDATE livro SET  ative=:ati , dim=:eri , id_g_pre=:g_preco , n_pags=:n_pags , isbn=:isbnn , edicao=:ed, cod_bar=:cod_bar , edi=:edit , nome_liv=:nome , des_liv=:des , image=:img , ext=:ext  WHERE id_liv=:cod";
                 parameters = new OracleParameter[]
-                {
-                    new OracleParameter("des",produto.Descricao),
-                    new OracleParameter("nome",produto.Nome),
-                    new OracleParameter("cod",produto.Codigo_barras),
-                    new OracleParameter("cat",produto.Categoria.Id),
-                    new OracleParameter("preco",produto.Preco),
-                    new OracleParameter("peso",produto.Formato.Peso),
-                    new OracleParameter("dimensões",produto.Formato.Dimensoes),
-                    new OracleParameter("imagem",produto.Img),
-                    new OracleParameter("ext",produto.Extension),
-                    new OracleParameter("fab",produto.Fabricante),
-                    new OracleParameter("cod",produto.Id)
-                };
+                    {
+                    new OracleParameter("ati",categoria.Ative),
+                    new OracleParameter("eri",categoria.Formato.Dimensoes),
+                    new OracleParameter("g_preco",categoria.G_PRECO.Id),
+                    new OracleParameter("n_pags",categoria.N_pags),
+                    new OracleParameter("isbnn",categoria.ISBN),
+                    new OracleParameter("ed",categoria.Edicao),
+                    new OracleParameter("cod_bar",categoria.Codigo_barras),
+                    new OracleParameter("edit",categoria.Editora),
+                    new OracleParameter("nome",categoria.Nome),
+                    new OracleParameter("des",categoria.Descricao),
+                    new OracleParameter("img",categoria.Img),
+                    new OracleParameter("ext",categoria.Extension),
+                    new OracleParameter("cod",categoria.Id),
+                    };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
                 pst.CommandType = CommandType.Text;
-                OracleDataReader vai = pst.ExecuteReader();
+                vai = pst.ExecuteReader();
                 vai.Read();
+                pst.ExecuteNonQuery();
+                pst.CommandText = "DELETE FROM cat_liv WHERE id_liv=:cod ";
+                pst.Parameters.Clear();
+                parameters = new OracleParameter[]
+                    {
+                        new OracleParameter("cod",categoria.Id)
+                    };
+                pst.Parameters.AddRange(parameters);
+                pst.ExecuteNonQuery();
                 pst.CommandText = "commit work";
                 vai = pst.ExecuteReader();
                 vai.Read();
                 pst.ExecuteNonQuery();
                 connection.Close();
+                foreach (Categoria cat in categoria.Generos)
+                {
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    pst.CommandText = "insert into cat_liv (id_cat, id_liv ) values ( :des,:bora )";
+                    parameters = new OracleParameter[]
+                            {
+                        new OracleParameter("des",cat.Id),
+                        new OracleParameter("bora",categoria.Id)
+                            };
+                    pst.Parameters.Clear();
+                    pst.Parameters.AddRange(parameters);
+                    pst.Connection = connection;
+                    pst.CommandType = CommandType.Text;
+                    pst.ExecuteNonQuery();
+                    pst.CommandText = "commit work";
+                    pst.ExecuteNonQuery();
+                    connection.Close();
 
+                }
                 return;
             }
             catch (Exception e)
             {
                 throw e;
-        
             }
-       
         }
+        #endregion
+        protected OracleParameter[] parameters2;
+        protected OracleDataReader vai2;
+        private OracleCommand pst2 = new OracleCommand();
+        public override List<EntidadeDominio> consultar(EntidadeDominio entidade)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                pst.Dispose();
+                pst2.Dispose();
+                Livro categoria = (Livro)entidade;
+                string sql = null;
+                parameters = new OracleParameter[] { new OracleParameter("co", categoria.Id.ToString()) };
+                if (categoria.Descricao == null)
+                {
+                    categoria.Descricao = "";
+                }
+                if (!string.IsNullOrEmpty(categoria.Nome))
+                {
+                    sql = "select * from estoque join (select max(custo)as ven,ID_LIV as vai from estoque GROUP BY ID_LIV)  ON estoque.ID_LIV=vai and ven=custo join livro using(id_liv)  join FORMATO_PRODUTO using (id_for) left join g_preco using(id_g_pre) WHERE nome_liv=:co";
+                    parameters = new OracleParameter[] { new OracleParameter("co", categoria.Nome) };
+                }
+                else if (categoria.Id == 0)
+                {
+                    sql = "select * from estoque join (select max(custo)as ven,ID_LIV as vai from estoque GROUP BY ID_LIV)  ON estoque.ID_LIV=vai and ven=custo join livro using(id_liv)  join FORMATO_PRODUTO using (id_for) left join g_preco using(id_g_pre) WHERE ative!='I'";
+                }
+                else
+                {
+                    sql = "select * from estoque join (select max(custo)as ven,ID_LIV as vai from estoque GROUP BY ID_LIV)  ON estoque.ID_LIV=vai and ven=custo join livro using(id_liv)  join FORMATO_PRODUTO using (id_for) left join g_preco using(id_g_pre) WHERE ative!='I' AND id_liv= :co";
+                    parameters = new OracleParameter[] { new OracleParameter("co", categoria.Id.ToString()) };
+                }
+                pst.CommandText = sql;
+                pst.Parameters.Clear();
+                pst.Parameters.AddRange(parameters);
+                pst.Connection = connection;
+                pst.CommandType = CommandType.Text;
+                vai = pst.ExecuteReader();
+                List<EntidadeDominio> categorias = new List<EntidadeDominio>();
+                Livro p;
+                Categoria d;
+                while (vai.Read())
+                {
+                    p = new Livro();
+                    p.Id = Convert.ToInt32(vai["id_liv"]);
+                    p.Nome = (vai["nome_liv"].ToString());
+                    p.Descricao = (vai["des_liv"].ToString());
+                    p.ISBN = (vai["isbn"].ToString());
+                    p.Edicao = (vai["edicao"].ToString());
+                    p.Editora = (vai["edi"].ToString());
+                    p.Codigo_barras = (vai["cod_bar"].ToString());
+                    p.N_pags = Convert.ToInt32(vai["n_pags"]);
+                    if (vai["image"].GetType().Name != "DBNull")
+                        p.Img = (byte[])(vai["image"]);
+                    p.G_PRECO.Id = Convert.ToInt32(vai["id_g_pre"].ToString());
+                    p.G_PRECO.Porcentagem = Convert.ToDouble(vai["porcentagem"]);
+                    if (vai["id_for"].GetType().Name != "DBNull")
+                    {
+                        p.Formato.Id = Convert.ToInt32(vai["id_for"]);
+                        p.Formato.CodFormato = Convert.ToInt32(vai["cod_formato"]);
+                        p.Formato.Peso = (vai["peso"].ToString());
+                        p.Formato.Comprimento = Convert.ToDecimal(vai["comprimento"].ToString());
+                        p.Formato.Altura = Convert.ToDecimal(vai["altura"].ToString());
+                        p.Formato.Largura = Convert.ToDecimal(vai["largura"].ToString());
+                        p.Formato.Diametro = Convert.ToDecimal(vai["diametro"].ToString());
+                        p.Formato.Dimensoes = (vai["dimensoes"].ToString());
+                    }
+                    if (vai["id_est"].GetType().Name != "DBNull")
+                    {
+                        p.estoque.Id = Convert.ToInt32(vai["id_est"]);
+                        p.estoque.Custo = Convert.ToDouble(vai["custo"]);
+                        p.estoque.qtd = Convert.ToInt32(vai["qtd"].ToString());
+                        p.estoque.DataHora = Convert.ToDateTime(vai["data_entrada"].ToString());
+                    }
+                    p.Extension = vai["ext"].ToString();
+                    pst2.CommandText = "select * from cat_liv join categoria using (id_cat) where id_liv=:co";
+                    parameters2 = new OracleParameter[] { new OracleParameter("co", p.Id.ToString()) };
+                    pst2.Parameters.Clear();
+                    pst2.Parameters.AddRange(parameters2);
+                    pst2.Connection = connection;
+                    pst2.CommandType = CommandType.Text;
+                    vai2 = pst2.ExecuteReader();
+                    List<Categoria> cats = new List<Categoria>();
+                    while (vai2.Read())
+                    {
+
+                        d = new Categoria();
+                        d.Id = Convert.ToInt32(vai2["id_cat"]);
+                        d.Nome = (vai2["nome_cat"].ToString());
+                        d.Descricao = (vai2["des_cat"].ToString());
+                        cats.Add(d);
+                    }
+                    p.Generos = cats;
+                    categorias.Add(p);
+                }
+                connection.Close();
+                return categorias;
+            }
+            catch (OracleException ora)
+            {
+                throw ora;
+            }
 
 
+        }
     }
 }

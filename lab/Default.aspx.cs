@@ -12,10 +12,63 @@ namespace lab
 {
     public partial class _Default : viewgenerico
     {
-        private Categoria categoria=new Categoria();
-        private List<Categoria> cat =new List<Categoria>();
-        private Produto prod=new Produto();
-        private List<Produto> pro =new List<Produto>();
+        private Categoria categoria = new Categoria();
+        private List<Categoria> cat = new List<Categoria>();
+        private static Livro prod = new Livro();
+        private static Gerar_produtos gp = new Gerar_produtos();
+        private List<Produto> pro = new List<Produto>();
+
+        private void Pesquisar()
+        {
+            ViewLiv.InnerHtml = "";
+            int evade = 0;
+            string linha = "<section onclick=\"window.location.href='./moredetails.aspx?cod={2}'\"><div><img src=\"{0}\" style=\"width: 200px; height: 200px;\" /></div><div>{1} R$ {3}</div></section>";
+            prod.Id = 0;
+            prod.Nome = "";
+            prod.Categoria.Id = 0;
+            prod.Categoria.Nome = "";
+            gp.Colocar_preco.Add(prod);
+            res=commands["CONSULTAR"].execute(gp);
+
+            
+            string limitsofdead;
+            try
+            {
+                evade = gp.Colocar_preco.Count;
+            }
+            catch
+            {
+                evade = 0;
+            }
+            
+            StringBuilder conteudo = new StringBuilder();
+            for (int i = 0; i < evade; i++)
+            {
+                prod =(Livro) gp.Colocar_preco.ElementAt(i);
+                try
+                {
+                    limitsofdead = @"data:" + prod.Extension + ";charset=utf-8;base64, " + (Convert.ToBase64String(prod.Img));
+                }
+                catch
+                {
+                    limitsofdead = @"data:" + prod.Extension + ";charset=utf-8;base64, ";
+                }
+
+                conteudo.AppendFormat(linha,
+                        limitsofdead,
+                        prod.Nome,
+                        prod.Id,
+                        prod.Preco.ToString("0.00")  
+                        );
+
+            }
+            string tabelafinal = string.Format(conteudo.ToString());
+            tabelafinal += "<br/>";
+            ViewLiv.InnerHtml = tabelafinal;
+
+
+        }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,14 +77,14 @@ namespace lab
             {
                 if (!IsPostBack)
                 {
-                    categoria.Id=0;
+                    categoria.Id = 0;
                     Pesquisar();
                     if (!string.IsNullOrEmpty(Request.QueryString["cod"]))
                     {
 
-                        prod.Id=Convert.ToInt32(Request.QueryString["cod"]);
+                        prod.Id = Convert.ToInt32(Request.QueryString["cod"]);
                         res = commands["CONSULTAR"].execute(prod);
-                        prod = (dominio.Produto)res.Entidades.ElementAt(0);
+                        prod = (Livro)res.Entidades.ElementAt(0);
 
                     }
 
@@ -45,82 +98,6 @@ namespace lab
 
         }
 
-        private string pesquisar_cat()
-        {
-            int evade;
-            string comeco_cat = "<ul>",
-                li = "<li> <a   href=\"Default.aspx?cod={0}\" >{1}</a></li>",
-            fim_cat = "</ul><br/>";
-            categoria.Id = 0;
-            res = commands["CONSULTAR"].execute(categoria);
-            try
-            {
-                evade = res.Entidades.Count;
-            }
-            catch
-            {
-                evade = 0;
-            }
-            StringBuilder conteudo = new StringBuilder();
-            for (int i = 0; i < evade; i++)
-            {
-                categoria = (Categoria)res.Entidades.ElementAt(i);
-                conteudo.AppendFormat(li,
-                       categoria.Id.ToString(),
-                       categoria.Nome.ToString()
-                    );
-
-            }
-            return string.Format(comeco_cat, conteudo,fim_cat);
-
-
-        }
-        private string pesquisar_pro(string cabecalho)
-        {
-            int evade;
-            string GRID = "<TABLE class='display' id='GridViewpro'><TBODY>{0}</TBODY></TABLE>";
-            string linha = "<tr><a href='Default.aspx?cod={0}'><td> ";
-            linha += "</td><td><img src=\"{1}\" style=\"width: 100px; height: 100px;\" /><br /></td><td>{2}</td><br /><td>{3}</td><br /></a></tr> ";
-
-            ImageConverter ic = new ImageConverter();
-            prod.Id = 0;
-            prod.Categoria.Id = 0;
-            prod.Nome = "";
-            categoria.Id = 0;
-            prod.Categoria=new Categoria();
-            
-            res = commands["CONSULTAR"].execute(prod);
-            try
-            {
-                evade = res.Entidades.Count;
-            }
-            catch
-            {
-                evade = 0;
-            }
-            StringBuilder conteudo = new StringBuilder();
-            for (int i = 0; i < evade; i++)
-            {
-                prod = (dominio.Produto)res.Entidades.ElementAt(i);
-                string limitsofdead = @"data:" + prod.Extension + ";charset=utf-8;base64, " + (Convert.ToBase64String(prod.Img));
-
-                conteudo.AppendFormat(linha,
-                       prod.Id.ToString(),
-                       limitsofdead,
-                       prod.Nome.ToString(),
-                       prod.Preco.ToString()
-                      );
-
-            }
-            return cabecalho+ string.Format(GRID, conteudo.ToString());
-
-        }
-        private void Pesquisar()
-        {
-          detalhes.Text=  pesquisar_cat();
-  //          detalhes.Text = pesquisar_pro(pesquisar_cat());
-           
-        }
     }
 }
 

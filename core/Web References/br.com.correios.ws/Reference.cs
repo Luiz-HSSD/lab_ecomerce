@@ -23,7 +23,7 @@ namespace core.br.com.correios.ws {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="CalcPrecoPrazoWSSoap", Namespace="http://tempuri.org/")]
@@ -46,6 +46,10 @@ namespace core.br.com.correios.ws {
         private System.Threading.SendOrPostCallback CalcPrazoRestricaoOperationCompleted;
         
         private System.Threading.SendOrPostCallback CalcPrecoFACOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CalcDataMaximaOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ListaServicosOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -111,6 +115,12 @@ namespace core.br.com.correios.ws {
         
         /// <remarks/>
         public event CalcPrecoFACCompletedEventHandler CalcPrecoFACCompleted;
+        
+        /// <remarks/>
+        public event CalcDataMaximaCompletedEventHandler CalcDataMaximaCompleted;
+        
+        /// <remarks/>
+        public event ListaServicosCompletedEventHandler ListaServicosCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CalcPrecoPrazo", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -578,6 +588,62 @@ namespace core.br.com.correios.ws {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CalcDataMaxima", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public cResultadoObjeto CalcDataMaxima(string codigoObjeto) {
+            object[] results = this.Invoke("CalcDataMaxima", new object[] {
+                        codigoObjeto});
+            return ((cResultadoObjeto)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CalcDataMaximaAsync(string codigoObjeto) {
+            this.CalcDataMaximaAsync(codigoObjeto, null);
+        }
+        
+        /// <remarks/>
+        public void CalcDataMaximaAsync(string codigoObjeto, object userState) {
+            if ((this.CalcDataMaximaOperationCompleted == null)) {
+                this.CalcDataMaximaOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCalcDataMaximaOperationCompleted);
+            }
+            this.InvokeAsync("CalcDataMaxima", new object[] {
+                        codigoObjeto}, this.CalcDataMaximaOperationCompleted, userState);
+        }
+        
+        private void OnCalcDataMaximaOperationCompleted(object arg) {
+            if ((this.CalcDataMaximaCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CalcDataMaximaCompleted(this, new CalcDataMaximaCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ListaServicos", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public cResultadoServicos ListaServicos() {
+            object[] results = this.Invoke("ListaServicos", new object[0]);
+            return ((cResultadoServicos)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ListaServicosAsync() {
+            this.ListaServicosAsync(null);
+        }
+        
+        /// <remarks/>
+        public void ListaServicosAsync(object userState) {
+            if ((this.ListaServicosOperationCompleted == null)) {
+                this.ListaServicosOperationCompleted = new System.Threading.SendOrPostCallback(this.OnListaServicosOperationCompleted);
+            }
+            this.InvokeAsync("ListaServicos", new object[0], this.ListaServicosOperationCompleted, userState);
+        }
+        
+        private void OnListaServicosOperationCompleted(object arg) {
+            if ((this.ListaServicosCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ListaServicosCompleted(this, new ListaServicosCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -597,7 +663,7 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1064.2")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -619,7 +685,7 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1064.2")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -649,6 +715,10 @@ namespace core.br.com.correios.ws {
         private string valorSemAdicionaisField;
         
         private string obsFimField;
+        
+        private string dataMaxEntregaField;
+        
+        private string horaMaxEntregaField;
         
         /// <remarks/>
         public int Codigo {
@@ -769,21 +839,354 @@ namespace core.br.com.correios.ws {
                 this.obsFimField = value;
             }
         }
+        
+        /// <remarks/>
+        public string DataMaxEntrega {
+            get {
+                return this.dataMaxEntregaField;
+            }
+            set {
+                this.dataMaxEntregaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string HoraMaxEntrega {
+            get {
+                return this.horaMaxEntregaField;
+            }
+            set {
+                this.horaMaxEntregaField = value;
+            }
+        }
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class cServicosCalculo {
+        
+        private string codigoField;
+        
+        private string descricaoField;
+        
+        private string calcula_precoField;
+        
+        private string calcula_prazoField;
+        
+        private string erroField;
+        
+        private string msgErroField;
+        
+        /// <remarks/>
+        public string codigo {
+            get {
+                return this.codigoField;
+            }
+            set {
+                this.codigoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string descricao {
+            get {
+                return this.descricaoField;
+            }
+            set {
+                this.descricaoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string calcula_preco {
+            get {
+                return this.calcula_precoField;
+            }
+            set {
+                this.calcula_precoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string calcula_prazo {
+            get {
+                return this.calcula_prazoField;
+            }
+            set {
+                this.calcula_prazoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string erro {
+            get {
+                return this.erroField;
+            }
+            set {
+                this.erroField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string msgErro {
+            get {
+                return this.msgErroField;
+            }
+            set {
+                this.msgErroField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class cResultadoServicos {
+        
+        private cServicosCalculo[] servicosCalculoField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public cServicosCalculo[] ServicosCalculo {
+            get {
+                return this.servicosCalculoField;
+            }
+            set {
+                this.servicosCalculoField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class cObjeto {
+        
+        private string codigoField;
+        
+        private string servicoField;
+        
+        private string cepOrigemField;
+        
+        private string cepDestinoField;
+        
+        private int prazoEntregaField;
+        
+        private string dataPostagemField;
+        
+        private string dataPostagemCalculoField;
+        
+        private string dataMaxEntregaField;
+        
+        private string postagemDHField;
+        
+        private string dataUltimoEventoField;
+        
+        private string codigoUltimoEventoField;
+        
+        private string tipoUltimoEventoField;
+        
+        private string descricaoUltimoEventoField;
+        
+        private string erroField;
+        
+        private string msgErroField;
+        
+        /// <remarks/>
+        public string codigo {
+            get {
+                return this.codigoField;
+            }
+            set {
+                this.codigoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string servico {
+            get {
+                return this.servicoField;
+            }
+            set {
+                this.servicoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string cepOrigem {
+            get {
+                return this.cepOrigemField;
+            }
+            set {
+                this.cepOrigemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string cepDestino {
+            get {
+                return this.cepDestinoField;
+            }
+            set {
+                this.cepDestinoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int prazoEntrega {
+            get {
+                return this.prazoEntregaField;
+            }
+            set {
+                this.prazoEntregaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string dataPostagem {
+            get {
+                return this.dataPostagemField;
+            }
+            set {
+                this.dataPostagemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string dataPostagemCalculo {
+            get {
+                return this.dataPostagemCalculoField;
+            }
+            set {
+                this.dataPostagemCalculoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string dataMaxEntrega {
+            get {
+                return this.dataMaxEntregaField;
+            }
+            set {
+                this.dataMaxEntregaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string postagemDH {
+            get {
+                return this.postagemDHField;
+            }
+            set {
+                this.postagemDHField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string dataUltimoEvento {
+            get {
+                return this.dataUltimoEventoField;
+            }
+            set {
+                this.dataUltimoEventoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string codigoUltimoEvento {
+            get {
+                return this.codigoUltimoEventoField;
+            }
+            set {
+                this.codigoUltimoEventoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string tipoUltimoEvento {
+            get {
+                return this.tipoUltimoEventoField;
+            }
+            set {
+                this.tipoUltimoEventoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string descricaoUltimoEvento {
+            get {
+                return this.descricaoUltimoEventoField;
+            }
+            set {
+                this.descricaoUltimoEventoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string erro {
+            get {
+                return this.erroField;
+            }
+            set {
+                this.erroField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string msgErro {
+            get {
+                return this.msgErroField;
+            }
+            set {
+                this.msgErroField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class cResultadoObjeto {
+        
+        private cObjeto[] objetosField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public cObjeto[] Objetos {
+            get {
+                return this.objetosField;
+            }
+            set {
+                this.objetosField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void CalcPrecoPrazoCompletedEventHandler(object sender, CalcPrecoPrazoCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CalcPrecoPrazoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
-
-       
+        
         internal CalcPrecoPrazoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
@@ -799,11 +1202,11 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void CalcPrecoPrazoDataCompletedEventHandler(object sender, CalcPrecoPrazoDataCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CalcPrecoPrazoDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -825,11 +1228,11 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void CalcPrecoPrazoRestricaoCompletedEventHandler(object sender, CalcPrecoPrazoRestricaoCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CalcPrecoPrazoRestricaoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -851,11 +1254,11 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void CalcPrecoCompletedEventHandler(object sender, CalcPrecoCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CalcPrecoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -877,11 +1280,11 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void CalcPrecoDataCompletedEventHandler(object sender, CalcPrecoDataCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CalcPrecoDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -903,11 +1306,11 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void CalcPrazoCompletedEventHandler(object sender, CalcPrazoCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CalcPrazoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -929,11 +1332,11 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void CalcPrazoDataCompletedEventHandler(object sender, CalcPrazoDataCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CalcPrazoDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -955,11 +1358,11 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void CalcPrazoRestricaoCompletedEventHandler(object sender, CalcPrazoRestricaoCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CalcPrazoRestricaoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -981,11 +1384,11 @@ namespace core.br.com.correios.ws {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void CalcPrecoFACCompletedEventHandler(object sender, CalcPrecoFACCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CalcPrecoFACCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -1002,6 +1405,58 @@ namespace core.br.com.correios.ws {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((cResultado)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void CalcDataMaximaCompletedEventHandler(object sender, CalcDataMaximaCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CalcDataMaximaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CalcDataMaximaCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public cResultadoObjeto Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((cResultadoObjeto)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void ListaServicosCompletedEventHandler(object sender, ListaServicosCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ListaServicosCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ListaServicosCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public cResultadoServicos Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((cResultadoServicos)(this.results[0]));
             }
         }
     }

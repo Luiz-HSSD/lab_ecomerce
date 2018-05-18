@@ -128,6 +128,7 @@ div.GreenLabel {
     margin: 3px;padding: 2px;
 }
 li {
+    list-style-type: none;
     background-color:aqua;
     margin: 30px;
     padding: 20px;

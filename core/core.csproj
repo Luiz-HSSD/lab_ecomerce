@@ -71,6 +71,12 @@
     <None Include="Web References\br.com.correios.ws\cResultado.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\br.com.correios.ws\cResultadoObjeto.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\br.com.correios.ws\cResultadoServicos.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\br.com.correios.ws\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -111,7 +117,9 @@
     <Compile Include="DAO\CategoriaDAO.cs" />
     <Compile Include="DAO\ClienteDAO.cs" />
     <Compile Include="DAO\EnderecoDAO.cs" />
+    <Compile Include="DAO\EstoqueDAO.cs" />
     <Compile Include="DAO\Formato_ProdutoDAO.cs" />
+    <Compile Include="DAO\Grupo_precificacaoDAO.cs" />
     <Compile Include="DAO\Item_vendaDAO.cs" />
     <Compile Include="DAO\LivroDAO.cs" />
     <Compile Include="DAO\PedidoDAO.cs" />
@@ -124,12 +132,15 @@
     <Compile Include="negocio\Gerar_log.cs" />
     <Compile Include="negocio\Criptografar_senha.cs" />
     <Compile Include="negocio\GerarBandeira.cs" />
+    <Compile Include="negocio\Gerar_preco_produtos.cs" />
+    <Compile Include="negocio\gerar_produtos_venda.cs" />
     <Compile Include="negocio\Manter_ranking.cs" />
     <Compile Include="negocio\parametro_excluir.cs" />
     <Compile Include="negocio\transfomar_formato.cs" />
     <Compile Include="negocio\ValidarCpf.cs" />
     <Compile Include="negocio\Validar_Cartao.cs" />
     <Compile Include="negocio\Validar_cliente.cs" />
+    <Compile Include="negocio\Validar_Codigo_Barras.cs" />
     <Compile Include="negocio\Validar_endereco.cs" />
     <Compile Include="negocio\Validar_end_cli.cs" />
     <Compile Include="negocio\Validar_senha.cs" />

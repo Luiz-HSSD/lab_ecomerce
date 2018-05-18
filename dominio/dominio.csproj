@@ -64,8 +64,12 @@
     <Compile Include="Bandeira_Cartao.cs" />
     <Compile Include="Cartao_Credito.cs" />
     <Compile Include="Categoria.cs" />
+    <Compile Include="Descriptografar_senha.cs" />
+    <Compile Include="Estoque.cs" />
     <Compile Include="Formato_Produto.cs" />
     <Compile Include="Frete.cs" />
+    <Compile Include="Gerar_produtos.cs" />
+    <Compile Include="Grupo_Precificacao.cs" />
     <Compile Include="Livro.cs" />
     <Compile Include="Motivo.cs" />
     <Compile Include="ocorencia.cs" />

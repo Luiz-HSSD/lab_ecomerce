@@ -12,6 +12,15 @@ namespace dominio
         private double valor;
         private int prazo;
 
+        private Produto _item;
+                    
+        public Produto Item
+        {
+            get { return _item; }
+            set { _item = value; }
+        }
+
+
         public int Prazo
         {
             get { return prazo; }
@@ -30,8 +39,12 @@ namespace dominio
             set { destino = value; }
         }
 
-        public Frete(int id, DateTime DataHora) : base(id, DataHora)
+        public Frete() : base(0, Convert.ToDateTime("01/01/1995 03:30"))
         {
+            prazo = 0;
+            valor = 0;
+            destino = new Endereco();
+            _item = new Produto();
         }
         
     }

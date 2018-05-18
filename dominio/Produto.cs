@@ -20,12 +20,10 @@ namespace dominio
         private double preco;
         private Formato_Produto formato;
         private Motivo razao;
+        private Estoque _estoque;
+
         
-        public Motivo Razao
-        {
-            get { return razao; }
-            set { razao = value; }
-        }
+        
 
         public Produto():base(0,Convert.ToDateTime("01/01/1995 03:30"))
         {
@@ -40,8 +38,21 @@ namespace dominio
             Img = null;
             Preco=0;
             formato = new Formato_Produto();
+            _estoque = new Estoque(this);
 
         }
+        public Estoque estoque
+        {
+            get { return _estoque; }
+            set { _estoque = value; }
+        }
+
+        public Motivo Razao
+        {
+            get { return razao; }
+            set { razao = value; }
+        }
+
         public int Qtd
         {
             get { return qtd; }

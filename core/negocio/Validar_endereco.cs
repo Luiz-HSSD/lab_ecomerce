@@ -15,6 +15,12 @@ namespace core.negocio
         {
             Endereco end = (Endereco)entidade;
             EnderecoDAO end_dao = new EnderecoDAO();
+            List<EntidadeDominio> res= end_dao.consultar(end);
+            if (res.Count > 0)
+            {
+                end.Id = ((Endereco)res.ElementAt(0)).Id;
+                return "já existe o endereco";
+            }
             return null;
         }
     }

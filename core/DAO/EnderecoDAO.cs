@@ -31,7 +31,7 @@ namespace core.DAO
             string sql = null;
 
             
-            if (endereco.Id == 0)
+            if (string.IsNullOrEmpty(endereco.Cep))
             {
                 sql = "SELECT * FROM endereco";
             }

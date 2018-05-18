@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using core.core;
 using core.DAO;
-using System.Text;
 using dominio;
 using System.IO;
 using System.Threading;

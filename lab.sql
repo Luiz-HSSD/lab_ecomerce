@@ -8,14 +8,16 @@ drop TRIGGER set_usu;
 drop TRIGGER set_item;
 drop TRIGGER set_for;
 
+DROP TABLE estoque;
 DROP TABLE ranking;
 DROP TABLE pedido;
 DROP TABLE ocorencia;
 DROP TABLE item_venda;
 DROP TABLE vendas;
-DROP TABLE formato_produto;
 DROP TABLE cat_liv;
 DROP TABLE livro;
+DROP TABLE formato_produto;
+DROP TABLE g_preco;
 DROP TABLE end_cli;
 DROP TABLE car_cli;
 DROP TABLE cartao_credito;
@@ -95,43 +97,11 @@ ative char,
 CONSTRAINT cat_nn_010 CHECK (id_cat IS NOT NULL)
 );
 
-  
-CREATE TABLE livro
-(
-    id_liv        NUMBER(10,0) PRIMARY KEY ,
-    dim           varchar(20),
-    ative         char,
-    g_preco       char,
-    n_pags        int,
-    isbn          CHAR(13),
-    edicao        VARCHAR(60),
-    cod_bar    VARCHAR(13),
-    edi        VARCHAR(60),
-    nome_liv   VARCHAR(50),
-    des_liv    VARCHAR(1000),
-    image BLOB,
-    ext VARCHAR2(15)
+CREATE TABLE g_preco(
+id_g_pre NUMBER(10,0) primary key,
+nome_g_preco VARCHAR(30),
+porcentagem NUMBER(8,5)
 );
-
-CREATE TABLE cat_liv
-  (
-    id_cat      NUMBER(8,0),   
-    id_liv   NUMBER(10,0),
-    CONSTRAINT fk_cat_lig FOREIGN KEY(id_cat) REFERENCES categoria(id_cat)  on delete cascade,
-    CONSTRAINT fk_liv_lig FOREIGN KEY(id_liv) REFERENCES livro(id_liv)  on delete cascade,
-    constraint PK_D primary key (id_cat, id_liv)
-  ); 
-  
-insert into categoria (des_cat, nome_cat,ative, id_cat) values ('IOS, Andorid e Windows Phone','Smartphones','I',1);
-insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Xbox ,Playstation e Nintendo','Consoles','I',2);
-insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Video games e PC','Games','I',3);
-insert into categoria (des_cat, nome_cat,ative, id_cat ) values ('Asus, Msi e AsRock','Placa mãe','A',4);
-insert into categoria (des_cat, nome_cat,ative, id_cat) values ('Radeon e GTX','Placa de Video','A',5);
-insert into livro (ative, id_liv,n_pags,g_preco) values ('A',5,80,'E');
-select * from cat_liv join categoria using (id_cat) where id_liv=5;
-SELECT * FROM livro WHERE ative!='I' AND id_liv=5;
-insert into cat_liv(id_liv,id_cat) values (5,1);
-select * from cat_liv join categoria using (id_cat) join LIVRO using (id_liv) where id_liv=5;
 CREATE TABLE  formato_produto 
 (
    id_for        NUMBER(10,0) PRIMARY KEY ,
@@ -143,6 +113,36 @@ CREATE TABLE  formato_produto
    largura       decimal,
    diametro      decimal
 );
+CREATE TABLE livro
+(
+    id_liv    NUMBER(10,0) PRIMARY KEY,
+    dim      varchar(20),
+    ative    char,
+    id_g_pre  NUMBER(10,0),
+    n_pags  int,
+    isbn  CHAR(13),
+    edicao  VARCHAR(60),
+    cod_bar VARCHAR(13),
+    edi   VARCHAR(60),
+    nome_liv VARCHAR(50),
+    des_liv  VARCHAR(1000),
+    image BLOB,
+    ext VARCHAR2(15),
+    id_for NUMBER(10,0),
+    CONSTRAINT fk_formato FOREIGN KEY(id_for) REFERENCES formato_produto(id_for)  on delete cascade,
+    CONSTRAINT fk_g_preco FOREIGN KEY(id_g_pre) REFERENCES g_preco(id_g_pre)  on delete cascade
+);
+
+CREATE TABLE cat_liv
+  (
+    id_cat      NUMBER(8,0),   
+    id_liv   NUMBER(10,0),
+    CONSTRAINT fk_cat_lig FOREIGN KEY(id_cat) REFERENCES categoria(id_cat)  on delete cascade,
+    CONSTRAINT fk_liv_lig FOREIGN KEY(id_liv) REFERENCES livro(id_liv)  on delete cascade,
+    constraint PK_D primary key (id_cat, id_liv)
+  ); 
+  
+
 
 CREATE TABLE endereco
 (   
@@ -196,6 +196,17 @@ CREATE TABLE car_cli
     CONSTRAINT fk_cli_car FOREIGN KEY(id_car) REFERENCES cartao_credito(id_car)  on delete cascade,
     constraint PK_CC primary key (id_cli, id_car)
 ); 
+
+CREATE TABLE estoque
+(
+    id_est      NUMBER(8,0),   
+    id_liv   NUMBER(10,0),
+    qtd      number(10),
+    custo    number(8,2),
+    data_entrada Date,
+    CONSTRAINT fk_est_liv FOREIGN KEY(id_liv) REFERENCES livro(id_liv)  on delete cascade,
+    constraint PK_EST primary key (id_est)
+);
 
 CREATE TABLE end_cli
 (
@@ -338,7 +349,22 @@ BEGIN
 END;
 /
 
+insert into g_preco(id_g_pre,nome_g_preco,porcentagem) values(1,'medio',0.3);
+insert into g_preco(id_g_pre,nome_g_preco,porcentagem) values(2,'baixo',0.2);
 insert into bandeira(id_band,nome_band) values(1,'Mastercard');
 insert into bandeira(id_band,nome_band) values(2,'Visa');
 insert into bandeira(id_band,nome_band) values(3,'American Express');
 --insert into livro ( ative, dim, g_preco, n_pags, isbn, edicao, cod_bar, edi, nome_liv, des_liv, image, ext) values ('A','vai','C',111,'asdf','asdf');
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('','Aventura','A',1);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('','Ação','A',2);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('','Comédia','A',3);
+insert into categoria (des_cat, nome_cat,ative, id_cat ) values ('','Romance','A',4);
+insert into categoria (des_cat, nome_cat,ative, id_cat) values ('','Terror','A',5);
+
+insert into livro(ative,nome_liv,n_pags,id_g_pre) values ('A','A Cabana',80,1);
+insert into estoque(id_est,id_liv,qtd,custo,DATA_ENTRADA) values (1,1,10,20,current_date);
+insert into estoque(id_est,id_liv,qtd,custo,DATA_ENTRADA) values (1,1,10,20,current_date);
+select * from cat_liv join categoria using (id_cat) where id_liv=5;
+SELECT * FROM livro WHERE ative!='I' AND id_liv=5;
+insert into cat_liv(id_liv,id_cat) values (1,1);
+select * from cat_liv join categoria using (id_cat) join LIVRO using (id_liv) where id_liv=5;

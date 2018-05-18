@@ -58,7 +58,19 @@ namespace core.controle
             rnsCategoria.Add("CONSULTAR", rnsConsultarCategoria);
             rns.Add(typeof(Categoria).Name, rnsCategoria);
 
-
+            Grupo_precificacaoDAO g_preDAO = new Grupo_precificacaoDAO();
+            daos.Add(typeof(Grupo_Precificacao).Name, g_preDAO);
+            List<IStrategy> rnsSalvarGrupo_precificacao = new List<IStrategy>();
+            List<IStrategy> rnsAlterarGrupo_precificacao = new List<IStrategy>();
+            List<IStrategy> rnsExcluirGrupo_precificacao = new List<IStrategy>();
+            rnsExcluirGrupo_precificacao.Add(para_ex);
+            List<IStrategy> rnsConsultarGrupo_precificacao = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsGrupo_precificacao = new Dictionary<string, List<IStrategy>>();
+            rnsGrupo_precificacao.Add("SALVAR", rnsSalvarGrupo_precificacao);
+            rnsGrupo_precificacao.Add("ALTERAR", rnsAlterarGrupo_precificacao);
+            rnsGrupo_precificacao.Add("EXCLUIR", rnsExcluirGrupo_precificacao);
+            rnsGrupo_precificacao.Add("CONSULTAR", rnsConsultarGrupo_precificacao);
+            rns.Add(typeof(Grupo_Precificacao).Name, rnsGrupo_precificacao);
 
             LivroDAO proDAO = new LivroDAO();
             daos.Add(typeof(Livro).Name, proDAO);
@@ -153,7 +165,6 @@ namespace core.controle
             Manter_ranking manRan = new Manter_ranking();
             daos.Add(typeof(Venda).Name, venDAO);
             List<IStrategy> rnsSalvarVenda = new List<IStrategy>();
-            rnsSalvarVenda.Add(CalFrete);
             rnsSalvarVenda.Add(manRan);
             List<IStrategy> rnsAlterarVenda = new List<IStrategy>();
             List<IStrategy> rnsExcluirVenda = new List<IStrategy>();
@@ -179,6 +190,26 @@ namespace core.controle
             rnsPedido.Add("EXCLUIR", rnsExcluirPedido);
             rnsPedido.Add("CONSULTAR", rnsConsultarPedido);
             rns.Add(typeof(Pedido).Name, rnsPedido);
+
+            gerar_produtos_venda gpv = new gerar_produtos_venda();
+            List<IStrategy> rnsSalvarGerar_produtos = new List<IStrategy>();
+            List<IStrategy> rnsAlterarGerar_produtos = new List<IStrategy>();
+            List<IStrategy> rnsExcluirGerar_produtos = new List<IStrategy>();
+            rnsExcluirGerar_produtos.Add(para_ex);
+            List<IStrategy> rnsConsultarGerar_produtos = new List<IStrategy>() { gpv };
+            Dictionary<string, List<IStrategy>> rnsGerar_produtos = new Dictionary<string, List<IStrategy>>();
+            rnsGerar_produtos.Add("SALVAR", rnsSalvarGerar_produtos);
+            rnsGerar_produtos.Add("ALTERAR", rnsAlterarGerar_produtos);
+            rnsGerar_produtos.Add("EXCLUIR", rnsExcluirGerar_produtos);
+            rnsGerar_produtos.Add("CONSULTAR", rnsConsultarGerar_produtos);
+            rns.Add(typeof(Gerar_produtos).Name, rnsGerar_produtos);
+
+            List<IStrategy> rnsConsultarFrete = new List<IStrategy>();
+            rnsConsultarFrete.Add(CalFrete);
+            Dictionary<string, List<IStrategy>> rnsFrete = new Dictionary<string, List<IStrategy>>();
+            rnsFrete.Add("CONSULTAR", rnsConsultarFrete);
+            rns.Add(typeof(Frete).Name, rnsFrete);
+
         }
         private static readonly Fachada Instance = new Fachada();
 
@@ -190,15 +221,14 @@ namespace core.controle
         {
             resultado = new Resultado();
             string nmClasse = entidade.GetType().Name;
-
             string msg = executarRegras(entidade, "SALVAR");
 
 
             if (string.IsNullOrEmpty(msg))
             {
                 IDAO dao = daos[nmClasse];
-                gerar_log.processar(entidade);
                 dao.salvar(entidade);
+                gerar_log.processar(entidade);
                 List<EntidadeDominio> entidades = new List<EntidadeDominio>();
                 entidades.Add(entidade);
                 resultado.Entidades=entidades;
@@ -223,8 +253,8 @@ namespace core.controle
             if (string.IsNullOrEmpty(msg))
             {
                 IDAO dao = daos[nmClasse];
-                gerar_log.processar(entidade);
                 dao.alterar(entidade);
+                gerar_log.processar(entidade);
                 List<EntidadeDominio> entidades = new List<EntidadeDominio>();
                 entidades.Add(entidade);
                 resultado.Entidades=entidades;
@@ -250,9 +280,10 @@ namespace core.controle
 
             if (string.IsNullOrEmpty(msg))
             {
-                gerar_log.processar(entidade);
+                
                 IDAO dao = daos[nmClasse];
                 dao.excluir(entidade);
+                gerar_log.processar(entidade);
                 List<EntidadeDominio> entidades = new List<EntidadeDominio>();
                 entidades.Add(entidade);
                 resultado.Entidades=entidades;
@@ -315,10 +346,6 @@ namespace core.controle
                 case "Endereco":
                             Ws = new WS_cep_json();
                             resultado.Msg = Ws.processar(entidade); 
-                            break;
-                case "Frete":
-                            Ws = new Calcular_Frete();
-                            resultado.Msg = Ws.processar(entidade);
                             break;
                 default:
                     resultado.Msg = "erro de solitação de serviço!";

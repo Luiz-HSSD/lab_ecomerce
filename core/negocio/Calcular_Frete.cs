@@ -11,7 +11,7 @@ namespace core.negocio
     public class Calcular_Frete : IStrategy
     {
         private static string cep_origem = "08563010";
-        private Venda acalcular;
+        private Frete acalcular;
         private cResultado resu;
         private CalcPrecoPrazoWS cal = new CalcPrecoPrazoWS();
 
@@ -19,13 +19,12 @@ namespace core.negocio
         {
             try
             {
-                acalcular = (Venda)entidade;
-                for (int i = 0; i < acalcular.Produtos.Count; i++)
-                {
-                    Produto produto = acalcular.Produtos.ElementAt(i).Pro;
-                    resu = cal.CalcPrecoPrazo("", "", "", cep_origem, acalcular.Frete.Destino.Cep, produto.Formato.Peso, 1, produto.Formato.Comprimento, produto.Formato.Altura, produto.Formato.Largura, produto.Formato.Diametro, "N", 'N', "S");
-                }
-                return null;
+                acalcular = (Frete)entidade;
+                Produto produto = acalcular.Item;
+                resu = cal.CalcPrecoPrazo("", "", "40010 , 40045 , 40215 , 40290 , 41106", cep_origem, acalcular.Destino.Cep, produto.Formato.Peso, 1, produto.Formato.Comprimento, produto.Formato.Altura, produto.Formato.Largura, produto.Formato.Diametro, "N", 'N', "S");
+                acalcular.Valor = Convert.ToDouble(resu.Servicos.ElementAt(0).Valor);
+                acalcular.Prazo = Convert.ToInt32(resu.Servicos.ElementAt(0).PrazoEntrega);
+                return "Consultado com succeso";
             }
             catch
             {

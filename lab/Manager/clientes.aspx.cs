@@ -223,7 +223,7 @@ namespace lab.Manager
                         
                 
             }
-            catch (Exception eee)
+            catch 
             {
                 Response.Redirect("~/Default.aspx", false);
             }
@@ -529,6 +529,8 @@ namespace lab.Manager
                 Tipo=int.Parse(DropDownList_tipo_end.SelectedItem.Value)
             };
             res=commands["SALVAR"].execute(end);
+            if (res.Entidades.Count > 0)
+                end = (Endereco)res.Entidades.ElementAt(0);
             erro_cartao.Text = res.Msg;
             if (Session["end_cache"]!=null)
             cache_end = (List<Endereco>)Session["end_cache"];
@@ -582,6 +584,8 @@ namespace lab.Manager
                 Preferencial=vai            
             };
             commands["SALVAR"].execute(end);
+            if (res.Entidades.Count > 0)
+                end = (Cartao_Credito)res.Entidades.ElementAt(0);
             if (Session["car_cache"] != null)
                 cache_car = (List<Cartao_Credito>)Session["car_cache"];
             cache_car.Add(end);

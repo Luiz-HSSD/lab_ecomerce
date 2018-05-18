@@ -62,11 +62,8 @@ namespace core.DAO
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
                 pst.CommandType = CommandType.Text;
-                vai = pst.ExecuteReader();
-                vai.Read();
+                pst.ExecuteNonQuery();
                 pst.CommandText = "commit work";
-                vai = pst.ExecuteReader();
-                vai.Read();
                 pst.ExecuteNonQuery();
                 connection.Close();
                 return;

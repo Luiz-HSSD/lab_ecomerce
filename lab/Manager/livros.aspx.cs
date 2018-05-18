@@ -7,7 +7,7 @@ using System.IO;
 using System.Drawing;
 using System.Linq;
 using core.Utils;
-
+using dominio;
 namespace lab.Manager
 {
 
@@ -15,8 +15,9 @@ namespace lab.Manager
     {
         private string fromRootToPhotos = System.Web.HttpContext.Current.Server.MapPath( "~/photos/");
         private string fromPhotosToExtension;
-        private dominio.Livro pro=new dominio.Livro();
+        private Livro pro=new dominio.Livro();
         private dominio.Categoria categoria = new dominio.Categoria();
+        private Grupo_Precificacao g_preco = new Grupo_Precificacao();
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -30,6 +31,11 @@ namespace lab.Manager
                     res = commands["CONSULTAR"].execute(categoria);
                     ListBoxcat.DataSource = ResultadoToDataTable.cat_to_datatable(res);
                     ListBoxcat.DataBind();
+                    g_preco.Id = 0;
+                    g_preco.Nome = null;
+                    res = commands["CONSULTAR"].execute(g_preco);
+                    preco.DataSource = ResultadoToDataTable.g_pre_to_datatable(res);
+                    preco.DataBind();
                     Pesquisar();
                     if (!string.IsNullOrEmpty(Request.QueryString["cod"]))
                     {
@@ -59,7 +65,11 @@ namespace lab.Manager
                         Editora.Text = pro.Editora;
                         Num_pags.Text = pro.N_pags.ToString();
                         Edicao.Text = pro.Edicao;
-                        preco.Text = pro.Preco.ToString();
+                        for(int i = 0; i < preco.Items.Count; i++)
+                        {
+                            if(preco.Items[i].Value==pro.G_PRECO.Id.ToString())
+                            preco.SelectedIndex = i;
+                        }
                         try
                         {
                             string vai="";
@@ -179,11 +189,11 @@ namespace lab.Manager
                 divTable.InnerHtml = tabelafinal;
             msg.Text = res.Msg;
         }
-        
 
-
-        protected void novo_pro_Click(object sender, EventArgs e)
+        private void getlivro()
         {
+            if (!string.IsNullOrEmpty(codigo.Text))
+                pro.Id = Convert.ToInt32(codigo.Text);
             string fileToBD = "";
             foreach (ListItem listItem in ListBoxcat.Items)
             {
@@ -195,104 +205,11 @@ namespace lab.Manager
                     pro.Generos.Add(cat);
                 }
             }
-            pro.Categoria=categoria ;
-            try
-            {
-                pro.Preco = double.Parse(preco.Text);
-            }
-            catch
-            {
-
-            }
-            pro.Codigo_barras=codigo_de_barra.Text;
-            pro.ISBN = ISBN.Text;
-            pro.Editora=Editora.Text;
-            try
-            { 
-                pro.N_pags=int.Parse(Num_pags.Text);
-            }
-            catch
-            {
-
-            }
-            pro.Edicao = Edicao.Text;
-            pro.Nome=nome.Text ;
-            pro.Descricao=descricao.Text ;
-            pro.Formato.Dimensoes = dimensoes.Text;
-            pro.Formato.Peso=peso.Text;
-            int cont;
-            cont = 0;
-
-            foreach (RepeaterItem ri in rptrUserPhotos.Items)
-            {
-                CheckBox cb = ri.FindControl("cbDelete") as CheckBox;
-
-                if (cb.Checked)
-                {
-                    fromPhotosToExtension = cb.Attributes["special"];
-
-                    fileToBD = fromRootToPhotos + fromPhotosToExtension.Substring(9);
-                    cont++;
-
-                }
-
-            }
-            if (cont != 1)
-            {
-                lblStatus.Text = "Selecione apenas uma imagem.";
-                return;
-            }
-            switch (Path.GetExtension(fromPhotosToExtension) )
-            {
-                case ".jpg":
-                    pro.Extension="image/jpeg";
-                    break;
-                case ".png":
-                    pro.Extension="image/png";
-                    break;
-                case ".bmp":
-                    pro.Extension="image/bmp";
-                    break;
-            }
-            pro.Img=(Imagems.ReadFile(fileToBD));
-            /*if (commands["CONSULTAR"].execute(pro).Entidades.Count>0)
-            {
-                Session["livro"] = pro;
-                Response.Redirect("Motivo.aspx?cad=0", false);
-            }
-            else*/
-            res =commands["SALVAR"].execute(pro);
-            codigo.Text = "";
-            nome.Text = "";
-            descricao.Text = "";
-            codigo_de_barra.Text = "";
-            Editora.Text = "";
-            Num_pags.Text = "";
-            Edicao.Text = "";
-            preco.Text = "";
-            msg.Text = res.Msg;
-            Pesquisar();
-            return;
-        }
-        protected void alterar_pro_Click(object sender, EventArgs e)
-        {
-            string fileToBD = "";
-            pro.Id=Convert.ToInt32(codigo.Text);
-            pro.Generos.Clear();
-            foreach (ListItem listItem in ListBoxcat.Items)
-            {
-                if (listItem.Selected)
-                {
-                    var cat = new dominio.Categoria();
-                    cat.Id = Convert.ToInt32(listItem.Value);
-                    cat.Nome = listItem.Text;   
-                    pro.Generos.Add(cat);
-                }
-            }
             pro.Categoria = categoria;
-            try { 
-            pro.Preco = Convert.ToDouble(preco.Text);
-        }
+            try
+            {
+                pro.G_PRECO.Id = int.Parse(preco.Items[preco.SelectedIndex].Value);
+            }
             catch
             {
 
@@ -300,9 +217,10 @@ namespace lab.Manager
             pro.Codigo_barras = codigo_de_barra.Text;
             pro.ISBN = ISBN.Text;
             pro.Editora = Editora.Text;
-            try { 
-            pro.N_pags = Convert.ToInt32(Num_pags.Text);
-        }
+            try
+            {
+                pro.N_pags = int.Parse(Num_pags.Text);
+            }
             catch
             {
 
@@ -310,11 +228,10 @@ namespace lab.Manager
             pro.Edicao = Edicao.Text;
             pro.Nome = nome.Text;
             pro.Descricao = descricao.Text;
-            pro.Formato.Peso = peso.Text;
             pro.Formato.Dimensoes = dimensoes.Text;
+            pro.Formato.Peso = peso.Text;
             int cont;
             cont = 0;
-
             foreach (RepeaterItem ri in rptrUserPhotos.Items)
             {
                 CheckBox cb = ri.FindControl("cbDelete") as CheckBox;
@@ -347,16 +264,42 @@ namespace lab.Manager
                     break;
             }
             pro.Img = (Imagems.ReadFile(fileToBD));
+        }
+
+        protected void novo_pro_Click(object sender, EventArgs e)
+        {
+            getlivro();
+            /*if (commands["CONSULTAR"].execute(pro).Entidades.Count>0)
+            {
+                Session["livro"] = pro;
+                Response.Redirect("Motivo.aspx?cad=0", false);
+            }
+            else*/
+            res =commands["SALVAR"].execute(pro);
+            codigo.Text = "";
+            nome.Text = "";
+            descricao.Text = "";
+            codigo_de_barra.Text = "";
+            Editora.Text = "";
+            Num_pags.Text = "";
+            Edicao.Text = "";
+            preco.SelectedIndex = 0;
+            msg.Text = res.Msg;
+            Pesquisar();
+            return;
+        }
+        protected void alterar_pro_Click(object sender, EventArgs e)
+        {
+            getlivro();
             res = commands["ALTERAR"].execute(pro);
             codigo.Text = "";
             nome.Text = "";
             descricao.Text = "";
             codigo_de_barra.Text = "";
-            
             Editora.Text = "";
             Num_pags.Text = "";
             Edicao.Text = "";
-            preco.Text = "";
+            preco.SelectedIndex = 0;
             msg.Text = res.Msg;
             Pesquisar();
             return;
@@ -371,7 +314,7 @@ namespace lab.Manager
             Editora.Text = "";
             Num_pags.Text = "";
             Edicao.Text = "";
-            preco.Text = "";
+            preco.SelectedIndex = 0;
             Response.Redirect("livros.aspx");
         }
 

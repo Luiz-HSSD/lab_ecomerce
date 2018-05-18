@@ -6,7 +6,7 @@
 <head runat="server">
     <title></title>
     <meta lang="pt-br" />
-    <!--link href="/Manager/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <link href="/Manager/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
     <link href="/Manager/css/JQuery.Validate.css" rel="stylesheet" type="text/css" />
     <link href="/Manager/css/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
     <link href="/css/jquery.autocomplete.css" rel="stylesheet" type="text/css" />
@@ -16,7 +16,7 @@
     <script src="/Manager/js/jquery.mask.js" type="text/javascript"></script>
     <script src="/Manager/js/validacao.js" type="text/javascript"></script>
     <script src="/Manager/js/jquery.autocomplete.js" type="text/javascript"></script>
-    <link rel="Stylesheet" href="/Manager/css/principal.css" /> -->
+    <link rel="Stylesheet" href="/Manager/css/principal.css" />
     <link rel="icon" href="/Manager/Imagem/icon.png" />
     <script src="/Manager/js/jquery.js" type="text/javascript"></script>
     <link rel="Stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />

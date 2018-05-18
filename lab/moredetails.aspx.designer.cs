@@ -13,22 +13,22 @@ namespace lab {
     public partial class moredetails {
         
         /// <summary>
-        /// Image1 control.
+        /// Image_liv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
+        protected global::System.Web.UI.WebControls.Image Image_liv;
         
         /// <summary>
-        /// cep control.
+        /// frete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox cep;
+        protected global::System.Web.UI.WebControls.TextBox frete;
         
         /// <summary>
         /// calcular control.
@@ -38,6 +38,15 @@ namespace lab {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button calcular;
+        
+        /// <summary>
+        /// frete_res control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl frete_res;
         
         /// <summary>
         /// preço control.
@@ -64,6 +73,6 @@ namespace lab {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal detalhes;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl detalhes;
     }
 }

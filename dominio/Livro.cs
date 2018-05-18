@@ -22,9 +22,9 @@ namespace dominio
             get { return n_pags; }
             set { n_pags = value; }
         }
-        private char g_preco;
+        private Grupo_Precificacao g_preco;
 
-        public char G_PRECO
+        public Grupo_Precificacao G_PRECO
         {
             get { return g_preco; }
             set { g_preco = value; }
@@ -51,11 +51,12 @@ namespace dominio
             get { return generos; }
             set { generos = value; }
         }
+        
 
         public Livro()
         {
             N_pags = 10;
-            G_PRECO = 'A';
+            G_PRECO = new Grupo_Precificacao();
             Edicao = "";
             Editora = "";
             ISBN = "";

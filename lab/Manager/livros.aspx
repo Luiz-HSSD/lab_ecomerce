@@ -23,7 +23,7 @@
     <tr><td colspan="2">editora:</td> <td colspan="3"><asp:TextBox MaxLength="60"  TextMode="SingleLine" ID="Editora" runat="server"></asp:TextBox></td></tr>
     <tr><td colspan="2">paginas:</td> <td colspan="3"><asp:TextBox MaxLength="60"  TextMode="Number" ID="Num_pags" runat="server"></asp:TextBox></td></tr>
     <tr><td colspan="2">edição:</td> <td colspan="3"><asp:TextBox MaxLength="60"  TextMode="SingleLine" ID="Edicao" runat="server"></asp:TextBox></td></tr>
-    <tr><td colspan="2"><b aria-dropeffect="none">preço: </b></td> <td colspan="3"><asp:TextBox MaxLength="8" ID="preco" runat="server"></asp:TextBox></td></tr>
+    <tr><td colspan="2"><b aria-dropeffect="none">preço: </b></td> <td colspan="3"><asp:DropDownList DataValueField="Id" DataTextField="Nome" MaxLength="8" ID="preco" runat="server"></asp:DropDownList></td></tr>
     <tr><td colspan="2"><b aria-dropeffect="none">peso: </b></td> <td colspan="3"><asp:TextBox MaxLength="8" ID="peso" runat="server"></asp:TextBox></td></tr>
 <tr><td colspan="2"><b aria-dropeffect="none">dimensoes: </b></td> <td colspan="3"><asp:TextBox MaxLength="100" ID="dimensoes" runat="server"></asp:TextBox></td></tr>     
     <tr><td colspan="2"><b>imagem </b></td> <td colspan="3"><asp:FileUpload  ID="foto" AllowMultiple="false"  runat="server" Font-Names="pega"></asp:FileUpload></td><td><asp:Button ID="subir" runat="server" Text="Button" OnClick="subir_Click" /></td></tr>
