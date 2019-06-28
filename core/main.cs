@@ -20,17 +20,20 @@ namespace core
         public static Cliente cat = new Cliente();
         public static Endereco end = new Endereco();
         public static Resultado res = new Resultado();
-        /*
+        
         public static void Main()
         {
+            Console.WriteLine("foi");
+            Console.ReadLine();
             Criptografar_senha cs = new Criptografar_senha();
             Cliente cli = new Cliente();
             cli.usuario.Password = "Ae454545";
             cs.processar(cli);
+            var b= new CategoriaDAO().consultar(new Categoria());
             //cs.processar(cli);
             Console.WriteLine(cli.usuario.Password);
             Console.ReadLine();
-            /*
+            
             pro.Nome = "asdf";
             pro.Descricao="asdf";
             pro.Categoria.Id = 1;
@@ -82,8 +85,8 @@ namespace core
 
                         Console.WriteLine("sucesso!");
                         Console.ReadLine();
-   
+            */   
         }
-         */
+         
     }
 }

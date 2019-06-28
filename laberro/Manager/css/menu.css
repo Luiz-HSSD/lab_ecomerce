@@ -1,0 +1,65 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14/11/2014, 11:09:02
+    Author     : mauricio.boro
+*/
+
+ul.menu1
+{
+    padding:0;
+    list-style-type: none;
+    height: 26px;
+    /*width:500px;margin:0 auto;*//*Uncomment this line to make the menu center-aligned.*/
+}
+
+ul.menu1 li
+{ 
+    border:1px solid #65A2DC;
+    border-right:none;
+    list-style-type: none;
+    padding:0;margin:0;
+    float:left;
+    display: inline;
+    color:White;
+}
+ul.menu1 li.lastItem
+{ 
+    border-right:1px solid #65A2DC;
+}
+
+ul.menu1 li a
+{
+    padding: 0 20px;
+    background-image: url(../images/bg.gif);
+    border:1px solid #DDECF9;
+    border-top:1px solid #FFFFFF;
+    color:White;
+    text-align: left;
+    text-decoration:none;
+    display: block;
+    float: left;
+    font: bold 12px Arial;
+    line-height: 26px;
+}
+
+ul.menu1 li:hover ul, li.over ul{
+display: block;
+}
+
+ul.menu1  li ul{
+display: none;
+padding: 0;
+margin: 0;
+position: absolute;
+top: 35px;
+left: 0;
+}
+
+ul.menu1 li a:hover, ul.menu1 li a.current
+{
+    background-position:0 -40px;
+}

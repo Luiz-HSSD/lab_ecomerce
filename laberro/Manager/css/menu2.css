@@ -1,0 +1,59 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11/12/2014, 16:19:53
+    Author     : mauricio.boro
+*/
+.menuhorizontal2{
+margin: 0;
+padding: 0;
+width: auto;
+height: 30px;
+}
+.menuhorizontal2 ul{
+list-style: none;
+}
+.menuhorizontal2 li{
+width: 120px;
+padding:0px;
+margin: 0;
+position: relative;
+display: inline;
+float: left;
+border-left: #999999 thin solid;
+}
+.menuhorizontal2 li ul{
+display: none;
+padding: 0 0 0 0;
+margin: 0 0 0 0;
+position: absolute;
+top: 31px;
+left: 0;
+}
+
+/*nível inferior do menu com display: none*/
+
+.menuhorizontal2 a{
+display: block;
+text-decoration: none;
+padding: 7px;
+background-color: #CCCCCC;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size: 12px;
+font-weight: 400;
+}
+
+/* formatação da âncora e área clicável*/
+
+.menuhorizontal2 li:hover ul, li.over ul{
+display: block;
+}
+
+/*mostra nível inferior ao passar o cursor*/
+
+.menuhorizontal2 li.btnesquerdo{
+border: none;
+}

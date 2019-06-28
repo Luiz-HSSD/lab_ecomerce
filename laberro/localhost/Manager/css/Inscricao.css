@@ -1,0 +1,287 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17/12/2014, 14:41:28
+    Author     : FABIO
+*/
+ .error {
+            color:  #F47921;
+            font-weight: bold;
+            font-family: verdana;
+            font-size: 10px;
+        }
+        .errorblock{
+            color: #000;
+            background-color: #ffEEEE;
+            border: 3px solid #ff0000;
+            padding:8px;
+            margin:16px;
+        }
+       
+body
+{
+    color: #979797;
+    font-family:Verdana;
+    font-size:12px;
+}
+input[type=text]:focus, input[type=password]:focus,select {
+	background-color: #FAFAFA;
+	border: solid 1px  #F47921;
+        width: 100%;
+}
+
+input[type=text], input[type=password] ,select {
+	border:1px solid #979797;
+	font: 12px "Lucida Sans Unicode";
+	color: #979797;
+	text-align: left;
+	padding: 5px;
+	background: #FFFFFF;
+        width: 100%;
+}
+
+inputRequired[type=text], inputRequired[type=password] {
+	font-family: verdana;
+	font-size: 20px;
+	border: solid 1px red;
+       
+}
+
+
+input[disabled='disabled'], select[disabled='disabled'] {
+	border-color: #CFD0D0!important;
+	color: #979797!important;
+	background-color: #EEEFEF;
+}
+textarea {
+	border:1px solid #979797;
+	font: 12px "Lucida Sans Unicode";
+	color: #979797;
+	text-align: left;
+	padding: 5px;
+	background: #FFFFFF;
+        width: 100%;
+}
+
+select {
+	border:1px solid #979797;
+	font: 12px "Lucida Sans Unicode";
+	color: #979797;
+	text-align: left;
+	padding: 5px;
+	background: #FFFFFF;
+        width: 100%;
+}
+
+
+.BarraInscricao
+{
+    background-color: #F47921;
+    height: 100px;
+    width: 100%;
+    font-family: Verdana;
+    font-size: 22px;
+    color: White;
+    text-align: center;
+}
+
+.BarraInscricao div
+{
+    min-width:600px;
+    width:600px;
+    border-color:White;
+    color : White;
+    text-align: left;
+}
+.BarraInscricao f
+{
+    font-weight:bold;
+    font-size:22px;
+}
+.QuadroCinza
+{ 
+    border: thin solid #D8D8D8;
+    color: #AAAAAA;
+    background-color: #F7F7F7; 
+    text-align:left;
+    padding-left:30px;
+    vertical-align:top;
+    width: 350px;
+}
+
+.QuadroCinza div
+{ 
+   width: 250px;
+   font-size: 12px;
+}
+.QuadroCinza b
+{ 
+ 
+   font-size: 18px;
+   font-weight: normal;
+}
+.PainelLogin
+{
+    width:100%;
+    height:600px;
+    text-align:center;
+    
+}
+.tituloPainel
+{
+    font-family: Verdana;
+    font-size: 25px;
+    
+}
+.borderNone{
+    border: none
+        
+}
+.PainelLogin table
+{
+     border: thin solid #D8D8D8;
+     width:600px;
+     height:300px;
+     
+}
+.PainelLogin table table
+{
+     border: none;
+     width:250px;
+     height:200px;
+}
+.PainelLogin table td
+{
+    width:50%;
+    vertical-align: top;
+    padding: 10px;
+}
+
+.PainelDados{
+    width:100%;
+    min-height: 600px;
+    font-size: 12px;
+}
+
+.PainelDados{
+     border: nome;
+     width:100%;
+    
+}
+
+.PainelDados table{
+     border: none;
+     width:600px;
+    
+}
+
+
+.indicacaoPasso{
+   width: 142px;
+    vertical-align: top;
+    padding-top: 30px;
+}
+
+.indicacaoPasso img {
+   width:142px;
+   height: 314px;
+  
+}
+.titulo{
+    color:  #F47921;
+    width: 458px;
+    font-size: 20px;
+    vertical-align: top;
+    text-align: center;
+    border-top:  thin solid #D8D8D8;
+    border-left:  thin solid #D8D8D8;
+    border-right:  thin solid #D8D8D8;    
+    padding: 20px;
+    height: 70px;
+}
+.container{
+    border: thin solid #D8D8D8;
+    padding: 5px;
+    vertical-align: top;
+}
+.GreenRow {
+	margin-bottom: 1px;
+	margin-top: 1px;
+	text-align:left;
+}
+.GreenLabel {
+	
+	float: left;
+	vertical-align: middle;
+	text-align:left;
+	width: 99%;
+	margin-top: 1px;
+	margin-right: 1px;
+	  color: #979797;
+    font-family:Verdana;
+    font-size:12px;
+	
+}
+.GreenLabel2{
+    float: left;
+    vertical-align: middle;
+    text-align:left;
+    width: 99%;
+    margin-top: 1px;
+    margin-right: 1px;
+    color: #F47921;
+    font-family:Verdana;
+    font-size:12px;
+
+}
+.painelIdade {
+	border: 1px solid  #979797;
+	vertical-align: middle;
+        text-align: center;
+	color: #979797;
+        font-family:Verdana;
+        font-size:12px;
+	
+}
+.bordaCinza{
+    border: thin solid #D8D8D8;
+}
+.bordaCinzaBottom{
+    border-bottom:  thin solid #D8D8D8;
+    padding: 10px;
+}
+
+
+ .informe{
+             color:  #F47921;
+           
+            font-family: verdana;
+            font-size: 12px;
+            text-align:justify;
+            padding: 20px;
+ }
+ 
+ .PainelResumo{
+     border: nome;
+     width:100%;
+    
+}
+
+.PainelResumo table{
+     border: none;
+     width:600px;
+     margin: 25px;
+}
+
+.PainelResumoProjeto{
+    background-color: #F9F9F9;
+    border:  thin solid #D8D8D8;
+}
+
+.PainelResumoProjeto td{
+    background-color: #F9F9F9;
+    border-bottom:   thin solid #D8D8D8;
+}

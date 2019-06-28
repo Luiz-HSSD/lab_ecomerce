@@ -1,0 +1,71 @@
+.ac_conteiner {
+	height: 16px;
+	background-color: #fffbee !important;
+	border: solid 1px #B0B0B0 !important;
+}
+
+.ac_input {
+	text-indent:2px;
+	font-size:1em;
+	font-family:sans-serif;
+	float: left;
+	padding:1px;
+	border: 0 !important;
+	height: 12px;
+	margin: 1px;
+    background-color:transparent !important;
+
+}
+
+.ac_img {
+	width: 14px;
+	background: url('../../image/common/select.png') ;
+	height: 14px;
+	float:right;
+	cursor: pointer;
+	margin-right:1px;
+	margin-top:1px;
+}
+
+.ac_results {
+	border: 1px solid gray;
+	background-color: white;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: absolute;
+	z-index: 10000;
+	display: none;
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: 100px;
+	margin-left: -1px !important; /*all*/
+	_margin-left:-3px !important; /*ie8*/
+	_margin-left:-1px;            /*ie6*/
+	_margin-top: -1px !important; /*ieX*/
+}
+
+.ac_results div {
+	font-size:1em;
+	font-family:sans-serif;
+	padding-left: 2px;
+	white-space: nowrap;
+}
+
+.ac_over {
+	cursor: pointer;
+	background-color: #3399ff;
+	color: #fff;
+}
+
+.ac_match {
+	text-decoration: underline;
+	color: inherit;
+	margin: 0;
+	padding: 0;
+}
+
+html:first-child .ac_results {
+/* opera <9.5 does not support css3 property overflow-y */
+	overflow: auto;
+}
