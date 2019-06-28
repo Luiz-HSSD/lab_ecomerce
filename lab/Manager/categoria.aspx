@@ -4,6 +4,7 @@
     function bora() {
         $('#GridViewcat').DataTable();
     };
+
         function storeinput(value) {
             document.getElementById("<%=hidValue.ClientID%>").value = value;
         }

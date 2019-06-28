@@ -472,6 +472,7 @@
     <Content Include="Manager\pedidos.aspx" />
     <Content Include="Manager\swf\copy_csv_xls.swf" />
     <Content Include="Manager\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Manager\vendas.aspx" />
     <Content Include="meus pedidos.aspx" />
     <Content Include="moredetails.aspx" />
     <Content Include="mt.txt" />
@@ -743,6 +744,13 @@
     </Compile>
     <Compile Include="Manager\pedidos.aspx.designer.cs">
       <DependentUpon>pedidos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manager\vendas.aspx.cs">
+      <DependentUpon>vendas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manager\vendas.aspx.designer.cs">
+      <DependentUpon>vendas.aspx</DependentUpon>
     </Compile>
     <Compile Include="meus pedidos.aspx.cs">
       <DependentUpon>meus pedidos.aspx</DependentUpon>
